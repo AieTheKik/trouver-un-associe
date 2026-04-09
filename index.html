@@ -1,0 +1,739 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Trouver un Associé — Trouvez votre co-fondateur</title>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,300;12..96,400;12..96,500;12..96,700;12..96,800&family=Lora:ital,wght@0,400;1,400;1,600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --sky:#E8F4FF;
+  --sky2:#C8E4FF;
+  --blue:#1E6FFF;
+  --blue-dark:#0050CC;
+  --blue-bg:#EEF5FF;
+  --violet:#7B4FFF;
+  --violet-bg:#F0EBFF;
+  --violet-dark:#5530CC;
+  --mint:#00C9A7;
+  --mint-bg:#E0FBF5;
+  --mint-dark:#007A65;
+  --coral:#FF5E78;
+  --coral-bg:#FFF0F2;
+  --coral-dark:#CC2A44;
+  --sun:#FFD426;
+  --sun-bg:#FFFBE8;
+  --sun-dark:#A07800;
+  --ink:#1A1A2E;
+  --ink2:#3D3D5C;
+  --muted:#7A7A9A;
+  --pale:#F5F5FF;
+  --white:#FFFFFF;
+  --border:rgba(26,26,46,0.08);
+  --serif:'Lora',serif;
+  --sans:'Bricolage Grotesque',sans-serif;
+  --radius:14px;
+  --radius-sm:8px;
+}
+body{font-family:var(--sans);background:var(--white);color:var(--ink);line-height:1.6;overflow-x:hidden}
+
+/* NAV */
+nav{
+  background:var(--white);
+  border-bottom:1.5px solid var(--border);
+  padding:0 5%;
+  display:flex;align-items:center;justify-content:space-between;
+  height:64px;
+  position:sticky;top:0;z-index:100;
+}
+.logo{font-family:var(--sans);font-weight:800;font-size:17px;color:var(--ink);text-decoration:none;display:flex;align-items:center;gap:10px}
+.logo-bubble{
+  width:32px;height:32px;background:var(--violet);border-radius:10px;
+  display:flex;align-items:center;justify-content:center;
+}
+.logo-bubble svg{width:18px;height:18px}
+.nav-links{display:flex;align-items:center;gap:24px}
+.nav-links a{font-size:14px;color:var(--muted);text-decoration:none;font-weight:400;transition:color .2s}
+.nav-links a:hover{color:var(--ink)}
+.btn-nav{
+  background:var(--violet);color:var(--white);
+  padding:10px 22px;border-radius:100px;
+  font-size:14px;font-weight:700;text-decoration:none;
+  transition:all .2s;font-family:var(--sans);
+}
+.btn-nav:hover{background:var(--violet-dark);transform:translateY(-1px)}
+
+/* HERO */
+.hero{
+  background:var(--pale);
+  padding:72px 5% 0;
+  overflow:hidden;
+}
+.hero-inner{
+  max-width:1160px;margin:0 auto;
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:48px;align-items:end;
+}
+.hero-tag{
+  display:inline-flex;align-items:center;gap:8px;
+  background:var(--mint-bg);color:var(--mint-dark);
+  border-radius:100px;padding:6px 14px;
+  font-size:13px;font-weight:600;margin-bottom:22px;
+}
+.hero-tag-dot{width:7px;height:7px;border-radius:50%;background:var(--mint);animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(1.4);opacity:.6}}
+h1{
+  font-family:var(--sans);font-weight:800;
+  font-size:clamp(40px,5vw,62px);line-height:1.05;
+  color:var(--ink);margin-bottom:22px;
+  letter-spacing:-1.5px;
+}
+h1 .hl-violet{color:var(--violet)}
+h1 .hl-blue{color:var(--blue)}
+h1 .hl-mint{color:var(--mint)}
+.hero-sub{
+  font-size:17px;color:var(--ink2);line-height:1.75;
+  margin-bottom:36px;max-width:480px;font-weight:400;
+}
+.hero-btns{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:48px}
+.btn-big{
+  padding:15px 30px;border-radius:100px;
+  font-size:15px;font-weight:700;text-decoration:none;
+  transition:all .2s;font-family:var(--sans);
+  display:inline-flex;align-items:center;gap:8px;
+}
+.btn-violet{background:var(--violet);color:white}
+.btn-violet:hover{background:var(--violet-dark);transform:translateY(-2px)}
+.btn-outline{
+  background:white;color:var(--ink);
+  border:1.5px solid var(--border);
+}
+.btn-outline:hover{border-color:var(--violet);color:var(--violet)}
+.hero-stats{
+  display:flex;gap:32px;
+  padding:20px 0 0;
+  border-top:1.5px solid var(--border);
+}
+.stat-val{font-family:var(--sans);font-weight:800;font-size:30px;color:var(--ink);line-height:1}
+.stat-lbl{font-size:12px;color:var(--muted);margin-top:4px}
+
+/* HERO CARDS SIDE */
+.hero-cards{
+  display:flex;flex-direction:column;gap:14px;
+  padding-bottom:0;
+}
+.hcard{
+  background:var(--white);border-radius:var(--radius);
+  padding:20px 22px;
+  border:1.5px solid var(--border);
+  transition:transform .25s,border-color .25s;
+}
+.hcard:hover{transform:translateY(-3px);border-color:transparent}
+.hcard:nth-child(1):hover{box-shadow:0 8px 32px rgba(123,79,255,.15)}
+.hcard:nth-child(2):hover{box-shadow:0 8px 32px rgba(0,201,167,.15)}
+.hcard:nth-child(3):hover{box-shadow:0 8px 32px rgba(30,111,255,.15)}
+.hcard-header{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:10px}
+.htag{
+  font-size:11px;font-weight:700;padding:4px 10px;
+  border-radius:100px;letter-spacing:.3px;
+}
+.ht-violet{background:var(--violet-bg);color:var(--violet-dark)}
+.ht-mint{background:var(--mint-bg);color:var(--mint-dark)}
+.ht-blue{background:var(--blue-bg);color:var(--blue-dark)}
+.hcard-title{font-weight:700;font-size:15px;color:var(--ink);margin-bottom:6px}
+.hcard-desc{font-size:13px;color:var(--muted);line-height:1.5;margin-bottom:12px}
+.hcard-footer{display:flex;align-items:center;justify-content:space-between}
+.avgroup{display:flex}
+.ava{
+  width:27px;height:27px;border-radius:50%;
+  border:2.5px solid white;
+  margin-left:-8px;first-child:margin-left:0;
+  display:flex;align-items:center;justify-content:center;
+  font-size:10px;font-weight:700;color:white;
+  flex-shrink:0;
+}
+.ava:first-child{margin-left:0}
+.av-v{background:var(--violet)}.av-m{background:var(--mint)}.av-b{background:var(--blue)}.av-c{background:var(--coral)}
+.chips{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px}
+.chip{
+  font-size:11px;padding:3px 9px;border-radius:100px;
+  background:var(--pale);color:var(--ink2);font-weight:500;
+}
+.active-dot{
+  display:flex;align-items:center;gap:5px;
+  font-size:12px;font-weight:600;color:var(--mint-dark);
+}
+.adot{width:7px;height:7px;border-radius:50%;background:var(--mint)}
+
+/* TICKER */
+.ticker-wrap{
+  background:var(--sun);
+  padding:11px 0;overflow:hidden;white-space:nowrap;
+}
+.ticker-track{
+  display:inline-flex;gap:48px;
+  animation:scroll 25s linear infinite;
+}
+@keyframes scroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+.titem{
+  font-size:13px;font-weight:700;color:var(--ink);
+  display:inline-flex;align-items:center;gap:10px;flex-shrink:0;
+}
+.tdot{font-size:18px;opacity:.3}
+
+/* SECTIONS */
+section{padding:80px 5%}
+.si{max-width:1160px;margin:0 auto}
+.slabel{
+  font-size:11px;font-weight:700;letter-spacing:2px;
+  text-transform:uppercase;margin-bottom:14px;display:block;
+}
+h2{
+  font-family:var(--sans);font-weight:800;
+  font-size:clamp(28px,3.8vw,46px);
+  line-height:1.07;letter-spacing:-1px;
+  color:var(--ink);margin-bottom:14px;
+}
+.ssub{font-size:16px;color:var(--muted);max-width:520px;line-height:1.75}
+
+/* BENTO FEATURES */
+.bento{
+  display:grid;
+  grid-template-columns:repeat(6,1fr);
+  grid-template-rows:auto auto;
+  gap:14px;margin-top:52px;
+}
+.bento-cell{
+  border-radius:var(--radius);padding:28px 26px;
+  border:1.5px solid transparent;
+  transition:transform .2s;
+}
+.bento-cell:hover{transform:translateY(-3px)}
+.bc1{grid-column:span 3;background:var(--violet-bg);border-color:rgba(123,79,255,.15)}
+.bc2{grid-column:span 3;background:var(--mint-bg);border-color:rgba(0,201,167,.12)}
+.bc3{grid-column:span 2;background:var(--blue-bg);border-color:rgba(30,111,255,.12)}
+.bc4{grid-column:span 2;background:var(--sun-bg);border-color:rgba(255,212,38,.2)}
+.bc5{grid-column:span 2;background:var(--coral-bg);border-color:rgba(255,94,120,.12)}
+.bicon{
+  width:44px;height:44px;border-radius:12px;
+  display:flex;align-items:center;justify-content:center;
+  margin-bottom:16px;font-size:20px;
+}
+.bi-v{background:var(--violet);color:white}
+.bi-m{background:var(--mint);color:white}
+.bi-b{background:var(--blue);color:white}
+.bi-s{background:var(--sun);color:var(--ink)}
+.bi-c{background:var(--coral);color:white}
+.bento-title{font-weight:700;font-size:16px;margin-bottom:8px}
+.bc1 .bento-title{color:var(--violet-dark)}
+.bc2 .bento-title{color:var(--mint-dark)}
+.bc3 .bento-title{color:var(--blue-dark)}
+.bc4 .bento-title{color:var(--sun-dark)}
+.bc5 .bento-title{color:var(--coral-dark)}
+.bento-desc{font-size:13px;line-height:1.65;font-weight:400}
+.bc1 .bento-desc{color:var(--violet-dark);opacity:.7}
+.bc2 .bento-desc{color:var(--mint-dark);opacity:.7}
+.bc3 .bento-desc{color:var(--blue-dark);opacity:.7}
+.bc4 .bento-desc{color:var(--sun-dark);opacity:.7}
+.bc5 .bento-desc{color:var(--coral-dark);opacity:.7}
+
+/* STEPS */
+.steps-bg{background:var(--pale)}
+.steps-grid{
+  display:grid;grid-template-columns:repeat(4,1fr);
+  gap:14px;margin-top:52px;
+}
+.step-card{
+  background:var(--white);border-radius:var(--radius);
+  padding:28px 24px;
+  border:1.5px solid var(--border);
+  position:relative;overflow:hidden;
+}
+.step-num{
+  font-family:var(--sans);font-weight:800;font-size:72px;
+  line-height:1;letter-spacing:-3px;
+  position:absolute;bottom:-10px;right:12px;
+  opacity:.06;color:var(--ink);
+}
+.step-badge{
+  width:36px;height:36px;border-radius:10px;
+  display:flex;align-items:center;justify-content:center;
+  font-weight:800;font-size:15px;color:white;
+  margin-bottom:18px;
+}
+.sb1{background:var(--violet)}.sb2{background:var(--blue)}.sb3{background:var(--mint)}.sb4{background:var(--coral)}
+.step-title{font-weight:700;font-size:15px;color:var(--ink);margin-bottom:8px}
+.step-desc{font-size:13px;color:var(--muted);line-height:1.6}
+
+/* PROFILES */
+.profiles-grid{
+  display:grid;grid-template-columns:repeat(3,1fr);
+  gap:16px;margin-top:48px;
+}
+.pcard{
+  border:1.5px solid var(--border);border-radius:var(--radius);
+  padding:24px;background:white;
+  transition:all .2s;
+}
+.pcard:hover{transform:translateY(-4px)}
+.pcard:nth-child(1):hover{border-color:var(--violet);box-shadow:0 8px 32px rgba(123,79,255,.1)}
+.pcard:nth-child(2):hover{border-color:var(--blue);box-shadow:0 8px 32px rgba(30,111,255,.1)}
+.pcard:nth-child(3):hover{border-color:var(--mint);box-shadow:0 8px 32px rgba(0,201,167,.1)}
+.pcard-top{display:flex;align-items:center;gap:14px;margin-bottom:14px}
+.pav{
+  width:48px;height:48px;border-radius:14px;
+  display:flex;align-items:center;justify-content:center;
+  font-weight:800;font-size:18px;color:white;flex-shrink:0;
+}
+.pname{font-weight:700;font-size:15px;color:var(--ink)}
+.prole{font-size:12px;color:var(--muted);margin-top:2px}
+.pbio{font-size:13px;color:var(--ink2);line-height:1.6;margin-bottom:14px}
+.ptags{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px}
+.ptag{font-size:11px;padding:4px 10px;background:var(--pale);color:var(--ink2);border-radius:100px;font-weight:500}
+.plooking{
+  font-size:12px;font-weight:600;
+  padding:8px 14px;border-radius:100px;
+  display:inline-flex;align-items:center;gap:7px;
+}
+.pl-v{background:var(--violet-bg);color:var(--violet-dark)}
+.pl-b{background:var(--blue-bg);color:var(--blue-dark)}
+.pl-m{background:var(--mint-bg);color:var(--mint-dark)}
+
+/* TESTIMONIALS */
+.testi-bg{background:var(--violet)}
+.testi-bg .slabel{color:rgba(255,255,255,.5)}
+.testi-bg h2{color:white}
+.testi-grid{
+  display:grid;grid-template-columns:repeat(3,1fr);
+  gap:14px;margin-top:48px;
+}
+.tcard{
+  background:rgba(255,255,255,.1);border-radius:var(--radius);
+  padding:28px;border:1px solid rgba(255,255,255,.15);
+}
+.tquote{
+  font-family:var(--serif);font-style:italic;
+  font-size:15px;color:rgba(255,255,255,.9);
+  line-height:1.7;margin-bottom:20px;
+}
+.tauthor{display:flex;align-items:center;gap:12px}
+.tav{
+  width:38px;height:38px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-weight:700;font-size:14px;color:white;flex-shrink:0;
+}
+.tname{font-weight:700;font-size:13px;color:white}
+.trole{font-size:12px;color:rgba(255,255,255,.5);margin-top:2px}
+
+/* FAQ */
+.faq-bg{background:var(--pale)}
+.faq-wrap{max-width:760px;margin-top:48px}
+.fq{
+  background:white;border:1.5px solid var(--border);
+  border-radius:var(--radius-sm);padding:20px 22px;
+  margin-bottom:10px;cursor:pointer;
+  transition:border-color .2s;
+}
+.fq:hover{border-color:var(--violet)}
+.fq.open{border-color:var(--violet)}
+.fq-q{
+  font-weight:700;font-size:15px;color:var(--ink);
+  display:flex;justify-content:space-between;align-items:center;gap:12px;
+}
+.fq-tog{
+  width:26px;height:26px;border-radius:50%;flex-shrink:0;
+  background:var(--pale);color:var(--ink);
+  display:flex;align-items:center;justify-content:center;
+  font-size:18px;transition:all .25s;
+}
+.fq.open .fq-tog{background:var(--violet);color:white;transform:rotate(45deg)}
+.fq-a{font-size:14px;color:var(--muted);line-height:1.7;margin-top:14px;display:none}
+.fq.open .fq-a{display:block}
+
+/* CTA */
+.cta-wrap{
+  background:var(--sun);padding:80px 5%;text-align:center;
+  position:relative;overflow:hidden;
+}
+.cta-blob{
+  position:absolute;width:300px;height:300px;border-radius:50%;
+  background:rgba(255,255,255,.25);
+}
+.cta-blob-1{top:-80px;left:-60px}
+.cta-blob-2{bottom:-100px;right:-40px;width:250px;height:250px}
+.cta-wrap h2{color:var(--ink);font-size:clamp(34px,5vw,54px);margin-bottom:18px;position:relative;z-index:1}
+.cta-wrap p{font-size:17px;color:var(--ink2);max-width:460px;margin:0 auto 40px;position:relative;z-index:1;line-height:1.7}
+.btn-cta{
+  background:var(--violet);color:white;
+  padding:16px 40px;border-radius:100px;
+  font-size:16px;font-weight:700;text-decoration:none;
+  display:inline-flex;align-items:center;gap:10px;
+  transition:all .2s;font-family:var(--sans);
+  position:relative;z-index:1;
+}
+.btn-cta:hover{background:var(--violet-dark);transform:translateY(-2px)}
+.cta-note{font-size:12px;color:var(--ink2);opacity:.6;margin-top:16px;position:relative;z-index:1}
+
+/* FOOTER */
+footer{
+  background:var(--ink);padding:44px 5%;
+  display:flex;align-items:center;justify-content:space-between;
+  flex-wrap:wrap;gap:16px;
+}
+.fl{font-weight:800;font-size:15px;color:white;display:flex;align-items:center;gap:10px}
+.fl-links{display:flex;gap:24px}
+.fl-links a{font-size:13px;color:rgba(255,255,255,.3);text-decoration:none;transition:color .2s}
+.fl-links a:hover{color:rgba(255,255,255,.8)}
+.fl-copy{font-size:12px;color:rgba(255,255,255,.2)}
+
+@media(max-width:940px){
+  .hero-inner{grid-template-columns:1fr}
+  .hero-cards{display:none}
+  .bento{grid-template-columns:1fr 1fr}
+  .bc1,.bc2,.bc3,.bc4,.bc5{grid-column:span 2}
+  .steps-grid{grid-template-columns:1fr 1fr}
+  .profiles-grid,.testi-grid{grid-template-columns:1fr}
+  .nav-links a{display:none}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="logo">
+    <div class="logo-bubble">
+      <svg viewBox="0 0 18 18" fill="none">
+        <path d="M9 2C5.13 2 2 5.13 2 9s3.13 7 7 7 7-3.13 7-7-3.13-7-7-7z" fill="white" opacity=".25"/>
+        <path d="M6 9l2 2 4-4" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </div>
+    trouver-un-associé
+  </a>
+  <div class="nav-links">
+    <a href="#">Comment ça marche</a>
+    <a href="#">Projets</a>
+    <a href="#">Profils</a>
+    <a href="#">FAQ</a>
+  </div>
+  <a href="#" class="btn-nav">Rejoindre la bêta</a>
+</nav>
+
+<!-- HERO -->
+<section style="padding:0;background:var(--pale)">
+  <div style="max-width:1160px;margin:0 auto;padding:72px 5% 0">
+    <div class="hero-inner">
+      <div>
+        <div class="hero-tag"><span class="hero-tag-dot"></span>Bêta ouverte · 100% gratuit</div>
+        <h1>L'endroit où<br><span class="hl-violet">les bonnes</span><br><span class="hl-blue">équipes</span> naissent</h1>
+        <p class="hero-sub">Vous avez une idée, il vous manque la personne — ou l'inverse. Trouver-un-associé connecte porteurs de projets et talents complémentaires pour des associations qui durent vraiment.</p>
+        <div class="hero-btns">
+          <a href="#" class="btn-big btn-violet">Déposer mon projet →</a>
+          <a href="#" class="btn-big btn-outline">Je cherche un projet</a>
+        </div>
+        <div class="hero-stats">
+          <div><div class="stat-val">340</div><div class="stat-lbl">Projets actifs</div></div>
+          <div><div class="stat-val">820</div><div class="stat-lbl">Entrepreneurs</div></div>
+          <div><div class="stat-val">67</div><div class="stat-lbl">Associations en cours</div></div>
+        </div>
+      </div>
+      <div class="hero-cards">
+        <div class="hcard">
+          <div class="hcard-header">
+            <span class="htag ht-violet">SaaS · Commerce local</span>
+          </div>
+          <div class="hcard-title">Marketplace de proximité</div>
+          <div class="hcard-desc">MVP validé, 30 premiers clients à Bordeaux. Cherche CTO pour industrialiser.</div>
+          <div class="chips"><span class="chip">CTO</span><span class="chip">Growth</span><span class="chip">Levée de fonds</span></div>
+          <div class="hcard-footer">
+            <div class="avgroup"><div class="ava av-v">M</div><div class="ava av-b">+</div></div>
+            <div class="active-dot"><span class="adot"></span>Actif</div>
+          </div>
+        </div>
+        <div class="hcard">
+          <div class="hcard-header">
+            <span class="htag ht-mint">MedTech · RH</span>
+          </div>
+          <div class="hcard-title">Santé mentale B2B</div>
+          <div class="hcard-desc">3 LOI signées, cherche co-fondateur commercial avec réseau RH solide.</div>
+          <div class="chips"><span class="chip">Profil commercial</span><span class="chip">Réseau RH</span></div>
+          <div class="hcard-footer">
+            <div class="avgroup"><div class="ava av-m">S</div><div class="ava av-c">+</div></div>
+            <div class="active-dot"><span class="adot"></span>Actif</div>
+          </div>
+        </div>
+        <div class="hcard">
+          <div class="hcard-header">
+            <span class="htag ht-blue">EdTech · Formation</span>
+          </div>
+          <div class="hcard-title">Plateforme micro-learning</div>
+          <div class="hcard-desc">500 utilisateurs beta, cherche CTO et investisseur seed pour passer à l'échelle.</div>
+          <div class="chips"><span class="chip">CTO</span><span class="chip">Seed</span><span class="chip">Pédagogie</span></div>
+          <div class="hcard-footer">
+            <div class="avgroup"><div class="ava av-b">A</div><div class="ava av-v">+</div></div>
+            <div class="active-dot"><span class="adot"></span>Actif</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TICKER -->
+<div class="ticker-wrap">
+  <div class="ticker-track">
+    <span class="titem">Marketplace · Bordeaux<span class="tdot">·</span></span>
+    <span class="titem">SaaS RH · Paris<span class="tdot">·</span></span>
+    <span class="titem">ClimateTech · Lyon<span class="tdot">·</span></span>
+    <span class="titem">MedTech · Nantes<span class="tdot">·</span></span>
+    <span class="titem">FinTech · Remote<span class="tdot">·</span></span>
+    <span class="titem">EdTech · Montpellier<span class="tdot">·</span></span>
+    <span class="titem">AgriTech · Toulouse<span class="tdot">·</span></span>
+    <span class="titem">PropTech · Marseille<span class="tdot">·</span></span>
+    <span class="titem">Marketplace · Bordeaux<span class="tdot">·</span></span>
+    <span class="titem">SaaS RH · Paris<span class="tdot">·</span></span>
+    <span class="titem">ClimateTech · Lyon<span class="tdot">·</span></span>
+    <span class="titem">MedTech · Nantes<span class="tdot">·</span></span>
+    <span class="titem">FinTech · Remote<span class="tdot">·</span></span>
+    <span class="titem">EdTech · Montpellier<span class="tdot">·</span></span>
+    <span class="titem">AgriTech · Toulouse<span class="tdot">·</span></span>
+    <span class="titem">PropTech · Marseille<span class="tdot">·</span></span>
+  </div>
+</div>
+
+<!-- FEATURES BENTO -->
+<section>
+  <div class="si">
+    <span class="slabel" style="color:var(--violet)">Pourquoi nous ?</span>
+    <h2>Tout ce qu'il faut pour<br>une belle association</h2>
+    <p class="ssub">Chaque fonctionnalité pensée pour créer des partenariats solides, pas des rencontres hasardeuses.</p>
+    <div class="bento">
+      <div class="bento-cell bc1">
+        <div class="bicon bi-v">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><rect x="3" y="3" width="14" height="10" rx="2" stroke="white" stroke-width="1.6"/><path d="M6 16h8M10 13v3" stroke="white" stroke-width="1.6" stroke-linecap="round"/></svg>
+        </div>
+        <div class="bento-title">Profil de projet riche</div>
+        <div class="bento-desc">Pitch, vidéo, maquettes, deck, traction. Présentez votre vision sous toutes ses dimensions pour attirer les bons profils et inspirer confiance.</div>
+      </div>
+      <div class="bento-cell bc2">
+        <div class="bicon bi-m">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="7" stroke="white" stroke-width="1.6"/><path d="M7 10l2 2 4-4" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <div class="bento-title">Matching par complémentarité</div>
+        <div class="bento-desc">Au-delà des compétences : valeurs, vision, disponibilité. Notre algorithme cherche les partenaires qui collent vraiment à votre projet et à votre façon de travailler.</div>
+      </div>
+      <div class="bento-cell bc3">
+        <div class="bicon bi-b">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M4 6h12M4 10h8M4 14h10" stroke="white" stroke-width="1.6" stroke-linecap="round"/></svg>
+        </div>
+        <div class="bento-title">Messagerie sécurisée</div>
+        <div class="bento-desc">Chaque contact est initié par intérêt mutuel. Zéro cold message, boîte propre.</div>
+      </div>
+      <div class="bento-cell bc4">
+        <div class="bicon bi-s">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M10 3l1.8 5.5H17l-4.6 3.4 1.8 5.5L10 14l-4.2 3.4 1.8-5.5L3 8.5h5.2L10 3z" stroke="var(--ink)" stroke-width="1.4" stroke-linejoin="round"/></svg>
+        </div>
+        <div class="bento-title">Réputation & vérification</div>
+        <div class="bento-desc">LinkedIn connecté, références, historique. Une communauté de qualité.</div>
+      </div>
+      <div class="bento-cell bc5">
+        <div class="bicon bi-c">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="7" stroke="white" stroke-width="1.6"/><path d="M10 7v3l2 2" stroke="white" stroke-width="1.6" stroke-linecap="round"/></svg>
+        </div>
+        <div class="bento-title">Confidentialité maîtrisée</div>
+        <div class="bento-desc">Vous décidez. Assets sensibles visibles seulement après validation mutuelle.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STEPS -->
+<section class="steps-bg">
+  <div class="si">
+    <span class="slabel" style="color:var(--blue)">En 4 étapes</span>
+    <h2>Simple comme bonjour,<br>solide comme un pacte</h2>
+    <p class="ssub">Un parcours clair, pensé pour gagner du temps et aller à l'essentiel.</p>
+    <div class="steps-grid">
+      <div class="step-card">
+        <div class="step-badge sb1">1</div>
+        <div class="step-title">Créez votre profil</div>
+        <div class="step-desc">Compétences, expériences, secteurs d'intérêt, ce que vous cherchez ou apportez.</div>
+        <div class="step-num">01</div>
+      </div>
+      <div class="step-card">
+        <div class="step-badge sb2">2</div>
+        <div class="step-title">Déposez ou explorez</div>
+        <div class="step-desc">Porteur ? Publiez votre projet avec vos assets. Chercheur ? Parcourez les opportunités.</div>
+        <div class="step-num">02</div>
+      </div>
+      <div class="step-card">
+        <div class="step-badge sb3">3</div>
+        <div class="step-title">Entrez en contact</div>
+        <div class="step-desc">Exprimez votre intérêt. Si c'est mutuel, la messagerie s'ouvre. Pas de spam.</div>
+        <div class="step-num">03</div>
+      </div>
+      <div class="step-card">
+        <div class="step-badge sb4">4</div>
+        <div class="step-title">Construisez ensemble</div>
+        <div class="step-desc">Premier call, échanges, décision. Le reste ne dépend que de vous deux.</div>
+        <div class="step-num">04</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROFILS -->
+<section>
+  <div class="si">
+    <span class="slabel" style="color:var(--mint-dark)">La communauté</span>
+    <h2>Des profils comme vous</h2>
+    <p class="ssub">Première idée ou MVP déjà lancé — tous les stades, tous les secteurs.</p>
+    <div class="profiles-grid">
+      <div class="pcard">
+        <div class="pcard-top">
+          <div class="pav" style="background:var(--violet)">M</div>
+          <div><div class="pname">Marie K.</div><div class="prole">Product Manager · Paris</div></div>
+        </div>
+        <div class="pbio">Ex-Doctolib, j'ai une idée solide sur la gestion de cabinet médical libéral. Je cherche un CTO capable de construire le MVP et de s'associer sur la durée.</div>
+        <div class="ptags"><span class="ptag">Product</span><span class="ptag">Santé</span><span class="ptag">B2B SaaS</span><span class="ptag">UX Research</span></div>
+        <div class="plooking pl-v">
+          <svg width="7" height="7" viewBox="0 0 7 7"><circle cx="3.5" cy="3.5" r="3.5" fill="var(--violet)"/></svg>
+          Cherche un CTO technique
+        </div>
+      </div>
+      <div class="pcard">
+        <div class="pcard-top">
+          <div class="pav" style="background:var(--blue)">T</div>
+          <div><div class="pname">Thomas A.</div><div class="prole">Ingénieur IA · Lyon</div></div>
+        </div>
+        <div class="pbio">5 ans de ML en GAFAM, je veux co-fonder une startup. Prêt à quitter le salariat pour un projet qui a du sens. Disponible dans 3 mois.</div>
+        <div class="ptags"><span class="ptag">Machine Learning</span><span class="ptag">Python</span><span class="ptag">AWS</span></div>
+        <div class="plooking pl-b">
+          <svg width="7" height="7" viewBox="0 0 7 7"><circle cx="3.5" cy="3.5" r="3.5" fill="var(--blue)"/></svg>
+          Ouvert à tous les secteurs
+        </div>
+      </div>
+      <div class="pcard">
+        <div class="pcard-top">
+          <div class="pav" style="background:var(--mint)">S</div>
+          <div><div class="pname">Sophie L.</div><div class="prole">CEO fondatrice · Bordeaux</div></div>
+        </div>
+        <div class="pbio">Marketplace B2B agroalimentaire, 40k€ de CA. Je cherche un profil growth ou commercial pour accélérer l'acquisition et co-porter la suite.</div>
+        <div class="ptags"><span class="ptag">Business Dev</span><span class="ptag">Agro</span><span class="ptag">Marketplace</span></div>
+        <div class="plooking pl-m">
+          <svg width="7" height="7" viewBox="0 0 7 7"><circle cx="3.5" cy="3.5" r="3.5" fill="var(--mint)"/></svg>
+          Cherche un profil growth
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="testi-bg">
+  <div class="si">
+    <span class="slabel">Ils l'ont trouvé ici</span>
+    <h2>De vraies associations,<br>de vraies histoires</h2>
+    <div class="testi-grid">
+      <div class="tcard">
+        <div class="tquote">"En 3 semaines j'avais rencontré mon futur CTO. Aujourd'hui on a 6 mois de runway et nos premiers clients. Je n'aurais pas pu avancer seule."</div>
+        <div class="tauthor">
+          <div class="tav" style="background:rgba(255,255,255,.2)">C</div>
+          <div><div class="tname">Clara M.</div><div class="trole">CEO · Startup RH, Paris</div></div>
+        </div>
+      </div>
+      <div class="tcard">
+        <div class="tquote">"J'avais peur de la démarche mais le matching par valeurs est vraiment pertinent. On a eu un vrai feeling dès le premier call, on s'est associés deux semaines après."</div>
+        <div class="tauthor">
+          <div class="tav" style="background:rgba(255,255,255,.2)">R</div>
+          <div><div class="tname">Romain D.</div><div class="trole">CTO · ClimateTech, Lyon</div></div>
+        </div>
+      </div>
+      <div class="tcard">
+        <div class="tquote">"Ce que j'aimais, c'est que tout le monde est là pour la même raison. Pas de chasseurs de têtes, pas de recruteurs. Juste des gens qui veulent construire quelque chose."</div>
+        <div class="tauthor">
+          <div class="tav" style="background:rgba(255,255,255,.2)">A</div>
+          <div><div class="tname">Anaïs B.</div><div class="trole">Co-fondatrice · EdTech, Nantes</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="faq-bg">
+  <div class="si">
+    <span class="slabel" style="color:var(--coral-dark)">FAQ</span>
+    <h2>Vos questions,<br>nos réponses</h2>
+    <div class="faq-wrap">
+      <div class="fq" onclick="faq(this)">
+        <div class="fq-q">C'est gratuit ? <div class="fq-tog">+</div></div>
+        <div class="fq-a">Oui, totalement gratuit pendant la bêta. Aucune carte bancaire demandée. Les premiers inscrits bénéficieront d'un accès privilégié et de tarifs préférentiels lors du lancement premium.</div>
+      </div>
+      <div class="fq" onclick="faq(this)">
+        <div class="fq-q">Quelle différence avec LinkedIn ? <div class="fq-tog">+</div></div>
+        <div class="fq-a">LinkedIn est un réseau généraliste. Ici, chaque profil indique explicitement son intention (cherche / propose), le matching est orienté complémentarité et vision commune, et les projets se présentent avec leurs assets complets.</div>
+      </div>
+      <div class="fq" onclick="faq(this)">
+        <div class="fq-q">Comment garantissez-vous la qualité des profils ? <div class="fq-tog">+</div></div>
+        <div class="fq-a">Connexion LinkedIn obligatoire, vérification email et système de réputation progressif. Les profils incomplets sont moins mis en avant. Modération manuelle des signalements.</div>
+      </div>
+      <div class="fq" onclick="faq(this)">
+        <div class="fq-q">Mon projet est confidentiel — comment le protéger ? <div class="fq-tog">+</div></div>
+        <div class="fq-a">Vous choisissez le niveau de visibilité de chaque information. Les assets sensibles (deck, financiers) ne s'ouvrent qu'après acceptation mutuelle. NDA possible avant tout échange.</div>
+      </div>
+      <div class="fq" onclick="faq(this)">
+        <div class="fq-q">Peut-on rester anonyme au début ? <div class="fq-tog">+</div></div>
+        <div class="fq-a">Oui. Votre nom complet et coordonnées ne sont visibles qu'après acceptation d'un contact. Votre profil public peut utiliser un pseudonyme et ne montrer que ville et compétences.</div>
+      </div>
+      <div class="fq" onclick="faq(this)">
+        <div class="fq-q">Quel type de projet peut être publié ? <div class="fq-tog">+</div></div>
+        <div class="fq-a">Tous les projets entrepreneuriaux visant la création d'une société : SaaS, commerce, ESS, artisanat scalable… Les offres de prestation et projets purement artistiques sans visée commerciale ne sont pas acceptés.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section style="padding:0">
+  <div class="cta-wrap">
+    <div class="cta-blob cta-blob-1"></div>
+    <div class="cta-blob cta-blob-2"></div>
+    <h2>Votre associé vous attend<br>peut-être déjà ici.</h2>
+    <p>Rejoignez les premiers entrepreneurs à tester la plateforme. Gratuit, sans engagement, sans CB.</p>
+    <a href="#" class="btn-cta">Créer mon profil maintenant →</a>
+    <div class="cta-note">340 projets actifs · Bêta gratuite · Aucune CB requise</div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="fl">
+    <div class="logo-bubble" style="width:28px;height:28px">
+      <svg viewBox="0 0 18 18" fill="none">
+        <path d="M9 2C5.13 2 2 5.13 2 9s3.13 7 7 7 7-3.13 7-7-3.13-7-7-7z" fill="white" opacity=".25"/>
+        <path d="M6 9l2 2 4-4" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </div>
+    trouver-un-associé.com
+  </div>
+  <div class="fl-links">
+    <a href="#">À propos</a>
+    <a href="#">Blog</a>
+    <a href="#">CGU</a>
+    <a href="#">Mentions légales</a>
+    <a href="#">Contact</a>
+  </div>
+  <div class="fl-copy">© 2025 trouver-un-associé.com</div>
+</footer>
+
+<script>
+function faq(el){
+  const o=el.classList.contains('open');
+  document.querySelectorAll('.fq').forEach(f=>f.classList.remove('open'));
+  if(!o)el.classList.add('open');
+}
+</script>
+</body>
+</html>
