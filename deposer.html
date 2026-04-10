@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Déposer mon projet — Trouver un Associé</title>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,700;12..96,800&family=Lora:ital,wght@1,400&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --violet:#7B4FFF;--violet-bg:#F0EBFF;--violet-dark:#5530CC;
+  --mint:#00C9A7;--mint-bg:#E0FBF5;--mint-dark:#007A65;
+  --blue:#1E6FFF;--blue-bg:#EEF5FF;
+  --sun:#FFD426;--sun-bg:#FFFBE8;--sun-dark:#7A5800;
+  --coral:#FF5E78;--coral-bg:#FFF0F2;--coral-dark:#CC2A44;
+  --ink:#1A1A2E;--ink2:#3D3D5C;--muted:#7A7A9A;
+  --pale:#F5F5FF;--border:rgba(26,26,46,0.1);--white:#fff;
+  --sans:'Bricolage Grotesque',sans-serif;--serif:'Lora',serif;
+  --radius:14px;--radius-sm:10px;
+}
+body{font-family:var(--sans);background:var(--pale);color:var(--ink);min-height:100vh}
+
+nav{background:var(--white);border-bottom:1.5px solid var(--border);padding:0 5%;display:flex;align-items:center;justify-content:space-between;height:60px}
+.logo{font-weight:800;font-size:16px;color:var(--ink);text-decoration:none;display:flex;align-items:center;gap:10px}
+.logo-bubble{width:36px;height:36px;display:flex;align-items:center;justify-content:center}
+.back-link{font-size:14px;color:var(--muted);text-decoration:none;display:flex;align-items:center;gap:6px;transition:color .2s}
+.back-link:hover{color:var(--ink)}
+
+.page{display:grid;grid-template-columns:2fr 3fr;min-height:calc(100vh - 60px)}
+
+/* PANNEAU GAUCHE */
+.left-panel{background:var(--mint);padding:60px 48px;display:flex;flex-direction:column;justify-content:center;position:relative;overflow:hidden}
+.lp-blob{position:absolute;border-radius:50%;background:rgba(255,255,255,.1)}
+.lp-blob-1{width:320px;height:320px;top:-80px;left:-80px}
+.lp-blob-2{width:220px;height:220px;bottom:40px;right:-60px}
+.lp-content{position:relative;z-index:1}
+.lp-step-indicator{display:flex;gap:8px;margin-bottom:48px}
+.lp-step{height:4px;border-radius:100px;background:rgba(255,255,255,.3);transition:all .4s;flex:1}
+.lp-step.active{background:var(--sun)}
+.lp-step.done{background:rgba(255,255,255,.7)}
+.lp-tag{display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,.25);border-radius:100px;padding:6px 14px;font-size:13px;font-weight:600;color:var(--ink);margin-bottom:24px}
+.lp-tag-dot{width:6px;height:6px;border-radius:50%;background:var(--sun)}
+.lp-title{font-weight:800;font-size:clamp(26px,3vw,36px);color:var(--ink);line-height:1.1;margin-bottom:16px;letter-spacing:-1px}
+.lp-sub{font-size:15px;color:rgba(0,0,0,.55);line-height:1.7;margin-bottom:36px;max-width:360px}
+.lp-perks{display:flex;flex-direction:column;gap:12px;margin-bottom:36px}
+.lp-perk{display:flex;align-items:center;gap:12px;font-size:14px;color:rgba(0,0,0,.7);font-weight:500}
+.lp-perk-icon{width:28px;height:28px;border-radius:8px;background:rgba(255,255,255,.4);flex-shrink:0;display:flex;align-items:center;justify-content:center}
+.lp-tip{background:rgba(255,255,255,.3);border-radius:var(--radius-sm);padding:16px;font-size:13px;color:rgba(0,0,0,.65);line-height:1.6}
+.lp-tip strong{color:var(--ink);font-weight:700}
+
+/* PANNEAU DROIT */
+.right-panel{background:var(--white);padding:48px 52px;overflow-y:auto}
+.step-header{margin-bottom:32px}
+.step-num{font-size:12px;font-weight:700;color:var(--mint-dark);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:8px}
+.step-title{font-weight:800;font-size:24px;color:var(--ink);letter-spacing:-.5px;margin-bottom:6px}
+.step-sub{font-size:14px;color:var(--muted)}
+
+.form-step{display:none}
+.form-step.active{display:block}
+
+.progress-bar{height:4px;background:var(--pale);border-radius:100px;margin-bottom:36px;overflow:hidden}
+.progress-fill{height:100%;background:var(--mint);border-radius:100px;transition:width .4s ease}
+
+.field{margin-bottom:22px}
+.field label{display:block;font-size:13px;font-weight:700;color:var(--ink2);margin-bottom:8px}
+.field input,.field select,.field textarea{width:100%;padding:12px 16px;border:1.5px solid var(--border);border-radius:var(--radius-sm);font-family:var(--sans);font-size:14px;color:var(--ink);background:var(--white);outline:none;transition:border-color .2s}
+.field input:focus,.field select:focus,.field textarea:focus{border-color:var(--mint);box-shadow:0 0 0 3px rgba(0,201,167,.1)}
+.field textarea{resize:vertical;line-height:1.6}
+.field-row{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.field-hint{font-size:12px;color:var(--muted);margin-top:6px}
+.field-error{font-size:12px;color:var(--coral-dark);margin-top:6px;display:none}
+.field input.error,.field textarea.error,.field select.error{border-color:var(--coral)}
+.char-count{font-size:12px;color:var(--muted);margin-top:6px;text-align:right}
+.char-count.warn{color:var(--coral-dark)}
+
+.tags-select{display:flex;flex-wrap:wrap;gap:8px;margin-top:4px}
+.tag-opt{padding:7px 14px;border-radius:100px;border:1.5px solid var(--border);font-size:13px;font-weight:600;color:var(--muted);cursor:pointer;transition:all .2s;user-select:none;background:var(--white)}
+.tag-opt:hover{border-color:var(--mint);color:var(--mint-dark)}
+.tag-opt.sel-mint{background:var(--mint-bg);border-color:var(--mint);color:var(--mint-dark)}
+.tag-opt.sel-violet{background:var(--violet-bg);border-color:var(--violet);color:var(--violet-dark)}
+
+.stade-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:4px}
+.stade-card{border:1.5px solid var(--border);border-radius:var(--radius-sm);padding:14px 16px;cursor:pointer;transition:all .2s;background:var(--white)}
+.stade-card:hover{border-color:var(--mint)}
+.stade-card.selected{border-color:var(--mint);background:var(--mint-bg)}
+.stade-card.selected .stade-title{color:var(--mint-dark)}
+.stade-title{font-weight:700;font-size:13px;color:var(--ink);margin-bottom:3px}
+.stade-desc{font-size:12px;color:var(--muted);line-height:1.4}
+
+.error-banner{background:var(--coral-bg);border:1.5px solid rgba(255,94,120,.2);border-radius:var(--radius-sm);padding:12px 16px;font-size:13px;color:var(--coral-dark);margin-bottom:20px;display:none}
+.error-banner.show{display:block}
+
+.btn-next{width:100%;padding:15px;border-radius:100px;background:var(--mint);color:white;font-family:var(--sans);font-size:15px;font-weight:700;border:none;cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:8px;margin-top:28px}
+.btn-next:hover{background:var(--mint-dark);transform:translateY(-1px)}
+.btn-next:disabled{opacity:.5;cursor:not-allowed;transform:none}
+.btn-back{display:flex;align-items:center;justify-content:center;gap:6px;width:100%;padding:12px;border-radius:100px;background:transparent;color:var(--muted);font-family:var(--sans);font-size:14px;font-weight:500;border:1.5px solid var(--border);cursor:pointer;transition:all .2s;margin-top:10px}
+.btn-back:hover{border-color:var(--ink);color:var(--ink)}
+
+/* SUCCESS */
+.success-screen{display:none;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:40px 20px;min-height:400px}
+.success-screen.show{display:flex}
+.success-icon{width:80px;height:80px;border-radius:50%;background:var(--mint-bg);display:flex;align-items:center;justify-content:center;margin-bottom:24px}
+.success-title{font-weight:800;font-size:26px;color:var(--ink);margin-bottom:12px;letter-spacing:-.5px}
+.success-sub{font-size:15px;color:var(--muted);line-height:1.7;max-width:320px;margin:0 auto 32px}
+.success-btns{display:flex;gap:12px;flex-wrap:wrap;justify-content:center}
+.btn-success-primary{background:var(--violet);color:white;padding:13px 28px;border-radius:100px;font-family:var(--sans);font-size:14px;font-weight:700;text-decoration:none;display:inline-flex;align-items:center;gap:8px;transition:all .2s}
+.btn-success-primary:hover{background:var(--violet-dark)}
+.btn-success-secondary{background:white;color:var(--ink);padding:13px 28px;border-radius:100px;font-family:var(--sans);font-size:14px;font-weight:600;text-decoration:none;border:1.5px solid var(--border);transition:all .2s}
+.btn-success-secondary:hover{border-color:var(--ink)}
+.confetti-row{display:flex;gap:6px;justify-content:center;margin-bottom:24px}
+.conf{width:10px;height:10px;border-radius:2px;animation:pop .5s ease forwards;opacity:0}
+.conf:nth-child(1){background:var(--violet);animation-delay:.1s}
+.conf:nth-child(2){background:var(--sun);animation-delay:.2s;border-radius:50%}
+.conf:nth-child(3){background:var(--mint);animation-delay:.15s}
+.conf:nth-child(4){background:var(--coral);animation-delay:.25s;border-radius:50%}
+.conf:nth-child(5){background:var(--blue);animation-delay:.05s}
+.conf:nth-child(6){background:var(--sun);animation-delay:.3s}
+.conf:nth-child(7){background:var(--violet);animation-delay:.2s;border-radius:50%}
+@keyframes pop{0%{opacity:0;transform:translateY(12px) scale(.5)}70%{opacity:1;transform:translateY(-6px) scale(1.1)}100%{opacity:1;transform:translateY(0) scale(1)}}
+
+@media(max-width:860px){
+  .page{grid-template-columns:1fr}
+  .left-panel{display:none}
+  .right-panel{padding:32px 24px}
+  .field-row{grid-template-columns:1fr}
+  .stade-grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="logo">
+    <div class="logo-bubble">
+      <svg width="36" height="36" viewBox="0 0 80 80" fill="none">
+        <rect width="80" height="80" rx="20" fill="#1A1A2E"/>
+        <circle cx="28" cy="32" r="9" fill="#FFD426"/>
+        <circle cx="52" cy="32" r="9" fill="#00C9A7"/>
+        <path d="M18 56C18 50 22 46 28 46C32 46 35 48.5 40 48.5C45 48.5 48 46 52 46C58 46 62 50 62 56" stroke="white" stroke-width="3.5" stroke-linecap="round" fill="none"/>
+        <path d="M37 56H43" stroke="#7B4FFF" stroke-width="3.5" stroke-linecap="round"/>
+      </svg>
+    </div>
+    trouver-un-associé
+  </a>
+  <a href="explorer.html" class="back-link">
+    <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M10 12L6 8l4-4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    Retour aux projets
+  </a>
+</nav>
+
+<div class="page">
+
+  <!-- PANNEAU GAUCHE -->
+  <div class="left-panel">
+    <div class="lp-blob lp-blob-1"></div>
+    <div class="lp-blob lp-blob-2"></div>
+    <div class="lp-content">
+      <div class="lp-step-indicator">
+        <div class="lp-step active" id="ls1"></div>
+        <div class="lp-step" id="ls2"></div>
+        <div class="lp-step" id="ls3"></div>
+      </div>
+      <div id="lp-content-1">
+        <div class="lp-tag"><span class="lp-tag-dot"></span>Étape 1 sur 3</div>
+        <div class="lp-title">Votre projet mérite d'être vu</div>
+        <div class="lp-sub">Un bon pitch attire les bons profils. Soyez précis, concret et honnête sur le stade de votre projet.</div>
+        <div class="lp-perks">
+          <div class="lp-perk"><div class="lp-perk-icon"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7l3 3 7-7" stroke="#1A1A2E" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>Votre projet visible par 820+ entrepreneurs</div>
+          <div class="lp-perk"><div class="lp-perk-icon"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7l3 3 7-7" stroke="#1A1A2E" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>Matching automatique avec les bons profils</div>
+          <div class="lp-perk"><div class="lp-perk-icon"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7l3 3 7-7" stroke="#1A1A2E" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>Modifiable à tout moment</div>
+        </div>
+        <div class="lp-tip"><strong>Conseil :</strong> Les projets avec une description détaillée reçoivent 3× plus d'intérêts que les projets incomplets.</div>
+      </div>
+      <div id="lp-content-2" style="display:none">
+        <div class="lp-tag"><span class="lp-tag-dot"></span>Étape 2 sur 3</div>
+        <div class="lp-title">Qui cherchez-vous exactement ?</div>
+        <div class="lp-sub">Soyez précis sur le profil que vous cherchez. Un bon associé ne se trouve pas par hasard.</div>
+        <div class="lp-tip"><strong>Conseil :</strong> Décrivez ce dont vous avez besoin, pas ce que vous voulez. "Un CTO qui a déjà lancé un SaaS" est plus parlant que "quelqu'un de technique".</div>
+      </div>
+      <div id="lp-content-3" style="display:none">
+        <div class="lp-tag"><span class="lp-tag-dot"></span>Étape 3 sur 3</div>
+        <div class="lp-title">Plus que quelques détails !</div>
+        <div class="lp-sub">Ces informations aident les candidats à se projeter et à évaluer si l'association peut fonctionner.</div>
+        <div class="lp-tip"><strong>Conseil :</strong> Soyez transparent sur l'equity et les conditions. La transparence dès le départ évite les malentendus plus tard.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PANNEAU DROIT -->
+  <div class="right-panel">
+    <div class="progress-bar"><div class="progress-fill" id="progress" style="width:33%"></div></div>
+
+    <!-- ÉTAPE 1 — Le projet -->
+    <div class="form-step active" id="step1">
+      <div class="step-header">
+        <div class="step-num">Étape 1 sur 3</div>
+        <div class="step-title">Le projet</div>
+        <div class="step-sub">Présentez votre idée clairement et honnêtement.</div>
+      </div>
+
+      <div class="field">
+        <label for="titre">Nom du projet *</label>
+        <input type="text" id="titre" placeholder="ex : Plateforme RH pour PME, Marketplace bio…">
+        <div class="field-error" id="err-titre">Champ obligatoire</div>
+      </div>
+
+      <div class="field-row">
+        <div class="field">
+          <label for="secteur">Secteur *</label>
+          <select id="secteur">
+            <option value="">Choisir…</option>
+            <option>SaaS / Tech</option>
+            <option>Santé / MedTech</option>
+            <option>EdTech</option>
+            <option>ClimateTech</option>
+            <option>FinTech</option>
+            <option>Marketplace</option>
+            <option>RH / FutureOfWork</option>
+            <option>Commerce / Retail</option>
+            <option>AgriTech</option>
+            <option>PropTech</option>
+            <option>Impact / ESS</option>
+            <option>Autre</option>
+          </select>
+          <div class="field-error" id="err-secteur">Champ obligatoire</div>
+        </div>
+        <div class="field">
+          <label for="ville">Localisation *</label>
+          <input type="text" id="ville" placeholder="Paris, Lyon, Remote…">
+          <div class="field-error" id="err-ville">Champ obligatoire</div>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Stade du projet *</label>
+        <div class="stade-grid" id="stadeGrid">
+          <div class="stade-card" onclick="selectStade(this,'Idée / Pré-MVP')">
+            <div class="stade-title">Idée / Pré-MVP</div>
+            <div class="stade-desc">Concept validé, pas encore de produit fonctionnel</div>
+          </div>
+          <div class="stade-card" onclick="selectStade(this,'MVP en cours')">
+            <div class="stade-title">MVP en cours</div>
+            <div class="stade-desc">Produit en développement, premiers tests</div>
+          </div>
+          <div class="stade-card" onclick="selectStade(this,'Premiers clients')">
+            <div class="stade-title">Premiers clients</div>
+            <div class="stade-desc">Produit live avec de vrais utilisateurs</div>
+          </div>
+          <div class="stade-card" onclick="selectStade(this,'Recherche de fonds')">
+            <div class="stade-title">Recherche de fonds</div>
+            <div class="stade-desc">Traction prouvée, prêt pour une levée</div>
+          </div>
+        </div>
+        <div class="field-error" id="err-stade">Veuillez sélectionner un stade</div>
+      </div>
+
+      <div class="field">
+        <label for="pitch_court">Pitch en une phrase *</label>
+        <input type="text" id="pitch_court" placeholder="ex : Outil qui automatise la gestion RH des PME — MVP prêt, 5 clients pilotes" maxlength="120" oninput="updateChar('pitch_court','char-pitch',120)">
+        <div class="char-count" id="char-pitch">0 / 120</div>
+        <div class="field-error" id="err-pitch">Champ obligatoire</div>
+      </div>
+
+      <div class="field">
+        <label for="description">Description détaillée</label>
+        <textarea id="description" rows="5" placeholder="Décrivez le problème que vous résolvez, votre solution, pourquoi maintenant, et ce qui vous différencie…"></textarea>
+        <div class="field-hint">Plus c'est détaillé, plus vous attirerez des profils sérieux.</div>
+      </div>
+
+      <button class="btn-next" onclick="goStep2()">Continuer <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M6 4l4 4-4 4" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+    </div>
+
+    <!-- ÉTAPE 2 — Le profil recherché -->
+    <div class="form-step" id="step2">
+      <div class="step-header">
+        <div class="step-num">Étape 2 sur 3</div>
+        <div class="step-title">Le profil recherché</div>
+        <div class="step-sub">Définissez précisément qui vous cherchez.</div>
+      </div>
+
+      <div class="field">
+        <label>Rôles recherchés * <span style="color:var(--muted);font-weight:400">(max 3)</span></label>
+        <div class="tags-select" id="profils_recherches">
+          <span class="tag-opt" onclick="toggleTag(this,'mint','profils_recherches',3)">CTO</span>
+          <span class="tag-opt" onclick="toggleTag(this,'mint','profils_recherches',3)">Développeur</span>
+          <span class="tag-opt" onclick="toggleTag(this,'mint','profils_recherches',3)">Product Manager</span>
+          <span class="tag-opt" onclick="toggleTag(this,'mint','profils_recherches',3)">Designer UX/UI</span>
+          <span class="tag-opt" onclick="toggleTag(this,'mint','profils_recherches',3)">Commercial</span>
+          <span class="tag-opt" onclick="toggleTag(this,'mint','profils_recherches',3)">Growth</span>
+          <span class="tag-opt" onclick="toggleTag(this,'mint','profils_recherches',3)">Marketing</span>
+          <span class="tag-opt" onclick="toggleTag(this,'mint','profils_recherches',3)">Finance / CFO</span>
+          <span class="tag-opt" onclick="toggleTag(this,'mint','profils_recherches',3)">Data / IA</span>
+          <span class="tag-opt" onclick="toggleTag(this,'mint','profils_recherches',3)">Opérations</span>
+          <span class="tag-opt" onclick="toggleTag(this,'mint','profils_recherches',3)">Levée de fonds</span>
+        </div>
+        <div class="field-error" id="err-profils">Veuillez sélectionner au moins un rôle</div>
+      </div>
+
+      <div class="field">
+        <label>Compétences spécifiques recherchées <span style="color:var(--muted);font-weight:400">(max 5)</span></label>
+        <div class="tags-select" id="competences_recherchees">
+          <span class="tag-opt" onclick="toggleTag(this,'violet','competences_recherchees',5)">Node.js</span>
+          <span class="tag-opt" onclick="toggleTag(this,'violet','competences_recherchees',5)">React</span>
+          <span class="tag-opt" onclick="toggleTag(this,'violet','competences_recherchees',5)">Python / IA</span>
+          <span class="tag-opt" onclick="toggleTag(this,'violet','competences_recherchees',5)">Architecture cloud</span>
+          <span class="tag-opt" onclick="toggleTag(this,'violet','competences_recherchees',5)">Mobile iOS/Android</span>
+          <span class="tag-opt" onclick="toggleTag(this,'violet','competences_recherchees',5)">SEO / SEA</span>
+          <span class="tag-opt" onclick="toggleTag(this,'violet','competences_recherchees',5)">B2B / Vente complexe</span>
+          <span class="tag-opt" onclick="toggleTag(this,'violet','competences_recherchees',5)">Réseau investisseurs</span>
+          <span class="tag-opt" onclick="toggleTag(this,'violet','competences_recherchees',5)">Réseau santé</span>
+          <span class="tag-opt" onclick="toggleTag(this,'violet','competences_recherchees',5)">Réseau RH</span>
+          <span class="tag-opt" onclick="toggleTag(this,'violet','competences_recherchees',5)">RGPD / Juridique</span>
+          <span class="tag-opt" onclick="toggleTag(this,'violet','competences_recherchees',5)">Figma / Design</span>
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="profil_desc">Décrivez le profil idéal</label>
+        <textarea id="profil_desc" rows="4" placeholder="ex : Idéalement quelqu'un qui a déjà lancé un SaaS, pas peur de coder ET de prendre des décisions d'architecture. On cherche un vrai co-fondateur, pas un freelance."></textarea>
+        <div class="field-hint">Ce texte apparaîtra dans la section "Profil recherché" de votre fiche projet.</div>
+      </div>
+
+      <button class="btn-next" onclick="goStep3()">Continuer <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M6 4l4 4-4 4" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+      <button class="btn-back" onclick="goStep1()"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M9 11L5 7l4-4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Retour</button>
+    </div>
+
+    <!-- ÉTAPE 3 — Conditions -->
+    <div class="form-step" id="step3">
+      <div class="step-header">
+        <div class="step-num">Étape 3 sur 3</div>
+        <div class="step-title">Les conditions</div>
+        <div class="step-sub">Transparence et clarté dès le départ.</div>
+      </div>
+
+      <div class="error-banner" id="errorBanner"></div>
+
+      <div class="field">
+        <label for="votre_nom">Votre prénom *</label>
+        <input type="text" id="votre_nom" placeholder="ex : Marie">
+        <div class="field-error" id="err-votre_nom">Champ obligatoire</div>
+      </div>
+
+      <div class="field">
+        <label for="votre_email">Votre email *</label>
+        <input type="email" id="votre_email" placeholder="marie@exemple.com">
+        <div class="field-hint">Pour recevoir les notifications d'intérêt sur votre projet.</div>
+        <div class="field-error" id="err-votre_email">Email invalide</div>
+      </div>
+
+      <div class="field">
+        <label>Equity proposée</label>
+        <div class="tags-select" id="equityOpts">
+          <span class="tag-opt" onclick="selectSingle(this,'equityOpts','mint','equity_val','oui')">Oui, à négocier</span>
+          <span class="tag-opt" onclick="selectSingle(this,'equityOpts','mint','equity_val','non')">Non pour l'instant</span>
+          <span class="tag-opt" onclick="selectSingle(this,'equityOpts','mint','equity_val','selon')">Selon le profil</span>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Rémunération</label>
+        <div class="tags-select" id="remuOpts">
+          <span class="tag-opt" onclick="selectSingle(this,'remuOpts','mint','remu_val','non')">Pas pour l'instant</span>
+          <span class="tag-opt" onclick="selectSingle(this,'remuOpts','mint','remu_val','levee')">Possible dès levée</span>
+          <span class="tag-opt" onclick="selectSingle(this,'remuOpts','mint','remu_val','oui')">Oui dès maintenant</span>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Engagement attendu</label>
+        <div class="tags-select" id="engagementOpts">
+          <span class="tag-opt" onclick="selectSingle(this,'engagementOpts','mint','engagement_val','plein')">Temps plein</span>
+          <span class="tag-opt" onclick="selectSingle(this,'engagementOpts','mint','engagement_val','partiel')">Partiel ok</span>
+          <span class="tag-opt" onclick="selectSingle(this,'engagementOpts','mint','engagement_val','flexible')">Flexible</span>
+        </div>
+      </div>
+
+      <button class="btn-next" onclick="submit()" id="btn-submit">Publier mon projet <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M6 4l4 4-4 4" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+      <button class="btn-back" onclick="goStep2()"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M9 11L5 7l4-4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Retour</button>
+    </div>
+
+    <!-- SUCCESS -->
+    <div class="success-screen" id="success">
+      <div class="confetti-row">
+        <div class="conf"></div><div class="conf"></div><div class="conf"></div>
+        <div class="conf"></div><div class="conf"></div><div class="conf"></div><div class="conf"></div>
+      </div>
+      <div class="success-icon">
+        <svg width="36" height="36" viewBox="0 0 36 36" fill="none">
+          <path d="M6 18l8 8 16-16" stroke="var(--mint)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <div class="success-title">Votre projet est en ligne !</div>
+      <div class="success-sub">Il est maintenant visible par les 820+ entrepreneurs de la communauté. Les premiers intérêts peuvent arriver rapidement !</div>
+      <div class="success-btns">
+        <a href="explorer.html" class="btn-success-primary">Voir les projets →</a>
+        <a href="profils.html" class="btn-success-secondary">Explorer les profils</a>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+let selectedStade = null;
+const hiddenValues = {};
+
+function updateChar(inputId, countId, max) {
+  const len = document.getElementById(inputId).value.length;
+  const el = document.getElementById(countId);
+  el.textContent = `${len} / ${max}`;
+  el.classList.toggle('warn', len > max * 0.9);
+}
+
+function selectStade(el, val) {
+  document.querySelectorAll('.stade-card').forEach(c => c.classList.remove('selected'));
+  el.classList.add('selected');
+  selectedStade = val;
+  document.getElementById('err-stade').style.display = 'none';
+}
+
+function toggleTag(el, color, groupId, max) {
+  const parent = document.getElementById(groupId);
+  const cls = 'sel-' + color;
+  if (el.classList.contains(cls)) {
+    el.classList.remove(cls);
+  } else {
+    const current = parent.querySelectorAll('.' + cls).length;
+    if (current >= max) return;
+    el.classList.add(cls);
+  }
+}
+
+function selectSingle(el, groupId, color, valueKey, value) {
+  document.querySelectorAll(`#${groupId} .tag-opt`).forEach(t => t.classList.remove('sel-' + color));
+  el.classList.add('sel-' + color);
+  hiddenValues[valueKey] = value;
+}
+
+function getSelectedTags(groupId, color) {
+  return [...document.querySelectorAll(`#${groupId} .sel-${color}`)].map(el => el.textContent);
+}
+
+function showStep(n) {
+  [1,2,3].forEach(i => {
+    document.getElementById(`step${i}`).classList.toggle('active', i === n);
+    document.getElementById(`lp-content-${i}`).style.display = i === n ? 'block' : 'none';
+    const ls = document.getElementById(`ls${i}`);
+    ls.classList.toggle('active', i === n);
+    ls.classList.toggle('done', i < n);
+  });
+  document.getElementById('progress').style.width = `${Math.round(n / 3 * 100)}%`;
+  window.scrollTo(0, 0);
+}
+
+function goStep2() {
+  const titre = document.getElementById('titre').value.trim();
+  const secteur = document.getElementById('secteur').value;
+  const ville = document.getElementById('ville').value.trim();
+  const pitch = document.getElementById('pitch_court').value.trim();
+  let valid = true;
+
+  if (!titre) { document.getElementById('err-titre').style.display = 'block'; document.getElementById('titre').classList.add('error'); valid = false; }
+  else { document.getElementById('err-titre').style.display = 'none'; document.getElementById('titre').classList.remove('error'); }
+
+  if (!secteur) { document.getElementById('err-secteur').style.display = 'block'; document.getElementById('secteur').classList.add('error'); valid = false; }
+  else { document.getElementById('err-secteur').style.display = 'none'; document.getElementById('secteur').classList.remove('error'); }
+
+  if (!ville) { document.getElementById('err-ville').style.display = 'block'; document.getElementById('ville').classList.add('error'); valid = false; }
+  else { document.getElementById('err-ville').style.display = 'none'; document.getElementById('ville').classList.remove('error'); }
+
+  if (!selectedStade) { document.getElementById('err-stade').style.display = 'block'; valid = false; }
+  else { document.getElementById('err-stade').style.display = 'none'; }
+
+  if (!pitch) { document.getElementById('err-pitch').style.display = 'block'; document.getElementById('pitch_court').classList.add('error'); valid = false; }
+  else { document.getElementById('err-pitch').style.display = 'none'; document.getElementById('pitch_court').classList.remove('error'); }
+
+  if (!valid) return;
+  showStep(2);
+}
+
+function goStep3() {
+  const profils = getSelectedTags('profils_recherches', 'mint');
+  if (profils.length === 0) { document.getElementById('err-profils').style.display = 'block'; return; }
+  document.getElementById('err-profils').style.display = 'none';
+  showStep(3);
+}
+
+function goStep1() { showStep(1); }
+
+async function submit() {
+  const prenom = document.getElementById('votre_nom').value.trim();
+  const email = document.getElementById('votre_email').value.trim();
+  let valid = true;
+
+  if (!prenom) { document.getElementById('err-votre_nom').style.display = 'block'; document.getElementById('votre_nom').classList.add('error'); valid = false; }
+  else { document.getElementById('err-votre_nom').style.display = 'none'; document.getElementById('votre_nom').classList.remove('error'); }
+
+  if (!email || !email.includes('@')) { document.getElementById('err-votre_email').style.display = 'block'; document.getElementById('votre_email').classList.add('error'); valid = false; }
+  else { document.getElementById('err-votre_email').style.display = 'none'; document.getElementById('votre_email').classList.remove('error'); }
+
+  if (!valid) return;
+
+  const btn = document.getElementById('btn-submit');
+  btn.disabled = true;
+  btn.textContent = 'Publication en cours…';
+
+  const descBase = document.getElementById('description').value.trim();
+  const profilDesc = document.getElementById('profil_desc').value.trim();
+  const fullDesc = descBase + (profilDesc ? '\n\n' + profilDesc : '');
+
+  const payload = {
+    titre: document.getElementById('titre').value.trim(),
+    secteur: document.getElementById('secteur').value,
+    ville: document.getElementById('ville').value.trim(),
+    stade: selectedStade,
+    pitch_court: document.getElementById('pitch_court').value.trim(),
+    description: fullDesc || null,
+    profils_recherches: getSelectedTags('profils_recherches', 'mint'),
+    competences_recherchees: getSelectedTags('competences_recherchees', 'violet'),
+    equity: hiddenValues['equity_val'] !== 'non'
+  };
+
+  try {
+    const res = await fetch('/api/projets', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error?.message || 'Erreur serveur');
+
+    document.getElementById('step3').classList.remove('active');
+    document.getElementById('success').classList.add('show');
+  } catch(err) {
+    const banner = document.getElementById('errorBanner');
+    banner.textContent = 'Une erreur est survenue : ' + err.message;
+    banner.classList.add('show');
+    btn.disabled = false;
+    btn.innerHTML = 'Publier mon projet <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M6 4l4 4-4 4" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+  }
+}
+</script>
+</body>
+</html>

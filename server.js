@@ -62,5 +62,17 @@ app.post('/api/inscription', async (req, res) => {
   res.json({ success: true, profil: data });
 });
 
+
+app.post('/api/projets', async (req, res) => {
+  const { titre, secteur, ville, stade, pitch_court, description, profils_recherches, competences_recherchees, equity } = req.body;
+  if (!titre || !pitch_court) return res.status(400).json({ error: 'Champs obligatoires manquants' });
+  const { data, error } = await supabase
+    .from('projets')
+    .insert([{ titre, secteur: secteur||null, ville: ville||null, stade: stade||null, pitch_court, description: description||null, profils_recherches: profils_recherches||[], competences_recherchees: competences_recherchees||[], equity: equity||true }])
+    .select().single();
+  if (error) return res.status(500).json({ error });
+  res.json({ success: true, projet: data });
+});
+
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`Serveur lancé sur http://localhost:${PORT}`));
