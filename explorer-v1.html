@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Explorer les projets — Trouver un Associé</title>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,300;12..96,400;12..96,500;12..96,700;12..96,800&family=Lora:ital,wght@1,400&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --violet:#7B4FFF;--violet-bg:#F0EBFF;--violet-dark:#5530CC;
+  --mint:#00C9A7;--mint-bg:#E0FBF5;--mint-dark:#007A65;
+  --blue:#1E6FFF;--blue-bg:#EEF5FF;--blue-dark:#0C447C;
+  --sun:#FFD426;--sun-bg:#FFFBE8;--sun-dark:#7A5800;
+  --coral:#FF5E78;--coral-bg:#FFF0F2;--coral-dark:#CC2A44;
+  --ink:#1A1A2E;--ink2:#3D3D5C;--muted:#7A7A9A;
+  --pale:#F5F5FF;--border:rgba(26,26,46,0.09);--white:#fff;
+  --sans:'Bricolage Grotesque',sans-serif;
+  --radius:14px;--radius-sm:10px;
+}
+body{font-family:var(--sans);background:var(--pale);color:var(--ink);min-height:100vh}
+
+/* NAV */
+nav{
+  background:var(--white);border-bottom:1.5px solid var(--border);
+  padding:0 32px;height:64px;
+  display:flex;align-items:center;justify-content:space-between;
+  position:sticky;top:0;z-index:100;
+}
+.logo{font-weight:800;font-size:17px;color:var(--ink);text-decoration:none;display:flex;align-items:center;gap:10px}
+.logo-bubble{width:32px;height:32px;background:var(--violet);border-radius:10px;display:flex;align-items:center;justify-content:center}
+.logo-bubble svg{width:18px;height:18px}
+.nav-r{display:flex;align-items:center;gap:16px}
+.nav-link{font-size:14px;color:var(--muted);text-decoration:none;transition:color .2s}
+.nav-link:hover{color:var(--ink)}
+.btn-nav{background:var(--violet);color:white;padding:10px 22px;border-radius:100px;font-size:14px;font-weight:700;text-decoration:none;transition:all .2s;font-family:var(--sans)}
+.btn-nav:hover{background:var(--violet-dark)}
+.btn-nav-outline{background:white;color:var(--violet);padding:10px 22px;border-radius:100px;font-size:14px;font-weight:700;text-decoration:none;border:1.5px solid var(--violet);transition:all .2s;font-family:var(--sans)}
+.btn-nav-outline:hover{background:var(--violet-bg)}
+
+/* HERO BAND */
+.hero-band{
+  background:var(--violet);padding:28px 32px;
+  display:flex;align-items:center;justify-content:space-between;
+}
+.hero-band-left h1{font-weight:800;font-size:26px;color:white;letter-spacing:-.5px;margin-bottom:4px}
+.hero-band-left p{font-size:14px;color:rgba(255,255,255,.55)}
+.hero-stats{display:flex;gap:32px}
+.hstat{text-align:center}
+.hstat-n{font-weight:800;font-size:26px;color:var(--sun);line-height:1}
+.hstat-l{font-size:12px;color:rgba(255,255,255,.45);margin-top:3px}
+
+/* LAYOUT */
+.layout{display:grid;grid-template-columns:240px 1fr;min-height:calc(100vh - 120px)}
+
+/* SIDEBAR */
+.sidebar{
+  background:var(--white);border-right:1.5px solid var(--border);
+  padding:24px 20px;
+  position:sticky;top:64px;height:calc(100vh - 64px);
+  overflow-y:auto;
+}
+.sidebar::-webkit-scrollbar{width:4px}
+.sidebar::-webkit-scrollbar-thumb{background:var(--border);border-radius:4px}
+
+.sb-section{margin-bottom:24px}
+.sb-label{font-size:11px;font-weight:700;color:var(--muted);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:12px;display:block}
+
+.search-wrap{position:relative;margin-bottom:4px}
+.search-icon{position:absolute;left:12px;top:50%;transform:translateY(-50%)}
+.search-box{
+  width:100%;padding:10px 12px 10px 36px;
+  border:1.5px solid var(--border);border-radius:var(--radius-sm);
+  font-family:var(--sans);font-size:13px;color:var(--ink);
+  background:var(--pale);outline:none;transition:border-color .2s;
+}
+.search-box:focus{border-color:var(--violet);background:white}
+
+.pill-filters{display:flex;flex-wrap:wrap;gap:6px}
+.pill{
+  padding:5px 12px;border-radius:100px;
+  border:1.5px solid var(--border);font-size:12px;font-weight:600;
+  color:var(--muted);cursor:pointer;background:white;transition:all .2s;
+  user-select:none;
+}
+.pill:hover{border-color:var(--violet);color:var(--violet)}
+.pill.active{background:var(--violet-bg);border-color:var(--violet);color:var(--violet-dark)}
+
+.check-opts{display:flex;flex-direction:column;gap:6px}
+.copt{display:flex;align-items:center;gap:10px;cursor:pointer;padding:4px 0;user-select:none}
+.copt-box{
+  width:16px;height:16px;border-radius:5px;flex-shrink:0;
+  border:1.5px solid var(--border);background:white;
+  display:flex;align-items:center;justify-content:center;
+  transition:all .2s;
+}
+.copt.active .copt-box{background:var(--violet);border-color:var(--violet)}
+.copt.active .copt-box::after{
+  content:'';width:7px;height:4px;
+  border-left:1.5px solid white;border-bottom:1.5px solid white;
+  transform:rotate(-45deg) translateY(-1px);display:block;
+}
+.copt-label{font-size:13px;color:var(--muted);transition:color .2s}
+.copt.active .copt-label{color:var(--ink);font-weight:600}
+.copt-count{font-size:11px;color:var(--muted);margin-left:auto;background:var(--pale);padding:2px 6px;border-radius:100px}
+
+.reset-btn{
+  width:100%;padding:10px;border-radius:100px;
+  border:1.5px solid var(--border);background:white;
+  font-family:var(--sans);font-size:13px;font-weight:600;
+  color:var(--muted);cursor:pointer;transition:all .2s;margin-top:8px;
+}
+.reset-btn:hover{border-color:var(--coral);color:var(--coral-dark)}
+
+/* CONTENT */
+.content{padding:24px 28px}
+
+.content-bar{
+  display:flex;align-items:center;justify-content:space-between;
+  margin-bottom:20px;
+}
+.result-count{font-size:14px;color:var(--muted)}
+.result-count strong{color:var(--ink);font-weight:700}
+.sort-row{display:flex;gap:6px;align-items:center}
+.sort-label{font-size:13px;color:var(--muted);margin-right:4px}
+.sort-pill{
+  padding:7px 16px;border-radius:100px;font-size:13px;font-weight:600;
+  border:1.5px solid var(--border);background:white;color:var(--muted);
+  cursor:pointer;transition:all .2s;font-family:var(--sans);
+}
+.sort-pill:hover{border-color:var(--violet);color:var(--violet)}
+.sort-pill.active{background:var(--sun);border-color:var(--sun);color:var(--ink)}
+
+/* GRILLE 3 COLONNES */
+.cards-grid{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:16px;
+}
+
+.pcard{
+  background:var(--white);border:1.5px solid var(--border);
+  border-radius:var(--radius);padding:20px;
+  display:flex;flex-direction:column;gap:12px;
+  transition:all .22s;cursor:pointer;
+}
+.pcard:hover{transform:translateY(-3px);border-color:var(--violet);box-shadow:0 8px 24px rgba(123,79,255,.1)}
+
+.pcard-top{display:flex;align-items:center;justify-content:space-between}
+.ptag{font-size:11px;font-weight:700;padding:4px 10px;border-radius:100px;letter-spacing:.2px}
+.pt-v{background:var(--violet-bg);color:var(--violet-dark)}
+.pt-m{background:var(--mint-bg);color:var(--mint-dark)}
+.pt-b{background:var(--blue-bg);color:var(--blue-dark)}
+.pt-s{background:var(--sun-bg);color:var(--sun-dark)}
+.pt-c{background:var(--coral-bg);color:var(--coral-dark)}
+.badge-new{font-size:10px;font-weight:700;color:var(--mint-dark);background:var(--mint-bg);padding:3px 9px;border-radius:100px}
+.badge-hot{font-size:10px;font-weight:700;color:var(--coral-dark);background:var(--coral-bg);padding:3px 9px;border-radius:100px}
+
+.pcard-title{font-weight:800;font-size:15px;color:var(--ink);letter-spacing:-.3px;line-height:1.25}
+.pcard-desc{font-size:13px;color:var(--muted);line-height:1.6;flex:1}
+
+.pcard-chips{display:flex;flex-wrap:wrap;gap:5px}
+.pchip{font-size:11px;padding:4px 10px;border-radius:100px;background:var(--pale);color:var(--ink2);font-weight:600}
+
+.pcard-footer{
+  display:flex;align-items:center;justify-content:space-between;
+  padding-top:12px;border-top:1.5px solid var(--border);
+}
+.pcard-meta{display:flex;align-items:center;gap:10px}
+.pcard-loc{font-size:12px;color:var(--muted);display:flex;align-items:center;gap:4px}
+.pcard-stage{font-size:11px;color:var(--muted);background:var(--pale);padding:3px 8px;border-radius:100px;font-weight:500}
+.avrow{display:flex}
+.av{
+  width:26px;height:26px;border-radius:50%;
+  border:2.5px solid white;margin-left:-7px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:10px;font-weight:700;color:white;flex-shrink:0;
+}
+.av:first-child{margin-left:0}
+.btn-voir{
+  font-size:12px;font-weight:700;color:var(--violet);
+  background:var(--violet-bg);padding:7px 14px;border-radius:100px;
+  border:none;cursor:pointer;font-family:var(--sans);
+  transition:all .2s;white-space:nowrap;
+}
+.btn-voir:hover{background:var(--violet);color:white}
+
+/* EMPTY STATE */
+.empty{text-align:center;padding:60px 20px;color:var(--muted)}
+.empty-icon{font-size:40px;margin-bottom:16px}
+.empty-title{font-weight:700;font-size:18px;color:var(--ink);margin-bottom:8px}
+.empty-sub{font-size:14px;line-height:1.6}
+
+/* PAGINATION */
+.pagination{display:flex;align-items:center;justify-content:center;gap:6px;margin-top:32px}
+.pag-btn{
+  width:36px;height:36px;border-radius:10px;
+  border:1.5px solid var(--border);background:white;
+  font-size:13px;font-weight:600;color:var(--muted);
+  display:flex;align-items:center;justify-content:center;
+  cursor:pointer;transition:all .2s;font-family:var(--sans);
+}
+.pag-btn:hover{border-color:var(--violet);color:var(--violet)}
+.pag-btn.active{background:var(--violet);border-color:var(--violet);color:white}
+.pag-btn.dots{border:none;background:none;cursor:default}
+.pag-btn.dots:hover{color:var(--muted);border:none}
+
+@media(max-width:1100px){.cards-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:760px){
+  .layout{grid-template-columns:1fr}
+  .sidebar{display:none}
+  .cards-grid{grid-template-columns:1fr}
+  .hero-stats{display:none}
+  nav{padding:0 20px}
+  .content{padding:16px}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="index.html" class="logo">
+    <div class="logo-bubble">
+      <svg viewBox="0 0 18 18" fill="none">
+        <path d="M9 2C5.13 2 2 5.13 2 9s3.13 7 7 7 7-3.13 7-7-3.13-7-7-7z" fill="white" opacity=".25"/>
+        <path d="M6 9l2 2 4-4" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </div>
+    trouver-un-associé
+  </a>
+  <div class="nav-r">
+    <a href="index.html" class="nav-link">Accueil</a>
+    <a href="inscription.html" class="nav-link">Mon profil</a>
+    <a href="inscription.html" class="btn-nav-outline">+ Déposer un projet</a>
+    <a href="inscription.html" class="btn-nav">Rejoindre</a>
+  </div>
+</nav>
+
+<!-- HERO BAND -->
+<div class="hero-band">
+  <div class="hero-band-left">
+    <h1>Explorer les projets</h1>
+    <p>Trouvez le projet qui vous correspond vraiment</p>
+  </div>
+  <div class="hero-stats">
+    <div class="hstat"><div class="hstat-n">340</div><div class="hstat-l">Projets actifs</div></div>
+    <div class="hstat"><div class="hstat-n">12</div><div class="hstat-l">Nouveaux ce mois</div></div>
+    <div class="hstat"><div class="hstat-n">67</div><div class="hstat-l">Associations formées</div></div>
+  </div>
+</div>
+
+<!-- LAYOUT PRINCIPAL -->
+<div class="layout">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+
+    <div class="sb-section">
+      <span class="sb-label">Recherche</span>
+      <div class="search-wrap">
+        <span class="search-icon">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+            <circle cx="6" cy="6" r="4" stroke="var(--muted)" stroke-width="1.4"/>
+            <path d="M9 9l3 3" stroke="var(--muted)" stroke-width="1.4" stroke-linecap="round"/>
+          </svg>
+        </span>
+        <input class="search-box" type="text" placeholder="Mot-clé, secteur…" id="searchInput" oninput="filterCards()">
+      </div>
+    </div>
+
+    <div class="sb-section">
+      <span class="sb-label">Secteur</span>
+      <div class="pill-filters" id="secteurFilters">
+        <span class="pill active" data-val="tous" onclick="togglePill(this,'secteurFilters')">Tous</span>
+        <span class="pill" data-val="saas" onclick="togglePill(this,'secteurFilters')">SaaS</span>
+        <span class="pill" data-val="medtech" onclick="togglePill(this,'secteurFilters')">MedTech</span>
+        <span class="pill" data-val="edtech" onclick="togglePill(this,'secteurFilters')">EdTech</span>
+        <span class="pill" data-val="climatetech" onclick="togglePill(this,'secteurFilters')">ClimateTech</span>
+        <span class="pill" data-val="fintech" onclick="togglePill(this,'secteurFilters')">FinTech</span>
+        <span class="pill" data-val="marketplace" onclick="togglePill(this,'secteurFilters')">Marketplace</span>
+        <span class="pill" data-val="rh" onclick="togglePill(this,'secteurFilters')">RH</span>
+        <span class="pill" data-val="agritech" onclick="togglePill(this,'secteurFilters')">AgriTech</span>
+      </div>
+    </div>
+
+    <div class="sb-section">
+      <span class="sb-label">Profil recherché</span>
+      <div class="check-opts" id="profilFilters">
+        <div class="copt" data-val="cto" onclick="toggleCheck(this,'profilFilters')">
+          <div class="copt-box"></div><span class="copt-label">CTO / Technique</span><span class="copt-count">58</span>
+        </div>
+        <div class="copt" data-val="commercial" onclick="toggleCheck(this,'profilFilters')">
+          <div class="copt-box"></div><span class="copt-label">Commercial / Growth</span><span class="copt-count">74</span>
+        </div>
+        <div class="copt" data-val="product" onclick="toggleCheck(this,'profilFilters')">
+          <div class="copt-box"></div><span class="copt-label">Product / UX</span><span class="copt-count">41</span>
+        </div>
+        <div class="copt" data-val="marketing" onclick="toggleCheck(this,'profilFilters')">
+          <div class="copt-box"></div><span class="copt-label">Marketing</span><span class="copt-count">29</span>
+        </div>
+        <div class="copt" data-val="finance" onclick="toggleCheck(this,'profilFilters')">
+          <div class="copt-box"></div><span class="copt-label">Finance / Levée</span><span class="copt-count">33</span>
+        </div>
+        <div class="copt" data-val="design" onclick="toggleCheck(this,'profilFilters')">
+          <div class="copt-box"></div><span class="copt-label">Design</span><span class="copt-count">18</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="sb-section">
+      <span class="sb-label">Localisation</span>
+      <div class="pill-filters" id="locFilters">
+        <span class="pill active" data-val="partout" onclick="togglePill(this,'locFilters')">Partout</span>
+        <span class="pill" data-val="remote" onclick="togglePill(this,'locFilters')">Remote</span>
+        <span class="pill" data-val="paris" onclick="togglePill(this,'locFilters')">Paris</span>
+        <span class="pill" data-val="lyon" onclick="togglePill(this,'locFilters')">Lyon</span>
+        <span class="pill" data-val="bordeaux" onclick="togglePill(this,'locFilters')">Bordeaux</span>
+        <span class="pill" data-val="nantes" onclick="togglePill(this,'locFilters')">Nantes</span>
+        <span class="pill" data-val="marseille" onclick="togglePill(this,'locFilters')">Marseille</span>
+      </div>
+    </div>
+
+    <div class="sb-section">
+      <span class="sb-label">Stade du projet</span>
+      <div class="check-opts" id="stadeFilters">
+        <div class="copt" data-val="idee" onclick="toggleCheck(this,'stadeFilters')">
+          <div class="copt-box"></div><span class="copt-label">Idée / Pré-MVP</span><span class="copt-count">87</span>
+        </div>
+        <div class="copt" data-val="mvp" onclick="toggleCheck(this,'stadeFilters')">
+          <div class="copt-box"></div><span class="copt-label">MVP en cours</span><span class="copt-count">124</span>
+        </div>
+        <div class="copt" data-val="clients" onclick="toggleCheck(this,'stadeFilters')">
+          <div class="copt-box"></div><span class="copt-label">Premiers clients</span><span class="copt-count">91</span>
+        </div>
+        <div class="copt" data-val="levee" onclick="toggleCheck(this,'stadeFilters')">
+          <div class="copt-box"></div><span class="copt-label">Recherche de fonds</span><span class="copt-count">38</span>
+        </div>
+      </div>
+    </div>
+
+    <button class="reset-btn" onclick="resetFilters()">Réinitialiser les filtres</button>
+
+  </aside>
+
+  <!-- CONTENU PRINCIPAL -->
+  <main class="content">
+
+    <div class="content-bar">
+      <div class="result-count"><strong id="countDisplay">9 projets</strong> correspondent à vos critères</div>
+      <div class="sort-row">
+        <span class="sort-label">Trier par</span>
+        <span class="sort-pill active" onclick="setSort(this)">Récents</span>
+        <span class="sort-pill" onclick="setSort(this)">Populaires</span>
+        <span class="sort-pill" onclick="setSort(this)">Meilleur match</span>
+      </div>
+    </div>
+
+    <div class="cards-grid" id="cardsGrid">
+
+      <div class="pcard" data-secteur="rh saas" data-profil="cto" data-loc="paris" data-stade="mvp" data-title="Plateforme RH pour PME">
+        <div class="pcard-top">
+          <span class="ptag pt-v">SaaS · RH</span>
+          <span class="badge-new">Nouveau</span>
+        </div>
+        <div class="pcard-title">Plateforme RH tout-en-un pour PME</div>
+        <div class="pcard-desc">Automatise congés, notes de frais et contrats. MVP prêt, 5 clients pilotes. Cherche un CTO pour industrialiser la stack.</div>
+        <div class="pcard-chips"><span class="pchip">CTO</span><span class="pchip">Backend</span><span class="pchip">Levée prévue</span></div>
+        <div class="pcard-footer">
+          <div class="pcard-meta">
+            <div class="pcard-loc">
+              <svg width="11" height="11" viewBox="0 0 11 11" fill="none"><circle cx="5.5" cy="4.5" r="2" stroke="currentColor" stroke-width="1.2"/><path d="M5.5 1C3.57 1 2 2.57 2 4.5c0 2.72 3.5 5.5 3.5 5.5S9 7.22 9 4.5C9 2.57 7.43 1 5.5 1z" stroke="currentColor" stroke-width="1.2"/></svg>
+              Paris
+            </div>
+            <span class="pcard-stage">MVP</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:8px">
+            <div class="avrow"><div class="av" style="background:var(--violet)">M</div></div>
+            <button class="btn-voir" onclick="window.location='projet.html'">Voir →</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="pcard" data-secteur="medtech" data-profil="commercial" data-loc="nantes" data-stade="clients" data-title="Santé mentale B2B">
+        <div class="pcard-top">
+          <span class="ptag pt-m">MedTech</span>
+          <span class="badge-hot">Populaire</span>
+        </div>
+        <div class="pcard-title">Application santé mentale B2B</div>
+        <div class="pcard-desc">Solution bien-être pour les PME. 3 LOI signées, 40 entreprises en liste d'attente. Cherche co-fondateur commercial avec réseau RH.</div>
+        <div class="pcard-chips"><span class="pchip">Commercial</span><span class="pchip">Réseau RH</span><span class="pchip">B2B</span></div>
+        <div class="pcard-footer">
+          <div class="pcard-meta">
+            <div class="pcard-loc">
+              <svg width="11" height="11" viewBox="0 0 11 11" fill="none"><circle cx="5.5" cy="4.5" r="2" stroke="currentColor" stroke-width="1.2"/><path d="M5.5 1C3.57 1 2 2.57 2 4.5c0 2.72 3.5 5.5 3.5 5.5S9 7.22 9 4.5C9 2.57 7.43 1 5.5 1z" stroke="currentColor" stroke-width="1.2"/></svg>
+              Nantes
+            </div>
+            <span class="pcard-stage">Premiers clients</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:8px">
+            <div class="avrow"><div class="av" style="background:var(--mint)">S</div></div>
+            <button class="btn-voir" onclick="window.location='projet.html'">Voir →</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="pcard" data-secteur="edtech" data-profil="cto commercial" data-loc="remote" data-stade="clients" data-title="Micro-learning équipes">
+        <div class="pcard-top">
+          <span class="ptag pt-b">EdTech</span>
+          <span class="badge-new">Nouveau</span>
+        </div>
+        <div class="pcard-title">Micro-learning pour équipes commerciales</div>
+        <div class="pcard-desc">500 utilisateurs beta actifs, 4,8/5 de satisfaction. Cherche CTO et profil growth pour préparer le seed round.</div>
+        <div class="pcard-chips"><span class="pchip">CTO</span><span class="pchip">Growth</span><span class="pchip">Seed</span></div>
+        <div class="pcard-footer">
+          <div class="pcard-meta">
+            <div class="pcard-loc">
+              <svg width="11" height="11" viewBox="0 0 11 11" fill="none"><circle cx="5.5" cy="4.5" r="2" stroke="currentColor" stroke-width="1.2"/><path d="M5.5 1C3.57 1 2 2.57 2 4.5c0 2.72 3.5 5.5 3.5 5.5S9 7.22 9 4.5C9 2.57 7.43 1 5.5 1z" stroke="currentColor" stroke-width="1.2"/></svg>
+              Remote
+            </div>
+            <span class="pcard-stage">Premiers clients</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:8px">
+            <div class="avrow"><div class="av" style="background:var(--blue)">A</div></div>
+            <button class="btn-voir" onclick="window.location='projet.html'">Voir →</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="pcard" data-secteur="climatetech" data-profil="cto commercial" data-loc="lyon" data-stade="mvp" data-title="Bilan carbone TPE">
+        <div class="pcard-top">
+          <span class="ptag pt-s">ClimateTech</span>
+        </div>
+        <div class="pcard-title">Bilan carbone simplifié pour TPE</div>
+        <div class="pcard-desc">Outil clé-en-main pour mesurer et réduire l'empreinte carbone. Prototype validé avec 3 TPE, cherche CTO et associé business.</div>
+        <div class="pcard-chips"><span class="pchip">CTO</span><span class="pchip">Business Dev</span><span class="pchip">Impact</span></div>
+        <div class="pcard-footer">
+          <div class="pcard-meta">
+            <div class="pcard-loc">
+              <svg width="11" height="11" viewBox="0 0 11 11" fill="none"><circle cx="5.5" cy="4.5" r="2" stroke="currentColor" stroke-width="1.2"/><path d="M5.5 1C3.57 1 2 2.57 2 4.5c0 2.72 3.5 5.5 3.5 5.5S9 7.22 9 4.5C9 2.57 7.43 1 5.5 1z" stroke="currentColor" stroke-width="1.2"/></svg>
+              Lyon
+            </div>
+            <span class="pcard-stage">MVP</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:8px">
+            <div class="avrow"><div class="av" style="background:#BA7517">L</div></div>
+            <button class="btn-voir" onclick="window.location='projet.html'">Voir →</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="pcard" data-secteur="marketplace" data-profil="commercial" data-loc="bordeaux" data-stade="clients" data-title="Marketplace agroalimentaire">
+        <div class="pcard-top">
+          <span class="ptag pt-m">Marketplace · Agro</span>
+          <span class="badge-hot">Populaire</span>
+        </div>
+        <div class="pcard-title">Marketplace B2B agroalimentaire</div>
+        <div class="pcard-desc">Connecte producteurs locaux et restaurateurs. 40k€ de CA, 120 restaurants clients. Cherche un profil growth ou commercial pour accélérer.</div>
+        <div class="pcard-chips"><span class="pchip">Growth</span><span class="pchip">Commercial</span><span class="pchip">B2B</span></div>
+        <div class="pcard-footer">
+          <div class="pcard-meta">
+            <div class="pcard-loc">
+              <svg width="11" height="11" viewBox="0 0 11 11" fill="none"><circle cx="5.5" cy="4.5" r="2" stroke="currentColor" stroke-width="1.2"/><path d="M5.5 1C3.57 1 2 2.57 2 4.5c0 2.72 3.5 5.5 3.5 5.5S9 7.22 9 4.5C9 2.57 7.43 1 5.5 1z" stroke="currentColor" stroke-width="1.2"/></svg>
+              Bordeaux
+            </div>
+            <span class="pcard-stage">Premiers clients</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:8px">
+            <div class="avrow"><div class="av" style="background:var(--mint)">S</div></div>
+            <button class="btn-voir" onclick="window.location='projet.html'">Voir →</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="pcard" data-secteur="fintech" data-profil="cto product" data-loc="paris" data-stade="idee" data-title="Finance personnelle jeunes">
+        <div class="pcard-top">
+          <span class="ptag pt-v">FinTech</span>
+        </div>
+        <div class="pcard-title">Finance personnelle pour les 18-30 ans</div>
+        <div class="pcard-desc">App de gestion budgétaire gamifiée pour les jeunes actifs. Concept validé avec 200 interviews, cherche CTO et product designer.</div>
+        <div class="pcard-chips"><span class="pchip">CTO</span><span class="pchip">Product</span><span class="pchip">Design</span></div>
+        <div class="pcard-footer">
+          <div class="pcard-meta">
+            <div class="pcard-loc">
+              <svg width="11" height="11" viewBox="0 0 11 11" fill="none"><circle cx="5.5" cy="4.5" r="2" stroke="currentColor" stroke-width="1.2"/><path d="M5.5 1C3.57 1 2 2.57 2 4.5c0 2.72 3.5 5.5 3.5 5.5S9 7.22 9 4.5C9 2.57 7.43 1 5.5 1z" stroke="currentColor" stroke-width="1.2"/></svg>
+              Paris
+            </div>
+            <span class="pcard-stage">Idée</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:8px">
+            <div class="avrow"><div class="av" style="background:var(--coral)">J</div></div>
+            <button class="btn-voir" onclick="window.location='projet.html'">Voir →</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="pcard" data-secteur="saas" data-profil="commercial marketing" data-loc="remote" data-stade="mvp" data-title="SaaS gestion cabinet médical">
+        <div class="pcard-top">
+          <span class="ptag pt-b">SaaS · Santé</span>
+          <span class="badge-new">Nouveau</span>
+        </div>
+        <div class="pcard-title">Gestion de cabinet médical libéral</div>
+        <div class="pcard-desc">Simplifie la gestion admin des médecins libéraux. MVP en cours de développement, cherche co-fondateur commercial avec réseau santé.</div>
+        <div class="pcard-chips"><span class="pchip">Commercial</span><span class="pchip">Réseau santé</span><span class="pchip">B2B</span></div>
+        <div class="pcard-footer">
+          <div class="pcard-meta">
+            <div class="pcard-loc">
+              <svg width="11" height="11" viewBox="0 0 11 11" fill="none"><circle cx="5.5" cy="4.5" r="2" stroke="currentColor" stroke-width="1.2"/><path d="M5.5 1C3.57 1 2 2.57 2 4.5c0 2.72 3.5 5.5 3.5 5.5S9 7.22 9 4.5C9 2.57 7.43 1 5.5 1z" stroke="currentColor" stroke-width="1.2"/></svg>
+              Remote
+            </div>
+            <span class="pcard-stage">MVP</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:8px">
+            <div class="avrow"><div class="av" style="background:var(--violet)">M</div></div>
+            <button class="btn-voir" onclick="window.location='projet.html'">Voir →</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="pcard" data-secteur="agritech" data-profil="cto" data-loc="toulouse" data-stade="idee" data-title="AgriTech irrigation">
+        <div class="pcard-top">
+          <span class="ptag pt-s">AgriTech</span>
+        </div>
+        <div class="pcard-title">Irrigation intelligente pour maraîchers</div>
+        <div class="pcard-desc">Capteurs IoT + IA pour optimiser l'eau et les rendements. Brevet déposé, cherche CTO hardware/software pour construire le prototype.</div>
+        <div class="pcard-chips"><span class="pchip">CTO</span><span class="pchip">IoT</span><span class="pchip">IA</span></div>
+        <div class="pcard-footer">
+          <div class="pcard-meta">
+            <div class="pcard-loc">
+              <svg width="11" height="11" viewBox="0 0 11 11" fill="none"><circle cx="5.5" cy="4.5" r="2" stroke="currentColor" stroke-width="1.2"/><path d="M5.5 1C3.57 1 2 2.57 2 4.5c0 2.72 3.5 5.5 3.5 5.5S9 7.22 9 4.5C9 2.57 7.43 1 5.5 1z" stroke="currentColor" stroke-width="1.2"/></svg>
+              Toulouse
+            </div>
+            <span class="pcard-stage">Idée</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:8px">
+            <div class="avrow"><div class="av" style="background:#BA7517">P</div></div>
+            <button class="btn-voir" onclick="window.location='projet.html'">Voir →</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="pcard" data-secteur="marketplace" data-profil="marketing design" data-loc="marseille" data-stade="mvp" data-title="Marketplace artisans">
+        <div class="pcard-top">
+          <span class="ptag pt-c">Marketplace · Artisanat</span>
+        </div>
+        <div class="pcard-title">Marketplace artisans & créateurs locaux</div>
+        <div class="pcard-desc">Plateforme de vente pour artisans indépendants. 80 artisans inscrits en bêta, cherche profil marketing et designer pour le lancement.</div>
+        <div class="pcard-chips"><span class="pchip">Marketing</span><span class="pchip">Design</span><span class="pchip">Community</span></div>
+        <div class="pcard-footer">
+          <div class="pcard-meta">
+            <div class="pcard-loc">
+              <svg width="11" height="11" viewBox="0 0 11 11" fill="none"><circle cx="5.5" cy="4.5" r="2" stroke="currentColor" stroke-width="1.2"/><path d="M5.5 1C3.57 1 2 2.57 2 4.5c0 2.72 3.5 5.5 3.5 5.5S9 7.22 9 4.5C9 2.57 7.43 1 5.5 1z" stroke="currentColor" stroke-width="1.2"/></svg>
+              Marseille
+            </div>
+            <span class="pcard-stage">MVP</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:8px">
+            <div class="avrow"><div class="av" style="background:var(--coral)">C</div></div>
+            <button class="btn-voir" onclick="window.location='projet.html'">Voir →</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- EMPTY STATE (caché par défaut) -->
+    <div class="empty" id="emptyState" style="display:none">
+      <div class="empty-icon">🔍</div>
+      <div class="empty-title">Aucun projet trouvé</div>
+      <div class="empty-sub">Essaie d'élargir tes filtres ou de modifier ta recherche.<br>De nouveaux projets arrivent chaque semaine !</div>
+    </div>
+
+    <div class="pagination" id="pagination">
+      <div class="pag-btn active">1</div>
+      <div class="pag-btn">2</div>
+      <div class="pag-btn">3</div>
+      <div class="pag-btn dots">…</div>
+      <div class="pag-btn">9</div>
+    </div>
+
+  </main>
+</div>
+
+<script>
+function togglePill(el, groupId) {
+  const group = document.getElementById(groupId);
+  group.querySelectorAll('.pill').forEach(p => p.classList.remove('active'));
+  el.classList.add('active');
+  filterCards();
+}
+
+function toggleCheck(el, groupId) {
+  el.classList.toggle('active');
+  filterCards();
+}
+
+function setSort(el) {
+  document.querySelectorAll('.sort-pill').forEach(p => p.classList.remove('active'));
+  el.classList.add('active');
+}
+
+function filterCards() {
+  const search = document.getElementById('searchInput').value.toLowerCase();
+  const secteur = document.querySelector('#secteurFilters .pill.active')?.dataset.val || 'tous';
+  const loc = document.querySelector('#locFilters .pill.active')?.dataset.val || 'partout';
+  const profilsActifs = [...document.querySelectorAll('#profilFilters .copt.active')].map(c => c.dataset.val);
+  const stadesActifs = [...document.querySelectorAll('#stadeFilters .copt.active')].map(c => c.dataset.val);
+
+  const cards = document.querySelectorAll('.pcard');
+  let visible = 0;
+
+  cards.forEach(card => {
+    const cardSecteur = card.dataset.secteur || '';
+    const cardProfil = card.dataset.profil || '';
+    const cardLoc = card.dataset.loc || '';
+    const cardStade = card.dataset.stade || '';
+    const cardTitle = card.dataset.title || '';
+    const cardText = card.innerText.toLowerCase();
+
+    const matchSearch = !search || cardText.includes(search) || cardTitle.toLowerCase().includes(search);
+    const matchSecteur = secteur === 'tous' || cardSecteur.includes(secteur);
+    const matchLoc = loc === 'partout' || cardLoc === loc;
+    const matchProfil = profilsActifs.length === 0 || profilsActifs.some(p => cardProfil.includes(p));
+    const matchStade = stadesActifs.length === 0 || stadesActifs.some(s => cardStade.includes(s));
+
+    const show = matchSearch && matchSecteur && matchLoc && matchProfil && matchStade;
+    card.style.display = show ? 'flex' : 'none';
+    if (show) visible++;
+  });
+
+  document.getElementById('countDisplay').textContent = visible + ' projet' + (visible > 1 ? 's' : '');
+  document.getElementById('emptyState').style.display = visible === 0 ? 'block' : 'none';
+  document.getElementById('pagination').style.display = visible === 0 ? 'none' : 'flex';
+}
+
+function resetFilters() {
+  document.getElementById('searchInput').value = '';
+  document.querySelectorAll('#secteurFilters .pill').forEach((p,i) => p.classList.toggle('active', i===0));
+  document.querySelectorAll('#locFilters .pill').forEach((p,i) => p.classList.toggle('active', i===0));
+  document.querySelectorAll('#profilFilters .copt, #stadeFilters .copt').forEach(c => c.classList.remove('active'));
+  filterCards();
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Explorer les profils — Trouver un Associé</title>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,300;12..96,400;12..96,500;12..96,700;12..96,800&family=Lora:ital,wght@1,400&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --violet:#7B4FFF;--violet-bg:#F0EBFF;--violet-dark:#5530CC;
+  --mint:#00C9A7;--mint-bg:#E0FBF5;--mint-dark:#007A65;
+  --mint-text:#004D40;
+  --blue:#1E6FFF;--blue-bg:#EEF5FF;--blue-dark:#0C447C;
+  --sun:#FFD426;--sun-bg:#FFFBE8;--sun-dark:#7A5800;
+  --coral:#FF5E78;--coral-bg:#FFF0F2;--coral-dark:#CC2A44;
+  --ink:#1A1A2E;--ink2:#3D3D5C;--muted:#7A7A9A;
+  --pale:#F5F5FF;--border:rgba(26,26,46,0.09);--white:#fff;
+  --sans:'Bricolage Grotesque',sans-serif;
+  --radius:14px;--radius-sm:10px;
+}
+body{font-family:var(--sans);background:var(--pale);color:var(--ink);min-height:100vh}
+
+/* NAV */
+nav{
+  background:var(--white);border-bottom:1.5px solid var(--border);
+  padding:0 32px;height:64px;
+  display:flex;align-items:center;justify-content:space-between;
+  position:sticky;top:0;z-index:100;
+}
+.logo{font-weight:800;font-size:17px;color:var(--ink);text-decoration:none;display:flex;align-items:center;gap:10px}
+.logo-bubble{width:32px;height:32px;background:var(--violet);border-radius:10px;display:flex;align-items:center;justify-content:center}
+.logo-bubble svg{width:18px;height:18px}
+.nav-r{display:flex;align-items:center;gap:16px}
+.nav-link{font-size:14px;color:var(--muted);text-decoration:none;transition:color .2s}
+.nav-link:hover{color:var(--ink)}
+.btn-outline{background:white;color:var(--violet);padding:9px 20px;border-radius:100px;font-size:14px;font-weight:700;text-decoration:none;border:1.5px solid var(--violet);transition:all .2s;font-family:var(--sans)}
+.btn-outline:hover{background:var(--violet-bg)}
+.btn-nav{background:var(--violet);color:white;padding:10px 22px;border-radius:100px;font-size:14px;font-weight:700;text-decoration:none;transition:all .2s;font-family:var(--sans)}
+.btn-nav:hover{background:var(--violet-dark)}
+
+/* HERO BAND — mint avec textes foncés */
+.hero-band{
+  background:var(--mint);
+  padding:28px 32px;
+  display:flex;align-items:center;justify-content:space-between;
+}
+.hero-band-left h1{
+  font-weight:800;font-size:26px;
+  color:var(--mint-text);
+  letter-spacing:-.5px;margin-bottom:4px;
+}
+.hero-band-left p{font-size:14px;color:rgba(0,77,64,.6)}
+.hero-stats{display:flex;gap:32px}
+.hstat{text-align:center}
+.hstat-n{font-weight:800;font-size:26px;color:var(--mint-text);line-height:1}
+.hstat-l{font-size:12px;color:rgba(0,77,64,.55);margin-top:3px}
+
+/* LAYOUT */
+.layout{display:grid;grid-template-columns:240px 1fr;min-height:calc(100vh - 128px)}
+
+/* SIDEBAR */
+.sidebar{
+  background:var(--white);border-right:1.5px solid var(--border);
+  padding:24px 20px;
+  position:sticky;top:64px;height:calc(100vh - 64px);
+  overflow-y:auto;
+}
+.sidebar::-webkit-scrollbar{width:4px}
+.sidebar::-webkit-scrollbar-thumb{background:var(--border);border-radius:4px}
+
+.sb-section{margin-bottom:24px}
+.sb-label{font-size:11px;font-weight:700;color:var(--muted);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:12px;display:block}
+
+.search-wrap{position:relative}
+.search-icon{position:absolute;left:12px;top:50%;transform:translateY(-50%)}
+.search-box{
+  width:100%;padding:10px 12px 10px 36px;
+  border:1.5px solid var(--border);border-radius:var(--radius-sm);
+  font-family:var(--sans);font-size:13px;color:var(--ink);
+  background:var(--pale);outline:none;transition:border-color .2s;
+}
+.search-box:focus{border-color:var(--mint);background:white}
+
+/* TOGGLE INTENTION */
+.intent-toggle{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.itoggle{
+  padding:10px 8px;border-radius:var(--radius-sm);
+  border:1.5px solid var(--border);
+  text-align:center;font-size:12px;font-weight:700;
+  color:var(--muted);cursor:pointer;background:white;
+  transition:all .2s;user-select:none;line-height:1.3;
+}
+.itoggle:hover{border-color:var(--mint)}
+.itoggle.active{background:var(--mint-bg);border-color:var(--mint);color:var(--mint-dark)}
+
+.pill-filters{display:flex;flex-wrap:wrap;gap:6px}
+.pill{
+  padding:5px 12px;border-radius:100px;
+  border:1.5px solid var(--border);font-size:12px;font-weight:600;
+  color:var(--muted);cursor:pointer;background:white;transition:all .2s;user-select:none;
+}
+.pill:hover{border-color:var(--mint);color:var(--mint-dark)}
+.pill.active{background:var(--mint-bg);border-color:var(--mint);color:var(--mint-dark)}
+
+.check-opts{display:flex;flex-direction:column;gap:6px}
+.copt{display:flex;align-items:center;gap:10px;cursor:pointer;padding:4px 0;user-select:none}
+.copt-box{
+  width:16px;height:16px;border-radius:5px;flex-shrink:0;
+  border:1.5px solid var(--border);background:white;
+  display:flex;align-items:center;justify-content:center;transition:all .2s;
+}
+.copt.active .copt-box{background:var(--mint);border-color:var(--mint)}
+.copt.active .copt-box::after{
+  content:'';width:7px;height:4px;
+  border-left:1.5px solid white;border-bottom:1.5px solid white;
+  transform:rotate(-45deg) translateY(-1px);display:block;
+}
+.copt-label{font-size:13px;color:var(--muted);transition:color .2s}
+.copt.active .copt-label{color:var(--ink);font-weight:600}
+.copt-count{font-size:11px;color:var(--muted);margin-left:auto;background:var(--pale);padding:2px 6px;border-radius:100px}
+
+.reset-btn{
+  width:100%;padding:10px;border-radius:100px;
+  border:1.5px solid var(--border);background:white;
+  font-family:var(--sans);font-size:13px;font-weight:600;
+  color:var(--muted);cursor:pointer;transition:all .2s;margin-top:8px;
+}
+.reset-btn:hover{border-color:var(--coral);color:var(--coral-dark)}
+
+/* CONTENT */
+.content{padding:24px 28px}
+.content-bar{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px}
+.result-count{font-size:14px;color:var(--muted)}
+.result-count strong{color:var(--ink);font-weight:700}
+.sort-row{display:flex;gap:6px;align-items:center}
+.sort-label{font-size:13px;color:var(--muted);margin-right:4px}
+.sort-pill{
+  padding:7px 16px;border-radius:100px;font-size:13px;font-weight:600;
+  border:1.5px solid var(--border);background:white;color:var(--muted);
+  cursor:pointer;transition:all .2s;font-family:var(--sans);
+}
+.sort-pill:hover{border-color:var(--mint);color:var(--mint-dark)}
+.sort-pill.active{background:var(--sun);border-color:var(--sun);color:var(--ink)}
+
+/* GRILLE 3 COLONNES */
+.cards-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+
+.pcard{
+  background:var(--white);border:1.5px solid var(--border);
+  border-radius:var(--radius);overflow:hidden;
+  display:flex;flex-direction:column;
+  transition:all .22s;cursor:pointer;text-decoration:none;
+}
+.pcard:hover{transform:translateY(-3px);border-color:var(--mint);box-shadow:0 8px 24px rgba(0,201,167,.12)}
+
+/* bande colorée en haut de chaque carte */
+.pcard-stripe{height:5px}
+
+.pcard-body{padding:18px 18px 16px;display:flex;flex-direction:column;gap:12px;flex:1}
+
+.pcard-top{display:flex;align-items:flex-start;gap:12px}
+.pav{
+  width:46px;height:46px;border-radius:12px;
+  display:flex;align-items:center;justify-content:center;
+  font-weight:800;font-size:18px;color:white;flex-shrink:0;
+}
+.pcard-name{font-weight:800;font-size:15px;color:var(--ink);letter-spacing:-.3px;margin-bottom:3px}
+.pcard-role{font-size:12px;color:var(--muted);margin-bottom:6px}
+.intent-pill{
+  display:inline-flex;align-items:center;gap:5px;
+  font-size:11px;font-weight:700;padding:3px 9px;border-radius:100px;
+}
+.ip-cherche{background:var(--mint-bg);color:var(--mint-dark)}
+.ip-porte{background:var(--violet-bg);color:var(--violet-dark)}
+.ip-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0}
+
+.pcard-pitch{
+  font-size:13px;color:var(--ink2);line-height:1.55;
+  display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;
+}
+
+.pcard-chips{display:flex;flex-wrap:wrap;gap:5px}
+.pchip{font-size:11px;padding:4px 10px;border-radius:100px;background:var(--pale);color:var(--ink2);font-weight:600}
+
+.pcard-footer{
+  display:flex;align-items:center;justify-content:space-between;
+  padding-top:12px;border-top:1.5px solid var(--border);
+  margin-top:auto;
+}
+.pcard-loc{font-size:12px;color:var(--muted);display:flex;align-items:center;gap:4px}
+.dispo-badge{font-size:11px;font-weight:700;padding:4px 10px;border-radius:100px}
+.dispo-now{background:var(--mint-bg);color:var(--mint-dark)}
+.dispo-soon{background:var(--sun-bg);color:var(--sun-dark)}
+.dispo-later{background:var(--pale);color:var(--muted)}
+.btn-voir{font-size:12px;font-weight:700;color:var(--mint-dark);background:var(--mint-bg);padding:6px 14px;border-radius:100px;border:none;cursor:pointer;font-family:var(--sans);transition:all .2s;white-space:nowrap}
+.btn-voir:hover{background:var(--mint);color:white}
+
+/* EMPTY STATE */
+.empty{text-align:center;padding:60px 20px;color:var(--muted)}
+.empty-title{font-weight:700;font-size:18px;color:var(--ink);margin-bottom:8px;margin-top:16px}
+.empty-sub{font-size:14px;line-height:1.6}
+
+/* PAGINATION */
+.pagination{display:flex;align-items:center;justify-content:center;gap:6px;margin-top:32px}
+.pag-btn{width:36px;height:36px;border-radius:10px;border:1.5px solid var(--border);background:white;font-size:13px;font-weight:600;color:var(--muted);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .2s;font-family:var(--sans)}
+.pag-btn:hover{border-color:var(--mint);color:var(--mint-dark)}
+.pag-btn.active{background:var(--mint);border-color:var(--mint);color:white}
+.pag-btn.dots{border:none;background:none;cursor:default}
+
+@media(max-width:1100px){.cards-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:760px){
+  .layout{grid-template-columns:1fr}
+  .sidebar{display:none}
+  .cards-grid{grid-template-columns:1fr}
+  .hero-stats{display:none}
+  nav{padding:0 20px}
+  .content{padding:16px}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="logo">
+    <div class="logo-bubble">
+      <svg viewBox="0 0 18 18" fill="none">
+        <path d="M9 2C5.13 2 2 5.13 2 9s3.13 7 7 7 7-3.13 7-7-3.13-7-7-7z" fill="white" opacity=".25"/>
+        <path d="M6 9l2 2 4-4" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </div>
+    trouver-un-associé
+  </a>
+  <div class="nav-r">
+    <a href="index.html" class="nav-link">Accueil</a>
+    <a href="explorer.html" class="nav-link">Projets</a>
+    <a href="inscription.html" class="btn-outline">+ Déposer un projet</a>
+    <a href="inscription.html" class="btn-nav">Mon profil</a>
+  </div>
+</nav>
+
+<!-- HERO BAND -->
+<div class="hero-band">
+  <div class="hero-band-left">
+    <h1>Explorer les profils</h1>
+    <p>Trouvez le talent complémentaire à votre projet</p>
+  </div>
+  <div class="hero-stats">
+    <div class="hstat"><div class="hstat-n">820</div><div class="hstat-l">Profils actifs</div></div>
+    <div class="hstat"><div class="hstat-n">340</div><div class="hstat-l">Cherchent un projet</div></div>
+    <div class="hstat"><div class="hstat-n">67</div><div class="hstat-l">Associations formées</div></div>
+  </div>
+</div>
+
+<div class="layout">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+
+    <div class="sb-section">
+      <span class="sb-label">Recherche</span>
+      <div class="search-wrap">
+        <span class="search-icon">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+            <circle cx="6" cy="6" r="4" stroke="var(--muted)" stroke-width="1.4"/>
+            <path d="M9 9l3 3" stroke="var(--muted)" stroke-width="1.4" stroke-linecap="round"/>
+          </svg>
+        </span>
+        <input class="search-box" type="text" placeholder="Compétence, ville…" id="searchInput" oninput="filterCards()">
+      </div>
+    </div>
+
+    <div class="sb-section">
+      <span class="sb-label">Intention</span>
+      <div class="intent-toggle">
+        <div class="itoggle active" id="toggle-cherche" onclick="toggleIntent('cherche')">Cherche un projet</div>
+        <div class="itoggle" id="toggle-porte" onclick="toggleIntent('porte')">A un projet</div>
+      </div>
+    </div>
+
+    <div class="sb-section">
+      <span class="sb-label">Compétence principale</span>
+      <div class="pill-filters" id="competenceFilters">
+        <span class="pill active" data-val="tous" onclick="togglePill(this,'competenceFilters')">Toutes</span>
+        <span class="pill" data-val="tech" onclick="togglePill(this,'competenceFilters')">Tech / Dev</span>
+        <span class="pill" data-val="product" onclick="togglePill(this,'competenceFilters')">Product</span>
+        <span class="pill" data-val="commercial" onclick="togglePill(this,'competenceFilters')">Commercial</span>
+        <span class="pill" data-val="marketing" onclick="togglePill(this,'competenceFilters')">Marketing</span>
+        <span class="pill" data-val="finance" onclick="togglePill(this,'competenceFilters')">Finance</span>
+        <span class="pill" data-val="design" onclick="togglePill(this,'competenceFilters')">Design</span>
+        <span class="pill" data-val="data" onclick="togglePill(this,'competenceFilters')">Data / IA</span>
+      </div>
+    </div>
+
+    <div class="sb-section">
+      <span class="sb-label">Disponibilité</span>
+      <div class="check-opts" id="dispoFilters">
+        <div class="copt" data-val="now" onclick="toggleCheck(this)">
+          <div class="copt-box"></div><span class="copt-label">Disponible maintenant</span><span class="copt-count">142</span>
+        </div>
+        <div class="copt" data-val="1mois" onclick="toggleCheck(this)">
+          <div class="copt-box"></div><span class="copt-label">Dans 1 mois</span><span class="copt-count">89</span>
+        </div>
+        <div class="copt" data-val="3mois" onclick="toggleCheck(this)">
+          <div class="copt-box"></div><span class="copt-label">Dans 3 mois</span><span class="copt-count">201</span>
+        </div>
+        <div class="copt" data-val="adefenir" onclick="toggleCheck(this)">
+          <div class="copt-box"></div><span class="copt-label">À définir</span><span class="copt-count">58</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="sb-section">
+      <span class="sb-label">Localisation</span>
+      <div class="pill-filters" id="locFilters">
+        <span class="pill active" data-val="partout" onclick="togglePill(this,'locFilters')">Partout</span>
+        <span class="pill" data-val="remote" onclick="togglePill(this,'locFilters')">Remote</span>
+        <span class="pill" data-val="paris" onclick="togglePill(this,'locFilters')">Paris</span>
+        <span class="pill" data-val="lyon" onclick="togglePill(this,'locFilters')">Lyon</span>
+        <span class="pill" data-val="bordeaux" onclick="togglePill(this,'locFilters')">Bordeaux</span>
+        <span class="pill" data-val="nantes" onclick="togglePill(this,'locFilters')">Nantes</span>
+      </div>
+    </div>
+
+    <div class="sb-section">
+      <span class="sb-label">Secteurs d'intérêt</span>
+      <div class="check-opts" id="secteurFilters">
+        <div class="copt" data-val="saas" onclick="toggleCheck(this)">
+          <div class="copt-box"></div><span class="copt-label">SaaS / Tech</span><span class="copt-count">312</span>
+        </div>
+        <div class="copt" data-val="sante" onclick="toggleCheck(this)">
+          <div class="copt-box"></div><span class="copt-label">Santé / MedTech</span><span class="copt-count">98</span>
+        </div>
+        <div class="copt" data-val="edtech" onclick="toggleCheck(this)">
+          <div class="copt-box"></div><span class="copt-label">EdTech</span><span class="copt-count">74</span>
+        </div>
+        <div class="copt" data-val="climat" onclick="toggleCheck(this)">
+          <div class="copt-box"></div><span class="copt-label">ClimateTech</span><span class="copt-count">61</span>
+        </div>
+        <div class="copt" data-val="fintech" onclick="toggleCheck(this)">
+          <div class="copt-box"></div><span class="copt-label">FinTech</span><span class="copt-count">55</span>
+        </div>
+      </div>
+    </div>
+
+    <button class="reset-btn" onclick="resetFilters()">Réinitialiser les filtres</button>
+
+  </aside>
+
+  <!-- CONTENU -->
+  <main class="content">
+
+    <div class="content-bar">
+      <div class="result-count"><strong id="countDisplay">9 profils</strong> correspondent à vos critères</div>
+      <div class="sort-row">
+        <span class="sort-label">Trier par</span>
+        <span class="sort-pill active" onclick="setSort(this)">Récents</span>
+        <span class="sort-pill" onclick="setSort(this)">Expérience</span>
+        <span class="sort-pill" onclick="setSort(this)">Disponibilité</span>
+      </div>
+    </div>
+
+    <div class="cards-grid" id="cardsGrid">
+
+      <a href="profil.html" class="pcard" data-intent="cherche" data-competence="data tech" data-loc="lyon remote" data-dispo="3mois" data-secteur="sante edtech climat">
+        <div class="pcard-stripe" style="background:var(--violet)"></div>
+        <div class="pcard-body">
+          <div class="pcard-top">
+            <div class="pav" style="background:var(--violet)">T</div>
+            <div>
+              <div class="pcard-name">Thomas A.</div>
+              <div class="pcard-role">Ingénieur IA · Lyon</div>
+              <div class="intent-pill ip-cherche"><span class="ip-dot" style="background:var(--mint)"></span>Cherche un projet</div>
+            </div>
+          </div>
+          <div class="pcard-pitch">"5 ans de ML en GAFAM, je veux co-fonder une startup qui a du sens. Secteurs : santé, éducation, impact."</div>
+          <div class="pcard-chips"><span class="pchip">ML / IA</span><span class="pchip">Python</span><span class="pchip">AWS</span><span class="pchip">NLP</span></div>
+          <div class="pcard-footer">
+            <div class="pcard-loc">
+              <svg width="11" height="11" viewBox="0 0 11 11" fill="none"><circle cx="5.5" cy="4.5" r="2" stroke="currentColor" stroke-width="1.2"/><path d="M5.5 1C3.57 1 2 2.57 2 4.5c0 2.72 3.5 5.5 3.5 5.5S9 7.22 9 4.5C9 2.57 7.43 1 5.5 1z" stroke="currentColor" stroke-width="1.2"/></svg>
+              Lyon · Remote
+            </div>
+            <span class="dispo-badge dispo-soon">Dans 3 mois</span>
+          </div>
+        </div>
+      </a>
+
+      <a href="profil.html" class="pcard" data-intent="porte" data-competence="product" data-loc="paris" data-dispo="now" data-secteur="saas sante">
+        <div class="pcard-stripe" style="background:var(--blue)"></div>
+        <div class="pcard-body">
+          <div class="pcard-top">
+            <div class="pav" style="background:var(--mint)">M</div>
+            <div>
+              <div class="pcard-name">Marie K.</div>
+              <div class="pcard-role">Product Manager · Paris</div>
+              <div class="intent-pill ip-porte"><span class="ip-dot" style="background:var(--violet)"></span>A un projet</div>
+            </div>
+          </div>
+          <div class="pcard-pitch">"Ex-Doctolib, je construis un SaaS RH pour PME. MVP prêt, 5 clients pilotes. Cherche un CTO."</div>
+          <div class="pcard-chips"><span class="pchip">Product</span><span class="pchip">B2B SaaS</span><span class="pchip">UX</span></div>
+          <div class="pcard-footer">
+            <div class="pcard-loc">
+              <svg width="11" height="11" viewBox="0 0 11 11" fill="none"><circle cx="5.5" cy="4.5" r="2" stroke="currentColor" stroke-width="1.2"/><path d="M5.5 1C3.57 1 2 2.57 2 4.5c0 2.72 3.5 5.5 3.5 5.5S9 7.22 9 4.5C9 2.57 7.43 1 5.5 1z" stroke="currentColor" stroke-width="1.2"/></svg>
+              Paris
+            </div>
+            <span class="dispo-badge dispo-now">Dispo maintenant</span>
+          </div>
+        </div>
+      </a>
+
+      <a href="profil.html" class="pcard" data-intent="cherche" data-competence="tech" data-loc="remote" data-dispo="now" data-secteur="climat saas">
+        <div class="pcard-stripe" style="background:var(--mint)"></div>
+        <div class="pcard-body">
+          <div class="pcard-top">
+            <div class="pav" style="background:var(--blue)">R</div>
+            <div>
+              <div class="pcard-name">Romain D.</div>
+              <div class="pcard-role">CTO · Remote</div>
+              <div class="intent-pill ip-cherche"><span class="ip-dot" style="background:var(--mint)"></span>Cherche un projet</div>
+            </div>
+          </div>
+          <div class="pcard-pitch">"J'ai construit 3 SaaS de 0. Je veux co-fonder dans la ClimateTech ou l'impact. Temps plein."</div>
+          <div class="pcard-chips"><span class="pchip">CTO</span><span class="pchip">Node.js</span><span class="pchip">Architecture</span></div>
+          <div class="pcard-footer">
+            <div class="pcard-loc">
+              <svg width="11" height="11" viewBox="0 0 11 11" fill="none"><circle cx="5.5" cy="4.5" r="2" stroke="currentColor" stroke-width="1.2"/><path d="M5.5 1C3.57 1 2 2.57 2 4.5c0 2.72 3.5 5.5 3.5 5.5S9 7.22 9 4.5C9 2.57 7.43 1 5.5 1z" stroke="currentColor" stroke-width="1.2"/></svg>
+              Remote
+            </div>
+            <span class="dispo-badge dispo-now">Dispo maintenant</span>
+          </div>
+        </div>
+      </a>
+
+      <a href="profil.html" class="pcard" data-intent="porte" data-competence="commercial" data-loc="bordeaux" data-dispo="now" data-secteur="saas">
+        <div class="pcard-stripe" style="background:var(--coral)"></div>
+        <div class="pcard-body">
+          <div class="pcard-top">
+            <div class="pav" style="background:var(--coral)">S</div>
+            <div>
+              <div class="pcard-name">Sophie L.</div>
+              <div class="pcard-role">CEO fondatrice · Bordeaux</div>
+              <div class="intent-pill ip-porte"><span class="ip-dot" style="background:var(--violet)"></span>A un projet</div>
+            </div>
+          </div>
+          <div class="pcard-pitch">"Marketplace B2B agro, 40k€ de CA. Cherche un profil growth ou commercial pour accélérer."</div>
+          <div class="pcard-chips"><span class="pchip">Business Dev</span><span class="pchip">Agro</span><span class="pchip">Marketplace</span></div>
+          <div class="pcard-footer">
+            <div class="pcard-loc">
+              <svg width="11" height="11" viewBox="0 0 11 11" fill="none"><circle cx="5.5" cy="4.5" r="2" stroke="currentColor" stroke-width="1.2"/><path d="M5.5 1C3.57 1 2 2.57 2 4.5c0 2.72 3.5 5.5 3.5 5.5S9 7.22 9 4.5C9 2.57 7.43 1 5.5 1z" stroke="currentColor" stroke-width="1.2"/></svg>
+              Bordeaux
+            </div>
+            <span class="dispo-badge dispo-now">Dispo maintenant</span>
+          </div>
+        </div>
+      </a>
+
+      <a href="profil.html" class="pcard" data-intent="cherche" data-competence="data" data-loc="paris remote" data-dispo="1mois" data-secteur="sante edtech climat">
+        <div class="pcard-stripe" style="background:var(--sun)"></div>
+        <div class="pcard-body">
+          <div class="pcard-top">
+            <div class="pav" style="background:#BA7517">A</div>
+            <div>
+              <div class="pcard-name">Anaïs B.</div>
+              <div class="pcard-role">Data Scientist · Paris</div>
+              <div class="intent-pill ip-cherche"><span class="ip-dot" style="background:var(--mint)"></span>Cherche un projet</div>
+            </div>
+          </div>
+          <div class="pcard-pitch">"Spé NLP & recommandation. Je veux mettre mes compétences au service d'un projet à impact."</div>
+          <div class="pcard-chips"><span class="pchip">NLP</span><span class="pchip">Python</span><span class="pchip">Impact</span></div>
+          <div class="pcard-footer">
+            <div class="pcard-loc">
+              <svg width="11" height="11" viewBox="0 0 11 11" fill="none"><circle cx="5.5" cy="4.5" r="2" stroke="currentColor" stroke-width="1.2"/><path d="M5.5 1C3.57 1 2 2.57 2 4.5c0 2.72 3.5 5.5 3.5 5.5S9 7.22 9 4.5C9 2.57 7.43 1 5.5 1z" stroke="currentColor" stroke-width="1.2"/></svg>
+              Paris · Remote
+            </div>
+            <span class="dispo-badge dispo-soon">Dans 1 mois</span>
+          </div>
+        </div>
+      </a>
+
+      <a href="profil.html" class="pcard" data-intent="cherche" data-competence="marketing" data-loc="remote nantes" data-dispo="now" data-secteur="saas sante">
+        <div class="pcard-stripe" style="background:var(--violet)"></div>
+        <div class="pcard-body">
+          <div class="pcard-top">
+            <div class="pav" style="background:var(--violet)">J</div>
+            <div>
+              <div class="pcard-name">Julie M.</div>
+              <div class="pcard-role">Growth · Nantes · Remote</div>
+              <div class="intent-pill ip-cherche"><span class="ip-dot" style="background:var(--mint)"></span>Cherche un projet</div>
+            </div>
+          </div>
+          <div class="pcard-pitch">"Ex-Doctolib Growth, j'ai scalé l'acquisition de 0 à 50k utilisateurs. Prête pour une nouvelle aventure."</div>
+          <div class="pcard-chips"><span class="pchip">Growth</span><span class="pchip">SEO/SEA</span><span class="pchip">Acquisition</span></div>
+          <div class="pcard-footer">
+            <div class="pcard-loc">
+              <svg width="11" height="11" viewBox="0 0 11 11" fill="none"><circle cx="5.5" cy="4.5" r="2" stroke="currentColor" stroke-width="1.2"/><path d="M5.5 1C3.57 1 2 2.57 2 4.5c0 2.72 3.5 5.5 3.5 5.5S9 7.22 9 4.5C9 2.57 7.43 1 5.5 1z" stroke="currentColor" stroke-width="1.2"/></svg>
+              Remote
+            </div>
+            <span class="dispo-badge dispo-now">Dispo maintenant</span>
+          </div>
+        </div>
+      </a>
+
+      <a href="profil.html" class="pcard" data-intent="cherche" data-competence="finance" data-loc="paris" data-dispo="3mois" data-secteur="fintech saas">
+        <div class="pcard-stripe" style="background:var(--blue)"></div>
+        <div class="pcard-body">
+          <div class="pcard-top">
+            <div class="pav" style="background:var(--blue)">P</div>
+            <div>
+              <div class="pcard-name">Pierre V.</div>
+              <div class="pcard-role">CFO · Paris</div>
+              <div class="intent-pill ip-cherche"><span class="ip-dot" style="background:var(--mint)"></span>Cherche un projet</div>
+            </div>
+          </div>
+          <div class="pcard-pitch">"Ex-CFO scale-up, j'ai piloté 3 levées de fonds. Je veux rejoindre un projet early stage avec ambition."</div>
+          <div class="pcard-chips"><span class="pchip">Finance</span><span class="pchip">Levée de fonds</span><span class="pchip">M&A</span></div>
+          <div class="pcard-footer">
+            <div class="pcard-loc">
+              <svg width="11" height="11" viewBox="0 0 11 11" fill="none"><circle cx="5.5" cy="4.5" r="2" stroke="currentColor" stroke-width="1.2"/><path d="M5.5 1C3.57 1 2 2.57 2 4.5c0 2.72 3.5 5.5 3.5 5.5S9 7.22 9 4.5C9 2.57 7.43 1 5.5 1z" stroke="currentColor" stroke-width="1.2"/></svg>
+              Paris
+            </div>
+            <span class="dispo-badge dispo-soon">Dans 3 mois</span>
+          </div>
+        </div>
+      </a>
+
+      <a href="profil.html" class="pcard" data-intent="porte" data-competence="tech" data-loc="lyon remote" data-dispo="now" data-secteur="edtech saas">
+        <div class="pcard-stripe" style="background:var(--mint)"></div>
+        <div class="pcard-body">
+          <div class="pcard-top">
+            <div class="pav" style="background:var(--mint)">K</div>
+            <div>
+              <div class="pcard-name">Karim B.</div>
+              <div class="pcard-role">Ingénieur full-stack · Lyon</div>
+              <div class="intent-pill ip-porte"><span class="ip-dot" style="background:var(--violet)"></span>A un projet</div>
+            </div>
+          </div>
+          <div class="pcard-pitch">"Je développe une plateforme micro-learning. MVP live, 500 users beta. Cherche co-fondateur commercial."</div>
+          <div class="pcard-chips"><span class="pchip">React</span><span class="pchip">Node.js</span><span class="pchip">EdTech</span></div>
+          <div class="pcard-footer">
+            <div class="pcard-loc">
+              <svg width="11" height="11" viewBox="0 0 11 11" fill="none"><circle cx="5.5" cy="4.5" r="2" stroke="currentColor" stroke-width="1.2"/><path d="M5.5 1C3.57 1 2 2.57 2 4.5c0 2.72 3.5 5.5 3.5 5.5S9 7.22 9 4.5C9 2.57 7.43 1 5.5 1z" stroke="currentColor" stroke-width="1.2"/></svg>
+              Lyon · Remote
+            </div>
+            <span class="dispo-badge dispo-now">Dispo maintenant</span>
+          </div>
+        </div>
+      </a>
+
+      <a href="profil.html" class="pcard" data-intent="cherche" data-competence="design" data-loc="paris remote" data-dispo="1mois" data-secteur="saas sante edtech">
+        <div class="pcard-stripe" style="background:var(--coral)"></div>
+        <div class="pcard-body">
+          <div class="pcard-top">
+            <div class="pav" style="background:var(--coral)">L</div>
+            <div>
+              <div class="pcard-name">Lucie F.</div>
+              <div class="pcard-role">Designer UX/UI · Paris</div>
+              <div class="intent-pill ip-cherche"><span class="ip-dot" style="background:var(--mint)"></span>Cherche un projet</div>
+            </div>
+          </div>
+          <div class="pcard-pitch">"Designer senior, ex-Shine et Alan. Je cherche un projet SaaS B2B avec une vraie vision produit."</div>
+          <div class="pcard-chips"><span class="pchip">UX Research</span><span class="pchip">Figma</span><span class="pchip">Design System</span></div>
+          <div class="pcard-footer">
+            <div class="pcard-loc">
+              <svg width="11" height="11" viewBox="0 0 11 11" fill="none"><circle cx="5.5" cy="4.5" r="2" stroke="currentColor" stroke-width="1.2"/><path d="M5.5 1C3.57 1 2 2.57 2 4.5c0 2.72 3.5 5.5 3.5 5.5S9 7.22 9 4.5C9 2.57 7.43 1 5.5 1z" stroke="currentColor" stroke-width="1.2"/></svg>
+              Paris · Remote
+            </div>
+            <span class="dispo-badge dispo-soon">Dans 1 mois</span>
+          </div>
+        </div>
+      </a>
+
+    </div>
+
+    <div class="empty" id="emptyState" style="display:none">
+      <svg width="40" height="40" viewBox="0 0 40 40" fill="none"><circle cx="20" cy="20" r="18" stroke="var(--border)" stroke-width="2"/><path d="M14 20h12M20 14v12" stroke="var(--muted)" stroke-width="2" stroke-linecap="round"/></svg>
+      <div class="empty-title">Aucun profil trouvé</div>
+      <div class="empty-sub">Essaie d'élargir tes filtres.<br>De nouveaux profils arrivent chaque semaine !</div>
+    </div>
+
+    <div class="pagination" id="pagination">
+      <div class="pag-btn active">1</div>
+      <div class="pag-btn">2</div>
+      <div class="pag-btn">3</div>
+      <div class="pag-btn dots">…</div>
+      <div class="pag-btn">14</div>
+    </div>
+
+  </main>
+</div>
+
+<script>
+let activeIntent = 'tous';
+
+function toggleIntent(val) {
+  const tc = document.getElementById('toggle-cherche');
+  const tp = document.getElementById('toggle-porte');
+  if (activeIntent === val) {
+    activeIntent = 'tous';
+    tc.classList.remove('active');
+    tp.classList.remove('active');
+  } else {
+    activeIntent = val;
+    tc.classList.toggle('active', val === 'cherche');
+    tp.classList.toggle('active', val === 'porte');
+  }
+  filterCards();
+}
+
+function togglePill(el, groupId) {
+  const group = document.getElementById(groupId);
+  group.querySelectorAll('.pill').forEach(p => p.classList.remove('active'));
+  el.classList.add('active');
+  filterCards();
+}
+
+function toggleCheck(el) {
+  el.classList.toggle('active');
+  filterCards();
+}
+
+function setSort(el) {
+  document.querySelectorAll('.sort-pill').forEach(p => p.classList.remove('active'));
+  el.classList.add('active');
+}
+
+function filterCards() {
+  const search = document.getElementById('searchInput').value.toLowerCase();
+  const competence = document.querySelector('#competenceFilters .pill.active')?.dataset.val || 'tous';
+  const loc = document.querySelector('#locFilters .pill.active')?.dataset.val || 'partout';
+  const dispos = [...document.querySelectorAll('#dispoFilters .copt.active')].map(c => c.dataset.val);
+  const secteurs = [...document.querySelectorAll('#secteurFilters .copt.active')].map(c => c.dataset.val);
+
+  const cards = document.querySelectorAll('.pcard');
+  let visible = 0;
+
+  cards.forEach(card => {
+    const cardIntent = card.dataset.intent || '';
+    const cardComp = card.dataset.competence || '';
+    const cardLoc = card.dataset.loc || '';
+    const cardDispo = card.dataset.dispo || '';
+    const cardSecteur = card.dataset.secteur || '';
+    const cardText = card.innerText.toLowerCase();
+
+    const matchSearch = !search || cardText.includes(search);
+    const matchIntent = activeIntent === 'tous' || cardIntent === activeIntent;
+    const matchComp = competence === 'tous' || cardComp.includes(competence);
+    const matchLoc = loc === 'partout' || cardLoc.includes(loc);
+    const matchDispo = dispos.length === 0 || dispos.some(d => cardDispo.includes(d));
+    const matchSecteur = secteurs.length === 0 || secteurs.some(s => cardSecteur.includes(s));
+
+    const show = matchSearch && matchIntent && matchComp && matchLoc && matchDispo && matchSecteur;
+    card.style.display = show ? 'flex' : 'none';
+    if (show) visible++;
+  });
+
+  document.getElementById('countDisplay').textContent = visible + ' profil' + (visible > 1 ? 's' : '');
+  document.getElementById('emptyState').style.display = visible === 0 ? 'block' : 'none';
+  document.getElementById('pagination').style.display = visible === 0 ? 'none' : 'flex';
+}
+
+function resetFilters() {
+  document.getElementById('searchInput').value = '';
+  activeIntent = 'tous';
+  document.getElementById('toggle-cherche').classList.remove('active');
+  document.getElementById('toggle-porte').classList.remove('active');
+  document.querySelectorAll('#competenceFilters .pill').forEach((p,i) => p.classList.toggle('active', i===0));
+  document.querySelectorAll('#locFilters .pill').forEach((p,i) => p.classList.toggle('active', i===0));
+  document.querySelectorAll('#dispoFilters .copt, #secteurFilters .copt').forEach(c => c.classList.remove('active'));
+  filterCards();
+}
+</script>
+</body>
+</html>

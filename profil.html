@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Profil — Trouver un Associé</title>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,300;12..96,400;12..96,500;12..96,700;12..96,800&family=Lora:ital,wght@1,400&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --violet:#7B4FFF;--violet-bg:#F0EBFF;--violet-dark:#5530CC;
+  --mint:#00C9A7;--mint-bg:#E0FBF5;--mint-dark:#007A65;
+  --blue:#1E6FFF;--blue-bg:#EEF5FF;--blue-dark:#0C447C;
+  --sun:#FFD426;--sun-bg:#FFFBE8;--sun-dark:#7A5800;
+  --coral:#FF5E78;--coral-bg:#FFF0F2;--coral-dark:#CC2A44;
+  --ink:#1A1A2E;--ink2:#3D3D5C;--muted:#7A7A9A;
+  --pale:#F5F5FF;--border:rgba(26,26,46,0.09);--white:#fff;
+  --sans:'Bricolage Grotesque',sans-serif;--serif:'Lora',serif;
+  --radius:14px;--radius-sm:10px;
+}
+body{font-family:var(--sans);background:var(--pale);color:var(--ink);min-height:100vh}
+nav{background:var(--white);border-bottom:1.5px solid var(--border);padding:0 32px;height:64px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100}
+.logo{font-weight:800;font-size:17px;color:var(--ink);text-decoration:none;display:flex;align-items:center;gap:10px}
+.logo-bubble{width:32px;height:32px;background:var(--violet);border-radius:10px;display:flex;align-items:center;justify-content:center}
+.logo-bubble svg{width:18px;height:18px}
+.nav-r{display:flex;align-items:center;gap:12px}
+.btn-outline{background:white;color:var(--violet);padding:9px 20px;border-radius:100px;font-size:14px;font-weight:700;text-decoration:none;border:1.5px solid var(--violet);font-family:var(--sans)}
+.btn-nav{background:var(--violet);color:white;padding:10px 22px;border-radius:100px;font-size:14px;font-weight:700;text-decoration:none;font-family:var(--sans)}
+.btn-nav:hover{background:var(--violet-dark)}
+
+.page-inner{max-width:1160px;margin:0 auto;padding:32px 32px 64px;display:grid;grid-template-columns:1fr 300px;gap:24px;align-items:start}
+.main-col{display:flex;flex-direction:column;gap:16px}
+
+.hero-card{background:var(--white);border:1.5px solid var(--border);border-radius:var(--radius);overflow:hidden}
+.hero-banner{padding:20px 28px;display:flex;align-items:center;justify-content:space-between}
+.intent-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,.25);border-radius:100px;padding:6px 14px;font-size:13px;font-weight:700;color:white}
+.intent-dot{width:7px;height:7px;border-radius:50%;background:var(--sun);flex-shrink:0}
+.member-since{font-size:12px;color:rgba(255,255,255,.6)}
+.hero-body{padding:24px 28px}
+.hero-identity{display:flex;align-items:flex-end;gap:18px;margin-bottom:18px}
+.avatar{width:72px;height:72px;border-radius:18px;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:28px;color:white;flex-shrink:0;border:4px solid white;margin-top:-40px}
+.hero-name{font-weight:800;font-size:26px;color:var(--ink);letter-spacing:-.6px;line-height:1}
+.hero-role{font-size:14px;color:var(--muted);margin-top:4px}
+.verified{display:inline-flex;align-items:center;gap:5px;font-size:12px;font-weight:600;color:var(--mint-dark);background:var(--mint-bg);padding:3px 10px;border-radius:100px;margin-top:6px}
+.hero-pitch{font-family:var(--serif);font-style:italic;font-size:15px;color:var(--ink2);line-height:1.7;border-left:3px solid var(--violet);padding-left:16px;margin-bottom:20px}
+.hero-meta{display:flex;gap:20px;flex-wrap:wrap}
+.meta-item{display:flex;align-items:center;gap:7px;font-size:13px;color:var(--muted)}
+
+.sc{background:var(--white);border:1.5px solid var(--border);border-radius:var(--radius);padding:24px 28px}
+.sc-header{display:flex;align-items:center;gap:10px;margin-bottom:18px}
+.sc-bar{width:3px;height:18px;background:var(--violet);border-radius:2px;flex-shrink:0}
+.sc-title{font-weight:800;font-size:16px;color:var(--ink);letter-spacing:-.3px}
+.sc-text{font-size:14px;color:var(--ink2);line-height:1.75}
+
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{font-size:12px;padding:5px 12px;border-radius:100px;background:var(--pale);color:var(--ink2);font-weight:600}
+.chip-v{background:var(--violet-bg);color:var(--violet-dark)}
+.chip-m{background:var(--mint-bg);color:var(--mint-dark)}
+.chip-b{background:var(--blue-bg);color:var(--blue-dark)}
+
+.right-col{display:flex;flex-direction:column;gap:16px;position:sticky;top:88px}
+.cta-card{background:var(--violet);border-radius:var(--radius);padding:22px}
+.cta-title{font-weight:800;font-size:17px;color:white;margin-bottom:8px;letter-spacing:-.3px}
+.cta-sub{font-size:13px;color:rgba(255,255,255,.6);line-height:1.6;margin-bottom:18px}
+.cta-btn{width:100%;padding:14px;border-radius:100px;background:var(--sun);color:var(--ink);font-family:var(--sans);font-size:15px;font-weight:700;border:none;cursor:pointer;transition:all .2s;margin-bottom:10px}
+.cta-btn:hover{background:#ffe047;transform:translateY(-1px)}
+.cta-note{font-size:12px;color:rgba(255,255,255,.35);text-align:center;display:flex;align-items:center;justify-content:center;gap:5px}
+
+.info-card{background:var(--white);border:1.5px solid var(--border);border-radius:var(--radius);padding:22px}
+.info-row{display:flex;align-items:center;justify-content:space-between;padding:9px 0;border-bottom:1.5px solid var(--border)}
+.info-row:first-child{padding-top:0}
+.info-row:last-child{border-bottom:none;padding-bottom:0}
+.info-key{font-size:13px;color:var(--muted)}
+.info-val{font-size:13px;font-weight:700;color:var(--ink);text-align:right}
+.info-val-g{color:var(--mint-dark)}
+.info-val-v{color:var(--violet-dark)}
+
+/* MODAL */
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(26,26,46,.45);z-index:200;align-items:center;justify-content:center}
+.modal-overlay.show{display:flex}
+.modal{background:var(--white);border-radius:var(--radius);padding:32px;max-width:460px;width:90%;position:relative}
+.modal-close{position:absolute;top:16px;right:16px;width:30px;height:30px;border-radius:50%;background:var(--pale);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:18px;color:var(--muted)}
+.modal-icon{width:56px;height:56px;border-radius:16px;background:var(--mint-bg);display:flex;align-items:center;justify-content:center;margin-bottom:16px}
+.modal-title{font-weight:800;font-size:20px;color:var(--ink);margin-bottom:8px;letter-spacing:-.4px}
+.modal-sub{font-size:14px;color:var(--muted);line-height:1.6;margin-bottom:22px}
+.modal-field{margin-bottom:16px}
+.modal-field label{display:block;font-size:13px;font-weight:700;color:var(--ink2);margin-bottom:6px}
+.modal-field textarea{width:100%;padding:12px 14px;border:1.5px solid var(--border);border-radius:var(--radius-sm);font-family:var(--sans);font-size:13px;color:var(--ink);background:var(--white);outline:none;resize:vertical;min-height:90px;line-height:1.6}
+.modal-field textarea:focus{border-color:var(--violet)}
+.modal-note{font-size:12px;color:var(--muted);background:var(--pale);padding:10px 14px;border-radius:8px;margin-bottom:20px;line-height:1.6}
+.modal-btn{width:100%;padding:14px;border-radius:100px;background:var(--violet);color:white;font-family:var(--sans);font-size:15px;font-weight:700;border:none;cursor:pointer}
+.modal-btn:hover{background:var(--violet-dark)}
+.modal-form-content.hide{display:none}
+.modal-success{display:none;text-align:center;padding:12px 0}
+.modal-success.show{display:block}
+.success-anim{width:64px;height:64px;border-radius:50%;background:var(--mint-bg);display:flex;align-items:center;justify-content:center;margin:0 auto 16px}
+.success-title{font-weight:800;font-size:20px;color:var(--ink);margin-bottom:8px}
+.success-sub{font-size:14px;color:var(--muted);line-height:1.6}
+
+/* LOADING */
+.loading-page{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:60vh;color:var(--muted)}
+.loading-spinner{width:40px;height:40px;border:3px solid var(--border);border-top-color:var(--violet);border-radius:50%;animation:spin 1s linear infinite;margin-bottom:16px}
+@keyframes spin{to{transform:rotate(360deg)}}
+.error-page{text-align:center;padding:80px 20px;color:var(--muted)}
+.error-title{font-weight:800;font-size:24px;color:var(--ink);margin-bottom:12px}
+
+@media(max-width:960px){.page-inner{grid-template-columns:1fr;padding:20px}.right-col{position:static}nav{padding:0 20px}}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="logo">
+    <div class="logo-bubble">
+      <svg viewBox="0 0 18 18" fill="none">
+        <path d="M9 2C5.13 2 2 5.13 2 9s3.13 7 7 7 7-3.13 7-7-3.13-7-7-7z" fill="white" opacity=".25"/>
+        <path d="M6 9l2 2 4-4" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </div>
+    trouver-un-associé
+  </a>
+  <div class="nav-r">
+    <a href="profils.html" class="btn-outline">← Retour aux profils</a>
+    <a href="inscription.html" class="btn-nav">Mon profil</a>
+  </div>
+</nav>
+
+<div id="loadingState" class="loading-page">
+  <div class="loading-spinner"></div>
+  Chargement du profil…
+</div>
+
+<div id="errorState" class="error-page" style="display:none">
+  <div class="error-title">Profil introuvable</div>
+  <p>Ce profil n'existe pas ou a été supprimé.</p>
+  <a href="profils.html" style="display:inline-flex;margin-top:24px;background:var(--violet);color:white;padding:12px 28px;border-radius:100px;font-weight:700;font-size:14px;text-decoration:none">← Retour aux profils</a>
+</div>
+
+<div id="profileContent" style="display:none">
+  <div class="page-inner">
+    <div class="main-col">
+
+      <div class="hero-card">
+        <div class="hero-banner" id="heroBanner">
+          <div class="intent-badge"><span class="intent-dot"></span><span id="intentLabel">Cherche un projet</span></div>
+          <div class="member-since" id="memberSince"></div>
+        </div>
+        <div class="hero-body">
+          <div class="hero-identity">
+            <div class="avatar" id="avatar"></div>
+            <div>
+              <div class="hero-name" id="heroName"></div>
+              <div class="hero-role" id="heroRole"></div>
+              <div class="verified">
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="var(--mint)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                LinkedIn vérifié
+              </div>
+            </div>
+          </div>
+          <div class="hero-pitch" id="heroPitch"></div>
+          <div class="hero-meta">
+            <div class="meta-item">
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="6" r="2.5" stroke="currentColor" stroke-width="1.3"/><path d="M7 1C4.24 1 2 3.24 2 6c0 3.5 5 8 5 8s5-4.5 5-8c0-2.76-2.24-5-5-5z" stroke="currentColor" stroke-width="1.3"/></svg>
+              <span id="metaVille"></span>
+            </div>
+            <div class="meta-item">
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="5.5" stroke="currentColor" stroke-width="1.3"/><path d="M7 4V7l2.5 2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
+              <span id="metaDispo"></span>
+            </div>
+            <div class="meta-item">
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><rect x="2" y="3" width="10" height="8" rx="2" stroke="currentColor" stroke-width="1.3"/><path d="M5 3V2M9 3V2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
+              <span id="metaExp"></span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="sc">
+        <div class="sc-header"><div class="sc-bar"></div><div class="sc-title">Compétences clés</div></div>
+        <div class="chips" id="competencesChips"></div>
+      </div>
+
+      <div class="sc">
+        <div class="sc-header"><div class="sc-bar"></div><div class="sc-title">Secteurs d'intérêt</div></div>
+        <div class="chips" id="secteursChips"></div>
+      </div>
+
+    </div>
+
+    <div class="right-col">
+
+      <div class="cta-card">
+        <div class="cta-title" id="ctaTitle">Contacter ce profil</div>
+        <div class="cta-sub">Exprime ton intérêt en quelques mots. Si la personne est aussi intéressée, la messagerie s'ouvre entre vous.</div>
+        <button class="cta-btn" onclick="showModal()">Exprimer mon intérêt →</button>
+        <div class="cta-note">
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 1a3 3 0 00-3 3v1H2v6h8V5H9V4a3 3 0 00-3-3zM4.5 4a1.5 1.5 0 013 0v1h-3V4z" fill="rgba(255,255,255,.4)"/></svg>
+          Anonyme jusqu'à validation mutuelle
+        </div>
+      </div>
+
+      <div class="info-card">
+        <div class="sc-header" style="margin-bottom:14px"><div class="sc-bar"></div><div class="sc-title">Infos clés</div></div>
+        <div class="info-row"><span class="info-key">Intention</span><span class="info-val info-val-v" id="infoIntention"></span></div>
+        <div class="info-row"><span class="info-key">Disponibilité</span><span class="info-val info-val-g" id="infoDispo"></span></div>
+        <div class="info-row"><span class="info-key">Localisation</span><span class="info-val" id="infoVille"></span></div>
+        <div class="info-row"><span class="info-key">Engagement</span><span class="info-val" id="infoTemps"></span></div>
+        <div class="info-row"><span class="info-key">Equity</span><span class="info-val info-val-g" id="infoEquity"></span></div>
+        <div class="info-row"><span class="info-key">Expérience</span><span class="info-val" id="infoExp"></span></div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="modalOverlay" onclick="closeModalOutside(event)">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal()">×</button>
+    <div class="modal-form-content" id="modalFormContent">
+      <div class="modal-icon">
+        <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+          <path d="M14 3C7.92 3 3 7.92 3 14s4.92 11 11 11 11-4.92 11-11S20.08 3 14 3z" fill="var(--mint)" opacity=".2"/>
+          <path d="M9 14l3.5 3.5L19 10" stroke="var(--mint)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <div class="modal-title" id="modalTitle">Contacter ce profil</div>
+      <div class="modal-sub">La personne recevra un message et pourra consulter ton profil. Si vous êtes mutuellement intéressés, la messagerie s'ouvre.</div>
+      <div class="modal-field">
+        <label>Pourquoi tu veux la contacter <span style="color:var(--muted);font-weight:400">(optionnel mais recommandé)</span></label>
+        <textarea id="msg" placeholder="ex : Je suis fondatrice d'une startup MedTech, ton profil colle parfaitement à ce qu'on cherche…"></textarea>
+      </div>
+      <div class="modal-note">
+        <strong style="color:var(--ink2)">Ta confidentialité est protégée.</strong> Seuls ton prénom, ta ville et tes compétences clés seront visibles. Ton nom complet et coordonnées s'échangent uniquement après validation mutuelle.
+      </div>
+      <button class="modal-btn" onclick="submitInterest()">Envoyer →</button>
+    </div>
+    <div class="modal-success" id="modalSuccess">
+      <div class="success-anim">
+        <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+          <path d="M6 16l7 7 13-13" stroke="var(--mint)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <div class="success-title">Message envoyé !</div>
+      <div class="success-sub">Si la personne est aussi intéressée par ton profil, vous pourrez échanger directement.</div>
+      <a href="profils.html" style="display:inline-flex;align-items:center;gap:8px;margin-top:24px;background:var(--violet);color:white;padding:12px 28px;border-radius:100px;font-weight:700;font-size:14px;text-decoration:none">Explorer d'autres profils →</a>
+    </div>
+  </div>
+</div>
+
+<script>
+const avatarColors = ['#7B4FFF','#00C9A7','#1E6FFF','#FF5E78','#BA7517','#D4537E'];
+const bannerColors = ['#00C9A7','#7B4FFF','#1E6FFF','#FF5E78','#FFD426'];
+
+function getColor(arr, str) {
+  let hash = 0;
+  for (let c of str) hash = c.charCodeAt(0) + ((hash << 5) - hash);
+  return arr[Math.abs(hash) % arr.length];
+}
+
+function formatDate(iso) {
+  const d = new Date(iso);
+  return d.toLocaleDateString('fr-FR', { month: 'long', year: 'numeric' });
+}
+
+function renderProfile(p) {
+  document.title = `${p.prenom} ${p.nom || ''} — Trouver un Associé`;
+
+  const key = p.id || p.prenom;
+  const avatarBg = getColor(avatarColors, key);
+  const bannerBg = getColor(bannerColors, key);
+  const isPorte = p.intention === 'porte';
+
+  document.getElementById('heroBanner').style.background = bannerBg;
+  document.getElementById('intentLabel').textContent = isPorte ? 'A un projet' : 'Cherche un projet';
+  document.getElementById('memberSince').textContent = p.created_at ? `Membre depuis ${formatDate(p.created_at)}` : '';
+
+  const av = document.getElementById('avatar');
+  av.style.background = avatarBg;
+  av.textContent = (p.prenom || '?')[0].toUpperCase();
+
+  document.getElementById('heroName').textContent = `${p.prenom} ${p.nom || ''}`;
+  document.getElementById('heroRole').textContent = `${p.role || ''} · ${p.ville || ''}`;
+  document.getElementById('heroPitch').textContent = `"${p.pitch || ''}"`;
+  document.getElementById('metaVille').textContent = `${p.ville || ''} · Remote ok`;
+  document.getElementById('metaDispo').textContent = p.disponibilite || 'À définir';
+  document.getElementById('metaExp').textContent = p.experience_annees ? `${p.experience_annees} ans d'expérience` : '';
+
+  document.getElementById('competencesChips').innerHTML = (p.competences || [])
+    .map(c => `<span class="chip chip-v">${c}</span>`).join('');
+
+  document.getElementById('secteursChips').innerHTML = (p.secteurs || [])
+    .map(s => `<span class="chip chip-m">${s}</span>`).join('');
+
+  document.getElementById('ctaTitle').textContent = `Contacter ${p.prenom}`;
+  document.getElementById('modalTitle').textContent = `Contacter ${p.prenom}`;
+
+  document.getElementById('infoIntention').textContent = isPorte ? 'A un projet' : 'Cherche un projet';
+  document.getElementById('infoDispo').textContent = p.disponibilite || 'À définir';
+  document.getElementById('infoVille').textContent = p.ville || '—';
+  document.getElementById('infoTemps').textContent = p.temps_plein ? 'Temps plein' : 'Partiel';
+  document.getElementById('infoEquity').textContent = p.equity ? 'Oui, prioritaire' : 'À discuter';
+  document.getElementById('infoExp').textContent = p.experience_annees ? `${p.experience_annees} ans` : '—';
+}
+
+function showModal() {
+  document.getElementById('modalOverlay').classList.add('show');
+  document.body.style.overflow = 'hidden';
+}
+function closeModal() {
+  document.getElementById('modalOverlay').classList.remove('show');
+  document.body.style.overflow = '';
+}
+function closeModalOutside(e) {
+  if (e.target === document.getElementById('modalOverlay')) closeModal();
+}
+function submitInterest() {
+  document.getElementById('modalFormContent').classList.add('hide');
+  document.getElementById('modalSuccess').classList.add('show');
+}
+
+async function init() {
+  const params = new URLSearchParams(window.location.search);
+  const id = params.get('id');
+
+  if (!id) {
+    document.getElementById('loadingState').style.display = 'none';
+    document.getElementById('errorState').style.display = 'block';
+    return;
+  }
+
+  try {
+    const res = await fetch(`/api/profils/${id}`);
+    if (!res.ok) throw new Error('Not found');
+    const profil = await res.json();
+
+    document.getElementById('loadingState').style.display = 'none';
+    document.getElementById('profileContent').style.display = 'block';
+    renderProfile(profil);
+  } catch(err) {
+    document.getElementById('loadingState').style.display = 'none';
+    document.getElementById('errorState').style.display = 'block';
+  }
+}
+
+init();
+</script>
+</body>
+</html>
