@@ -4,247 +4,102 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Créer mon profil — Trouver un Associé</title>
-<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,300;12..96,400;12..96,500;12..96,700;12..96,800&family=Lora:ital,wght@1,400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,700;12..96,800&family=Lora:ital,wght@1,400&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
-  --violet:#7B4FFF;
-  --violet-bg:#F0EBFF;
-  --violet-dark:#5530CC;
-  --mint:#00C9A7;
-  --mint-bg:#E0FBF5;
-  --mint-dark:#007A65;
-  --blue:#1E6FFF;
-  --blue-bg:#EEF5FF;
-  --sun:#FFD426;
-  --coral:#FF5E78;
-  --coral-bg:#FFF0F2;
-  --coral-dark:#CC2A44;
-  --ink:#1A1A2E;
-  --ink2:#3D3D5C;
-  --muted:#7A7A9A;
-  --pale:#F5F5FF;
-  --border:rgba(26,26,46,0.1);
-  --white:#FFFFFF;
-  --sans:'Bricolage Grotesque',sans-serif;
-  --serif:'Lora',serif;
-  --radius:14px;
-  --radius-sm:10px;
+  --violet:#7B4FFF;--violet-bg:#F0EBFF;--violet-dark:#5530CC;
+  --mint:#00C9A7;--mint-bg:#E0FBF5;--mint-dark:#007A65;
+  --blue:#1E6FFF;--blue-bg:#EEF5FF;
+  --sun:#FFD426;--sun-bg:#FFFBE8;
+  --coral:#FF5E78;--coral-bg:#FFF0F2;--coral-dark:#CC2A44;
+  --ink:#1A1A2E;--ink2:#3D3D5C;--muted:#7A7A9A;
+  --pale:#F5F5FF;--border:rgba(26,26,46,0.1);--white:#fff;
+  --sans:'Bricolage Grotesque',sans-serif;--serif:'Lora',serif;
+  --radius:14px;--radius-sm:10px;
 }
-body{font-family:var(--sans);background:var(--pale);color:var(--ink);min-height:100vh;line-height:1.6}
+body{font-family:var(--sans);background:var(--pale);color:var(--ink);min-height:100vh}
 
-/* NAV */
-nav{
-  background:var(--white);border-bottom:1.5px solid var(--border);
-  padding:0 5%;display:flex;align-items:center;justify-content:space-between;height:60px;
-}
+nav{background:var(--white);border-bottom:1.5px solid var(--border);padding:0 5%;display:flex;align-items:center;justify-content:space-between;height:60px}
 .logo{font-weight:800;font-size:16px;color:var(--ink);text-decoration:none;display:flex;align-items:center;gap:10px}
-.logo-bubble{width:30px;height:30px;background:var(--violet);border-radius:9px;display:flex;align-items:center;justify-content:center}
-.logo-bubble svg{width:17px;height:17px}
+.logo-bubble{width:36px;height:36px;display:flex;align-items:center;justify-content:center}
 .back-link{font-size:14px;color:var(--muted);text-decoration:none;display:flex;align-items:center;gap:6px;transition:color .2s}
 .back-link:hover{color:var(--ink)}
 
-/* LAYOUT */
-.page{display:grid;grid-template-columns:1fr 420px;min-height:calc(100vh - 60px)}
+.page{display:grid;grid-template-columns:2fr 3fr;min-height:calc(100vh - 60px)}
 
-/* LEFT PANEL */
-.left-panel{
-  background:var(--violet);
-  padding:60px 48px;
-  display:flex;flex-direction:column;justify-content:center;
-  position:relative;overflow:hidden;
-}
-.lp-blob{
-  position:absolute;border-radius:50%;
-  background:rgba(255,255,255,.08);
-}
+.left-panel{background:var(--violet);padding:60px 48px;display:flex;flex-direction:column;justify-content:center;position:relative;overflow:hidden}
+.lp-blob{position:absolute;border-radius:50%;background:rgba(255,255,255,.12)}
 .lp-blob-1{width:320px;height:320px;top:-80px;left:-80px}
 .lp-blob-2{width:220px;height:220px;bottom:40px;right:-60px}
 .lp-content{position:relative;z-index:1}
-.lp-step-indicator{
-  display:flex;gap:8px;margin-bottom:48px;
-}
-.lp-step{
-  height:4px;border-radius:100px;background:rgba(255,255,255,.25);
-  transition:all .4s;flex:1;
-}
+.lp-step-indicator{display:flex;gap:8px;margin-bottom:48px}
+.lp-step{height:4px;border-radius:100px;background:rgba(255,255,255,.3);transition:all .4s;flex:1}
 .lp-step.active{background:var(--sun)}
 .lp-step.done{background:rgba(255,255,255,.6)}
-.lp-tag{
-  display:inline-flex;align-items:center;gap:8px;
-  background:rgba(255,255,255,.15);
-  border-radius:100px;padding:6px 14px;
-  font-size:13px;font-weight:600;color:rgba(255,255,255,.8);
-  margin-bottom:24px;
-}
+.lp-tag{display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,.3);border-radius:100px;padding:6px 14px;font-size:13px;font-weight:600;color:white;margin-bottom:24px}
 .lp-tag-dot{width:6px;height:6px;border-radius:50%;background:var(--sun)}
-.lp-title{
-  font-weight:800;font-size:clamp(28px,3vw,38px);
-  color:var(--white);line-height:1.1;margin-bottom:16px;
-  letter-spacing:-1px;
-}
-.lp-sub{
-  font-size:15px;color:rgba(255,255,255,.65);
-  line-height:1.7;margin-bottom:40px;max-width:360px;
-}
-.lp-quote{
-  border-left:3px solid var(--sun);
-  padding-left:16px;
-  font-family:var(--serif);font-style:italic;
-  font-size:14px;color:rgba(255,255,255,.7);
-  line-height:1.7;max-width:320px;
-}
-.lp-quote-author{
-  margin-top:10px;font-family:var(--sans);
-  font-size:12px;color:rgba(255,255,255,.45);
-  font-style:normal;font-weight:600;
-}
+.lp-title{font-weight:800;font-size:clamp(28px,3vw,38px);color:var(--white);line-height:1.1;margin-bottom:16px;letter-spacing:-1px}
+.lp-sub{font-size:15px;color:rgba(255,255,255,.9);line-height:1.7;margin-bottom:40px;max-width:360px}
 .lp-perks{display:flex;flex-direction:column;gap:12px;margin-bottom:36px}
-.lp-perk{
-  display:flex;align-items:center;gap:12px;
-  font-size:14px;color:rgba(255,255,255,.75);font-weight:400;
-}
-.lp-perk-icon{
-  width:28px;height:28px;border-radius:8px;
-  background:rgba(255,255,255,.15);flex-shrink:0;
-  display:flex;align-items:center;justify-content:center;
-}
+.lp-perk{display:flex;align-items:center;gap:12px;font-size:14px;color:white}
+.lp-perk-icon{width:28px;height:28px;border-radius:8px;background:rgba(255,255,255,.3);flex-shrink:0;display:flex;align-items:center;justify-content:center}
+.lp-quote{border-left:3px solid var(--sun);padding-left:16px;font-family:var(--serif);font-style:italic;font-size:14px;color:rgba(255,255,255,.95);line-height:1.7;max-width:320px}
+.lp-quote-author{margin-top:10px;font-family:var(--sans);font-size:12px;color:rgba(255,255,255,.7);font-style:normal;font-weight:600}
 
-/* RIGHT PANEL - FORM */
-.right-panel{
-  background:var(--white);
-  padding:48px 40px;
-  overflow-y:auto;
-  display:flex;flex-direction:column;
-  justify-content:center;
-}
+.right-panel{background:var(--white);padding:48px 40px;overflow-y:auto;display:flex;flex-direction:column;justify-content:center}
 .form-step{display:none}
 .form-step.active{display:block}
-
 .step-header{margin-bottom:32px}
-.step-num{
-  font-size:12px;font-weight:700;color:var(--violet);
-  letter-spacing:1.5px;text-transform:uppercase;margin-bottom:8px;
-}
+.step-num{font-size:12px;font-weight:700;color:var(--violet);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:8px}
 .step-title{font-weight:800;font-size:24px;color:var(--ink);letter-spacing:-.5px;margin-bottom:6px}
 .step-sub{font-size:14px;color:var(--muted)}
 
 .field{margin-bottom:20px}
-.field label{
-  display:block;font-size:13px;font-weight:700;
-  color:var(--ink2);margin-bottom:8px;
-}
-.field input,.field select,.field textarea{
-  width:100%;padding:12px 16px;
-  border:1.5px solid var(--border);border-radius:var(--radius-sm);
-  font-family:var(--sans);font-size:14px;color:var(--ink);
-  background:var(--white);outline:none;
-  transition:border-color .2s,box-shadow .2s;
-  appearance:none;
-}
-.field input:focus,.field select:focus,.field textarea:focus{
-  border-color:var(--violet);
-  box-shadow:0 0 0 3px rgba(123,79,255,.1);
-}
+.field label{display:block;font-size:13px;font-weight:700;color:var(--ink2);margin-bottom:8px}
+.field input,.field select,.field textarea{width:100%;padding:12px 16px;border:1.5px solid var(--border);border-radius:var(--radius-sm);font-family:var(--sans);font-size:14px;color:var(--ink);background:var(--white);outline:none;transition:border-color .2s}
+.field input:focus,.field select:focus,.field textarea:focus{border-color:var(--violet);box-shadow:0 0 0 3px rgba(123,79,255,.1)}
 .field textarea{resize:vertical;min-height:90px;line-height:1.6}
 .field-row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
 .field-hint{font-size:12px;color:var(--muted);margin-top:6px}
+.field-error{font-size:12px;color:var(--coral-dark);margin-top:6px;display:none}
+.field input.error,.field textarea.error{border-color:var(--coral)}
 
-/* TAGS SELECTOR */
 .tags-select{display:flex;flex-wrap:wrap;gap:8px;margin-top:4px}
-.tag-opt{
-  padding:7px 14px;border-radius:100px;
-  border:1.5px solid var(--border);
-  font-size:13px;font-weight:600;color:var(--muted);
-  cursor:pointer;transition:all .2s;user-select:none;
-  background:var(--white);
-}
+.tag-opt{padding:7px 14px;border-radius:100px;border:1.5px solid var(--border);font-size:13px;font-weight:600;color:var(--muted);cursor:pointer;transition:all .2s;user-select:none;background:var(--white)}
 .tag-opt:hover{border-color:var(--violet);color:var(--violet)}
 .tag-opt.sel-violet{background:var(--violet-bg);border-color:var(--violet);color:var(--violet-dark)}
 .tag-opt.sel-mint{background:var(--mint-bg);border-color:var(--mint);color:var(--mint-dark)}
-.tag-opt.sel-blue{background:var(--blue-bg);border-color:var(--blue);color:var(--blue)}
 
-/* INTENTION CARDS */
 .intention-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:4px}
-.intent-card{
-  border:2px solid var(--border);border-radius:var(--radius);
-  padding:20px 18px;cursor:pointer;transition:all .2s;
-  text-align:center;background:var(--white);
-}
+.intent-card{border:2px solid var(--border);border-radius:var(--radius);padding:20px 18px;cursor:pointer;transition:all .2s;text-align:center;background:var(--white)}
 .intent-card:hover{border-color:var(--violet)}
 .intent-card.selected{border-color:var(--violet);background:var(--violet-bg)}
 .intent-card.selected .intent-title{color:var(--violet-dark)}
-.intent-card.selected .intent-desc{color:var(--violet)}
 .intent-icon{font-size:28px;margin-bottom:10px}
 .intent-title{font-weight:800;font-size:14px;color:var(--ink);margin-bottom:6px}
 .intent-desc{font-size:12px;color:var(--muted);line-height:1.5}
 
-/* DISPO PILLS */
 .dispo-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:4px}
-.dispo-pill{
-  padding:10px 8px;border-radius:var(--radius-sm);
-  border:1.5px solid var(--border);
-  font-size:12px;font-weight:600;color:var(--muted);
-  cursor:pointer;transition:all .2s;text-align:center;
-  background:var(--white);
-}
+.dispo-pill{padding:10px 8px;border-radius:var(--radius-sm);border:1.5px solid var(--border);font-size:12px;font-weight:600;color:var(--muted);cursor:pointer;transition:all .2s;text-align:center;background:var(--white)}
 .dispo-pill:hover{border-color:var(--mint);color:var(--mint-dark)}
 .dispo-pill.selected{background:var(--mint-bg);border-color:var(--mint);color:var(--mint-dark)}
 
-/* PROGRESS BAR */
-.progress-bar{
-  height:4px;background:var(--pale);border-radius:100px;
-  margin-bottom:32px;overflow:hidden;
-}
-.progress-fill{
-  height:100%;background:var(--violet);border-radius:100px;
-  transition:width .4s ease;
-}
+.progress-bar{height:4px;background:var(--pale);border-radius:100px;margin-bottom:32px;overflow:hidden}
+.progress-fill{height:100%;background:var(--violet);border-radius:100px;transition:width .4s ease}
 
-/* BUTTONS */
-.btn-next{
-  width:100%;padding:15px;border-radius:100px;
-  background:var(--violet);color:white;
-  font-family:var(--sans);font-size:15px;font-weight:700;
-  border:none;cursor:pointer;transition:all .2s;
-  display:flex;align-items:center;justify-content:center;gap:8px;
-  margin-top:28px;
-}
+.btn-next{width:100%;padding:15px;border-radius:100px;background:var(--violet);color:white;font-family:var(--sans);font-size:15px;font-weight:700;border:none;cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:8px;margin-top:28px}
 .btn-next:hover{background:var(--violet-dark);transform:translateY(-1px)}
-.btn-next:disabled{opacity:.4;cursor:not-allowed;transform:none}
-.btn-back{
-  display:flex;align-items:center;justify-content:center;gap:6px;
-  width:100%;padding:12px;border-radius:100px;
-  background:transparent;color:var(--muted);
-  font-family:var(--sans);font-size:14px;font-weight:500;
-  border:1.5px solid var(--border);cursor:pointer;
-  transition:all .2s;margin-top:10px;
-}
+.btn-next:disabled{opacity:.5;cursor:not-allowed;transform:none}
+.btn-back{display:flex;align-items:center;justify-content:center;gap:6px;width:100%;padding:12px;border-radius:100px;background:transparent;color:var(--muted);font-family:var(--sans);font-size:14px;font-weight:500;border:1.5px solid var(--border);cursor:pointer;transition:all .2s;margin-top:10px}
 .btn-back:hover{border-color:var(--ink);color:var(--ink)}
 
-/* SUCCESS */
-.success-screen{
-  display:none;flex-direction:column;
-  align-items:center;justify-content:center;
-  text-align:center;padding:40px 20px;
-  min-height:400px;
-}
+.success-screen{display:none;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:40px 20px;min-height:400px}
 .success-screen.show{display:flex}
-.success-icon{
-  width:72px;height:72px;border-radius:50%;
-  background:var(--mint-bg);
-  display:flex;align-items:center;justify-content:center;
-  margin-bottom:24px;
-}
+.success-icon{width:72px;height:72px;border-radius:50%;background:var(--mint-bg);display:flex;align-items:center;justify-content:center;margin-bottom:24px}
 .success-title{font-weight:800;font-size:26px;color:var(--ink);margin-bottom:12px;letter-spacing:-.5px}
 .success-sub{font-size:15px;color:var(--muted);line-height:1.7;max-width:300px;margin:0 auto 32px}
-.btn-success{
-  background:var(--violet);color:white;
-  padding:14px 32px;border-radius:100px;
-  font-family:var(--sans);font-size:15px;font-weight:700;
-  text-decoration:none;display:inline-flex;align-items:center;gap:8px;
-  transition:all .2s;
-}
+.btn-success{background:var(--violet);color:white;padding:14px 32px;border-radius:100px;font-family:var(--sans);font-size:15px;font-weight:700;text-decoration:none;display:inline-flex;align-items:center;gap:8px;transition:all .2s}
 .btn-success:hover{background:var(--violet-dark);transform:translateY(-1px)}
 .confetti-row{display:flex;gap:6px;justify-content:center;margin-bottom:20px}
 .conf{width:10px;height:10px;border-radius:2px;animation:pop .5s ease forwards;opacity:0}
@@ -257,26 +112,25 @@ nav{
 .conf:nth-child(7){background:var(--violet);animation-delay:.2s;border-radius:50%}
 @keyframes pop{0%{opacity:0;transform:translateY(12px) scale(.5)}70%{opacity:1;transform:translateY(-6px) scale(1.1)}100%{opacity:1;transform:translateY(0) scale(1)}}
 
-@media(max-width:860px){
-  .page{grid-template-columns:1fr}
-  .left-panel{display:none}
-  .right-panel{padding:32px 24px;min-height:calc(100vh - 60px)}
-  .field-row{grid-template-columns:1fr}
-  .intention-grid{grid-template-columns:1fr}
-}
+.error-banner{background:var(--coral-bg);border:1.5px solid rgba(255,94,120,.2);border-radius:var(--radius-sm);padding:12px 16px;font-size:13px;color:var(--coral-dark);margin-bottom:20px;display:none}
+.error-banner.show{display:block}
+
+@media(max-width:860px){.page{grid-template-columns:1fr}.left-panel{display:none}.right-panel{padding:32px 24px;min-height:calc(100vh - 60px)}.field-row{grid-template-columns:1fr}.intention-grid{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
 
 <nav>
   <a href="index.html" class="logo">
-    <div class="logo-bubble"><svg width="36" height="36" viewBox="0 0 80 80" fill="none">
-  <rect width="80" height="80" rx="20" fill="#1A1A2E"/>
-  <circle cx="28" cy="32" r="9" fill="#FFD426"/>
-  <circle cx="52" cy="32" r="9" fill="#00C9A7"/>
-  <path d="M18 56C18 50 22 46 28 46C32 46 35 48.5 40 48.5C45 48.5 48 46 52 46C58 46 62 50 62 56" stroke="white" stroke-width="3.5" stroke-linecap="round" fill="none"/>
-  <path d="M37 56H43" stroke="#7B4FFF" stroke-width="3.5" stroke-linecap="round"/>
-</svg></div>
+    <div class="logo-bubble">
+      <svg width="36" height="36" viewBox="0 0 80 80" fill="none">
+        <rect width="80" height="80" rx="20" fill="#1A1A2E"/>
+        <circle cx="28" cy="32" r="9" fill="#FFD426"/>
+        <circle cx="52" cy="32" r="9" fill="#00C9A7"/>
+        <path d="M18 56C18 50 22 46 28 46C32 46 35 48.5 40 48.5C45 48.5 48 46 52 46C58 46 62 50 62 56" stroke="white" stroke-width="3.5" stroke-linecap="round" fill="none"/>
+        <path d="M37 56H43" stroke="#7B4FFF" stroke-width="3.5" stroke-linecap="round"/>
+      </svg>
+    </div>
     trouver-un-associé
   </a>
   <a href="index.html" class="back-link">
@@ -286,8 +140,6 @@ nav{
 </nav>
 
 <div class="page">
-
-  <!-- PANNEAU GAUCHE -->
   <div class="left-panel">
     <div class="lp-blob lp-blob-1"></div>
     <div class="lp-blob lp-blob-2"></div>
@@ -298,71 +150,31 @@ nav{
       </div>
       <div id="lp-etape1">
         <div class="lp-tag"><span class="lp-tag-dot"></span>Étape 1 sur 2</div>
-        <div class="lp-title">Bienvenue dans<br>la communauté !</div>
+        <div class="lp-title">Bienvenue dans la communauté !</div>
         <div class="lp-sub">Quelques infos sur vous pour que les autres membres puissent vous trouver et comprendre ce que vous apportez.</div>
         <div class="lp-perks">
-          <div class="lp-perk">
-            <div class="lp-perk-icon">
-              <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7l3 3 7-7" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            </div>
-            100% gratuit, sans engagement
-          </div>
-          <div class="lp-perk">
-            <div class="lp-perk-icon">
-              <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7l3 3 7-7" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            </div>
-            Votre profil est visible seulement par vous jusqu'à publication
-          </div>
-          <div class="lp-perk">
-            <div class="lp-perk-icon">
-              <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7l3 3 7-7" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            </div>
-            Moins de 3 minutes pour tout remplir
-          </div>
+          <div class="lp-perk"><div class="lp-perk-icon"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7l3 3 7-7" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>100% gratuit, sans engagement</div>
+          <div class="lp-perk"><div class="lp-perk-icon"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7l3 3 7-7" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>Votre profil visible seulement par vous jusqu'à publication</div>
+          <div class="lp-perk"><div class="lp-perk-icon"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7l3 3 7-7" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>Moins de 3 minutes pour tout remplir</div>
         </div>
-        <div class="lp-quote">
-          "En 3 semaines j'avais rencontré mon futur CTO. Aujourd'hui on a nos premiers clients."
-          <div class="lp-quote-author">Clara M. — CEO, startup RH Paris</div>
-        </div>
+        <div class="lp-quote">"En 3 semaines j'avais rencontré mon futur CTO. Aujourd'hui on a nos premiers clients."<div class="lp-quote-author">Clara M. — CEO, startup RH Paris</div></div>
       </div>
       <div id="lp-etape2" style="display:none">
         <div class="lp-tag"><span class="lp-tag-dot"></span>Étape 2 sur 2</div>
-        <div class="lp-title">Dernière ligne<br>droite !</div>
-        <div class="lp-sub">On veut comprendre ce que vous cherchez — pour vous mettre en contact avec les bonnes personnes, pas les mauvaises.</div>
+        <div class="lp-title">Dernière ligne droite !</div>
+        <div class="lp-sub">On veut comprendre ce que vous cherchez — pour vous mettre en contact avec les bonnes personnes.</div>
         <div class="lp-perks">
-          <div class="lp-perk">
-            <div class="lp-perk-icon">
-              <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7l3 3 7-7" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            </div>
-            Votre intention est toujours modifiable
-          </div>
-          <div class="lp-perk">
-            <div class="lp-perk-icon">
-              <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7l3 3 7-7" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            </div>
-            Matching basé sur vos vraies disponibilités
-          </div>
-          <div class="lp-perk">
-            <div class="lp-perk-icon">
-              <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7l3 3 7-7" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            </div>
-            340 projets actifs vous attendent
-          </div>
+          <div class="lp-perk"><div class="lp-perk-icon"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7l3 3 7-7" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>Votre intention est toujours modifiable</div>
+          <div class="lp-perk"><div class="lp-perk-icon"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7l3 3 7-7" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>Matching basé sur vos vraies disponibilités</div>
+          <div class="lp-perk"><div class="lp-perk-icon"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7l3 3 7-7" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>340 projets actifs vous attendent</div>
         </div>
-        <div class="lp-quote">
-          "Ce que j'aimais, c'est que tout le monde est là pour la même raison. Juste des gens qui veulent construire quelque chose."
-          <div class="lp-quote-author">Anaïs B. — Co-fondatrice, EdTech Nantes</div>
-        </div>
+        <div class="lp-quote">"Ce que j'aimais, c'est que tout le monde est là pour la même raison. Juste des gens qui veulent construire quelque chose."<div class="lp-quote-author">Anaïs B. — Co-fondatrice, EdTech Nantes</div></div>
       </div>
     </div>
   </div>
 
-  <!-- PANNEAU DROIT - FORMULAIRE -->
   <div class="right-panel">
-
-    <div class="progress-bar">
-      <div class="progress-fill" id="progress" style="width:50%"></div>
-    </div>
+    <div class="progress-bar"><div class="progress-fill" id="progress" style="width:50%"></div></div>
 
     <!-- ÉTAPE 1 -->
     <div class="form-step active" id="step1">
@@ -371,71 +183,42 @@ nav{
         <div class="step-title">Qui êtes-vous ?</div>
         <div class="step-sub">Ces informations apparaîtront sur votre profil public.</div>
       </div>
-
       <div class="field-row">
-        <div class="field">
-          <label for="prenom">Prénom</label>
-          <input type="text" id="prenom" placeholder="Marie">
-        </div>
-        <div class="field">
-          <label for="nom">Nom</label>
-          <input type="text" id="nom" placeholder="Dupont">
-        </div>
+        <div class="field"><label for="prenom">Prénom *</label><input type="text" id="prenom" placeholder="Marie"><div class="field-error" id="err-prenom">Champ obligatoire</div></div>
+        <div class="field"><label for="nom">Nom</label><input type="text" id="nom" placeholder="Dupont"></div>
       </div>
-
+      <div class="field"><label for="email">Adresse email *</label><input type="email" id="email" placeholder="marie@exemple.com"><div class="field-hint">Jamais partagée publiquement.</div><div class="field-error" id="err-email">Email invalide</div></div>
+      <div class="field"><label for="ville">Ville</label><input type="text" id="ville" placeholder="Paris, Lyon, Remote…"></div>
+      <div class="field"><label for="role">Votre rôle actuel</label><input type="text" id="role" placeholder="Product Manager, Ingénieur, Commercial…"></div>
       <div class="field">
-        <label for="email">Adresse email</label>
-        <input type="email" id="email" placeholder="marie@exemple.com">
-        <div class="field-hint">Jamais partagée publiquement, uniquement pour votre connexion.</div>
-      </div>
-
-      <div class="field">
-        <label for="ville">Ville</label>
-        <input type="text" id="ville" placeholder="Paris, Lyon, Bordeaux, Remote…">
-      </div>
-
-      <div class="field">
-        <label for="role">Votre rôle actuel</label>
-        <input type="text" id="role" placeholder="Product Manager, Ingénieur, Commercial…">
-      </div>
-
-      <div class="field">
-        <label>Vos compétences clés <span style="color:var(--muted);font-weight:400">(choisissez jusqu'à 4)</span></label>
+        <label>Compétences clés <span style="color:var(--muted);font-weight:400">(max 4)</span></label>
         <div class="tags-select" id="competences">
-          <span class="tag-opt" onclick="toggleTag(this,'violet')">Technique / Dev</span>
-          <span class="tag-opt" onclick="toggleTag(this,'violet')">Product / UX</span>
-          <span class="tag-opt" onclick="toggleTag(this,'violet')">Marketing / Growth</span>
-          <span class="tag-opt" onclick="toggleTag(this,'violet')">Commercial / Vente</span>
-          <span class="tag-opt" onclick="toggleTag(this,'violet')">Finance / Gestion</span>
-          <span class="tag-opt" onclick="toggleTag(this,'violet')">Design</span>
-          <span class="tag-opt" onclick="toggleTag(this,'violet')">Juridique</span>
-          <span class="tag-opt" onclick="toggleTag(this,'violet')">Opérations / Ops</span>
-          <span class="tag-opt" onclick="toggleTag(this,'violet')">Data / IA</span>
-          <span class="tag-opt" onclick="toggleTag(this,'violet')">Levée de fonds</span>
+          <span class="tag-opt" onclick="toggleTag(this,'violet','competences',4)">Technique / Dev</span>
+          <span class="tag-opt" onclick="toggleTag(this,'violet','competences',4)">Product / UX</span>
+          <span class="tag-opt" onclick="toggleTag(this,'violet','competences',4)">Marketing / Growth</span>
+          <span class="tag-opt" onclick="toggleTag(this,'violet','competences',4)">Commercial / Vente</span>
+          <span class="tag-opt" onclick="toggleTag(this,'violet','competences',4)">Finance / Gestion</span>
+          <span class="tag-opt" onclick="toggleTag(this,'violet','competences',4)">Design</span>
+          <span class="tag-opt" onclick="toggleTag(this,'violet','competences',4)">Juridique</span>
+          <span class="tag-opt" onclick="toggleTag(this,'violet','competences',4)">Data / IA</span>
+          <span class="tag-opt" onclick="toggleTag(this,'violet','competences',4)">Levée de fonds</span>
         </div>
-        <div class="field-hint">Sélectionnez vos vrais points forts, pas vos aspirations.</div>
       </div>
-
       <div class="field">
-        <label>Secteurs d'intérêt <span style="color:var(--muted);font-weight:400">(1 à 3)</span></label>
+        <label>Secteurs d'intérêt <span style="color:var(--muted);font-weight:400">(max 3)</span></label>
         <div class="tags-select" id="secteurs">
-          <span class="tag-opt" onclick="toggleTag(this,'mint')">SaaS / Tech</span>
-          <span class="tag-opt" onclick="toggleTag(this,'mint')">Santé / MedTech</span>
-          <span class="tag-opt" onclick="toggleTag(this,'mint')">EdTech</span>
-          <span class="tag-opt" onclick="toggleTag(this,'mint')">ClimateTech</span>
-          <span class="tag-opt" onclick="toggleTag(this,'mint')">Commerce / Retail</span>
-          <span class="tag-opt" onclick="toggleTag(this,'mint')">FinTech</span>
-          <span class="tag-opt" onclick="toggleTag(this,'mint')">RH / FutureOfWork</span>
-          <span class="tag-opt" onclick="toggleTag(this,'mint')">Marketplace</span>
-          <span class="tag-opt" onclick="toggleTag(this,'mint')">AgriTech</span>
-          <span class="tag-opt" onclick="toggleTag(this,'mint')">Tous secteurs</span>
+          <span class="tag-opt" onclick="toggleTag(this,'mint','secteurs',3)">SaaS / Tech</span>
+          <span class="tag-opt" onclick="toggleTag(this,'mint','secteurs',3)">Santé / MedTech</span>
+          <span class="tag-opt" onclick="toggleTag(this,'mint','secteurs',3)">EdTech</span>
+          <span class="tag-opt" onclick="toggleTag(this,'mint','secteurs',3)">ClimateTech</span>
+          <span class="tag-opt" onclick="toggleTag(this,'mint','secteurs',3)">Commerce / Retail</span>
+          <span class="tag-opt" onclick="toggleTag(this,'mint','secteurs',3)">FinTech</span>
+          <span class="tag-opt" onclick="toggleTag(this,'mint','secteurs',3)">RH / FutureOfWork</span>
+          <span class="tag-opt" onclick="toggleTag(this,'mint','secteurs',3)">Marketplace</span>
+          <span class="tag-opt" onclick="toggleTag(this,'mint','secteurs',3)">Tous secteurs</span>
         </div>
       </div>
-
-      <button class="btn-next" onclick="goStep2()">
-        Continuer
-        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M6 4l4 4-4 4" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      </button>
+      <button class="btn-next" onclick="goStep2()">Continuer <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M6 4l4 4-4 4" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
     </div>
 
     <!-- ÉTAPE 2 -->
@@ -445,34 +228,29 @@ nav{
         <div class="step-title">Votre intention</div>
         <div class="step-sub">Qu'est-ce que vous cherchez sur la plateforme ?</div>
       </div>
-
+      <div class="error-banner" id="errorBanner"></div>
       <div class="field">
-        <label>Je suis ici pour… <span style="color:var(--muted);font-weight:400">(choisissez une option)</span></label>
+        <label>Je suis ici pour… *</label>
         <div class="intention-grid" id="intentions">
-          <div class="intent-card" onclick="selectIntent(this)">
+          <div class="intent-card" onclick="selectIntent(this,'cherche')">
             <div class="intent-icon">💡</div>
             <div class="intent-title">Présenter mon projet</div>
-            <div class="intent-desc">J'ai une idée ou un projet en cours et je cherche un ou plusieurs associés pour me rejoindre.</div>
+            <div class="intent-desc">J'ai une idée ou un projet et cherche un ou plusieurs associés.</div>
           </div>
-          <div class="intent-card" onclick="selectIntent(this)">
+          <div class="intent-card" onclick="selectIntent(this,'porte')">
             <div class="intent-icon">🔍</div>
             <div class="intent-title">Rejoindre un projet</div>
-            <div class="intent-desc">Je cherche un projet ambitieux auquel contribuer en tant que co-fondateur ou associé.</div>
+            <div class="intent-desc">Je cherche un projet ambitieux auquel contribuer en tant que co-fondateur.</div>
           </div>
         </div>
+        <div class="field-error show" id="err-intention" style="display:none">Veuillez choisir une intention</div>
       </div>
-
-      <div class="field" id="projet-field" style="display:none">
-        <label for="nom-projet">Nom de votre projet</label>
-        <input type="text" id="nom-projet" placeholder="ex : Plateforme RH, Marketplace bio…">
-      </div>
-
       <div class="field">
-        <label for="pitch">En une phrase, présentez-vous</label>
-        <textarea id="pitch" placeholder="ex : Ex-Doctolib, je construis un outil de gestion pour les cabinets médicaux indépendants et cherche un CTO technique."></textarea>
-        <div class="field-hint">Cette phrase apparaîtra en tête de votre profil. Soyez précis et concret.</div>
+        <label for="pitch">En une phrase, présentez-vous *</label>
+        <textarea id="pitch" placeholder="ex : Ex-Doctolib, je construis un outil de gestion pour les cabinets médicaux et cherche un CTO technique."></textarea>
+        <div class="field-hint">Cette phrase apparaîtra en tête de votre profil.</div>
+        <div class="field-error" id="err-pitch">Champ obligatoire</div>
       </div>
-
       <div class="field">
         <label>Disponibilité</label>
         <div class="dispo-grid" id="dispos">
@@ -484,53 +262,38 @@ nav{
           <div class="dispo-pill" onclick="selectDispo(this)">À définir</div>
         </div>
       </div>
-
       <div class="field">
-        <label for="linkedin">Profil LinkedIn <span style="color:var(--muted);font-weight:400">(optionnel mais recommandé)</span></label>
+        <label for="linkedin">Profil LinkedIn <span style="color:var(--muted);font-weight:400">(optionnel)</span></label>
         <input type="url" id="linkedin" placeholder="https://linkedin.com/in/votre-profil">
         <div class="field-hint">Renforce votre crédibilité auprès des autres membres.</div>
       </div>
-
-      <button class="btn-next" onclick="submit()" id="btn-submit">
-        Créer mon profil
-        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M6 4l4 4-4 4" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      </button>
-      <button class="btn-back" onclick="goStep1()">
-        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M9 11L5 7l4-4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        Retour
-      </button>
+      <button class="btn-next" onclick="submit()" id="btn-submit">Créer mon profil <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M6 4l4 4-4 4" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+      <button class="btn-back" onclick="goStep1()"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M9 11L5 7l4-4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Retour</button>
     </div>
 
     <!-- SUCCESS -->
     <div class="success-screen" id="success">
       <div class="confetti-row">
         <div class="conf"></div><div class="conf"></div><div class="conf"></div>
-        <div class="conf"></div><div class="conf"></div><div class="conf"></div>
-        <div class="conf"></div>
+        <div class="conf"></div><div class="conf"></div><div class="conf"></div><div class="conf"></div>
       </div>
       <div class="success-icon">
-        <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
-          <path d="M6 16l7 7 13-13" stroke="var(--mint)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
+        <svg width="32" height="32" viewBox="0 0 32 32" fill="none"><path d="M6 16l7 7 13-13" stroke="var(--mint)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
       </div>
       <div class="success-title">Bienvenue dans la communauté !</div>
       <div class="success-sub">Votre profil est créé. Il ne reste plus qu'à explorer les projets et trouver votre futur associé.</div>
-      <a href="index.html" class="btn-success">Explorer les projets →</a>
+      <a href="profils.html" class="btn-success">Explorer les profils →</a>
     </div>
-
   </div>
 </div>
 
 <script>
-let selectedIntent = null;
+let selectedIntention = null;
+let selectedDispo = null;
 
-function toggleTag(el, color) {
-  const parent = el.parentElement;
-  const maxMap = {'competences': 4, 'secteurs': 3};
-  const id = parent.id;
-  const max = maxMap[id] || 99;
+function toggleTag(el, color, groupId, max) {
+  const parent = document.getElementById(groupId);
   const cls = 'sel-' + color;
-
   if (el.classList.contains(cls)) {
     el.classList.remove(cls);
   } else {
@@ -540,20 +303,48 @@ function toggleTag(el, color) {
   }
 }
 
-function selectIntent(el) {
+function selectIntent(el, val) {
   document.querySelectorAll('.intent-card').forEach(c => c.classList.remove('selected'));
   el.classList.add('selected');
-  selectedIntent = el;
-  const isPorteur = el.querySelector('.intent-title').textContent.includes('Présenter');
-  document.getElementById('projet-field').style.display = isPorteur ? 'block' : 'none';
+  selectedIntention = val;
+  document.getElementById('err-intention').style.display = 'none';
 }
 
 function selectDispo(el) {
   document.querySelectorAll('.dispo-pill').forEach(p => p.classList.remove('selected'));
   el.classList.add('selected');
+  selectedDispo = el.textContent;
+}
+
+function getSelectedTags(groupId, color) {
+  return [...document.querySelectorAll(`#${groupId} .sel-${color}`)].map(el => el.textContent);
 }
 
 function goStep2() {
+  const prenom = document.getElementById('prenom').value.trim();
+  const email = document.getElementById('email').value.trim();
+  let valid = true;
+
+  if (!prenom) {
+    document.getElementById('err-prenom').style.display = 'block';
+    document.getElementById('prenom').classList.add('error');
+    valid = false;
+  } else {
+    document.getElementById('err-prenom').style.display = 'none';
+    document.getElementById('prenom').classList.remove('error');
+  }
+
+  if (!email || !email.includes('@')) {
+    document.getElementById('err-email').style.display = 'block';
+    document.getElementById('email').classList.add('error');
+    valid = false;
+  } else {
+    document.getElementById('err-email').style.display = 'none';
+    document.getElementById('email').classList.remove('error');
+  }
+
+  if (!valid) return;
+
   document.getElementById('step1').classList.remove('active');
   document.getElementById('step2').classList.add('active');
   document.getElementById('progress').style.width = '100%';
@@ -562,7 +353,7 @@ function goStep2() {
   document.getElementById('ls2').classList.add('active');
   document.getElementById('lp-etape1').style.display = 'none';
   document.getElementById('lp-etape2').style.display = 'block';
-  window.scrollTo(0, 0);
+  window.scrollTo(0,0);
 }
 
 function goStep1() {
@@ -574,13 +365,66 @@ function goStep1() {
   document.getElementById('ls1').classList.add('active');
   document.getElementById('lp-etape1').style.display = 'block';
   document.getElementById('lp-etape2').style.display = 'none';
-  window.scrollTo(0, 0);
+  window.scrollTo(0,0);
 }
 
-function submit() {
-  document.getElementById('step2').classList.remove('active');
-  document.getElementById('success').classList.add('show');
-  document.getElementById('progress').style.width = '100%';
+async function submit() {
+  const pitch = document.getElementById('pitch').value.trim();
+  let valid = true;
+
+  if (!selectedIntention) {
+    document.getElementById('err-intention').style.display = 'block';
+    valid = false;
+  }
+  if (!pitch) {
+    document.getElementById('err-pitch').style.display = 'block';
+    document.getElementById('pitch').classList.add('error');
+    valid = false;
+  } else {
+    document.getElementById('err-pitch').style.display = 'none';
+    document.getElementById('pitch').classList.remove('error');
+  }
+  if (!valid) return;
+
+  const btn = document.getElementById('btn-submit');
+  btn.disabled = true;
+  btn.textContent = 'Création en cours…';
+
+  const payload = {
+    prenom: document.getElementById('prenom').value.trim(),
+    nom: document.getElementById('nom').value.trim() || null,
+    email: document.getElementById('email').value.trim(),
+    ville: document.getElementById('ville').value.trim() || null,
+    role: document.getElementById('role').value.trim() || null,
+    pitch,
+    intention: selectedIntention,
+    competences: getSelectedTags('competences','violet'),
+    secteurs: getSelectedTags('secteurs','mint'),
+    disponibilite: selectedDispo || 'À définir',
+    linkedin: document.getElementById('linkedin').value.trim() || null,
+    equity: true,
+    temps_plein: true
+  };
+
+  try {
+    const res = await fetch('/api/inscription', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+    const data = await res.json();
+
+    if (!res.ok) throw new Error(data.error?.message || 'Erreur serveur');
+
+    document.getElementById('step2').classList.remove('active');
+    document.getElementById('success').classList.add('show');
+  } catch(err) {
+    const banner = document.getElementById('errorBanner');
+    banner.textContent = 'Une erreur est survenue : ' + err.message;
+    banner.classList.add('show');
+    btn.disabled = false;
+    btn.innerHTML = 'Créer mon profil <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M6 4l4 4-4 4" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+  }
 }
 </script>
 </body>
