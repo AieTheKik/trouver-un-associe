@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Connexion — Trouver un Associé</title>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,700;12..96,800&family=Lora:ital,wght@1,400&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --violet:#7B4FFF;--violet-bg:#F0EBFF;--violet-dark:#5530CC;
+  --mint:#00C9A7;--mint-bg:#E0FBF5;--mint-dark:#007A65;
+  --sun:#FFD426;--sun-bg:#FFFBE8;
+  --coral:#FF5E78;--coral-bg:#FFF0F2;--coral-dark:#CC2A44;
+  --ink:#1A1A2E;--ink2:#3D3D5C;--muted:#7A7A9A;
+  --pale:#F5F5FF;--border:rgba(26,26,46,0.1);--white:#fff;
+  --sans:'Bricolage Grotesque',sans-serif;--serif:'Lora',serif;
+  --radius:14px;--radius-sm:10px;
+}
+body{font-family:var(--sans);background:var(--pale);color:var(--ink);min-height:100vh;display:flex;flex-direction:column}
+
+nav{background:var(--white);border-bottom:1.5px solid var(--border);padding:0 5%;display:flex;align-items:center;justify-content:space-between;height:60px}
+.logo{font-weight:800;font-size:16px;color:var(--ink);text-decoration:none;display:flex;align-items:center;gap:10px}
+.logo-bubble{width:36px;height:36px;display:flex;align-items:center;justify-content:center}
+.back-link{font-size:14px;color:var(--muted);text-decoration:none;display:flex;align-items:center;gap:6px}
+.back-link:hover{color:var(--ink)}
+
+.page{display:grid;grid-template-columns:2fr 3fr;flex:1;min-height:calc(100vh - 60px)}
+
+.left-panel{background:var(--violet);padding:60px 48px;display:flex;flex-direction:column;justify-content:center;position:relative;overflow:hidden}
+.lp-blob{position:absolute;border-radius:50%;background:rgba(255,255,255,.08)}
+.lp-blob-1{width:320px;height:320px;top:-80px;left:-80px}
+.lp-blob-2{width:220px;height:220px;bottom:40px;right:-60px}
+.lp-content{position:relative;z-index:1}
+.lp-title{font-weight:800;font-size:clamp(26px,3vw,38px);color:white;line-height:1.1;margin-bottom:16px;letter-spacing:-1px}
+.lp-sub{font-size:15px;color:rgba(255,255,255,.85);line-height:1.7;margin-bottom:40px;max-width:360px}
+.lp-stats{display:flex;gap:32px;margin-bottom:40px}
+.lp-stat-n{font-weight:800;font-size:32px;color:var(--sun);line-height:1}
+.lp-stat-l{font-size:13px;color:rgba(255,255,255,.65);margin-top:4px}
+.lp-quote{border-left:3px solid var(--sun);padding-left:16px;font-family:var(--serif);font-style:italic;font-size:14px;color:rgba(255,255,255,.9);line-height:1.7;max-width:320px}
+.lp-quote-author{margin-top:10px;font-family:var(--sans);font-size:12px;color:rgba(255,255,255,.55);font-style:normal;font-weight:600}
+
+.right-panel{background:var(--white);display:flex;align-items:center;justify-content:center;padding:48px 40px}
+.auth-box{width:100%;max-width:400px}
+
+.auth-toggle{display:flex;background:var(--pale);border-radius:100px;padding:4px;margin-bottom:32px}
+.toggle-btn{flex:1;padding:10px;border-radius:100px;border:none;font-family:var(--sans);font-size:14px;font-weight:600;cursor:pointer;transition:all .2s;background:transparent;color:var(--muted)}
+.toggle-btn.active{background:var(--white);color:var(--violet);box-shadow:0 1px 4px rgba(0,0,0,.08)}
+
+.auth-title{font-weight:800;font-size:24px;color:var(--ink);letter-spacing:-.5px;margin-bottom:6px}
+.auth-sub{font-size:14px;color:var(--muted);margin-bottom:28px;line-height:1.5}
+
+.field{margin-bottom:18px}
+.field label{display:block;font-size:13px;font-weight:700;color:var(--ink2);margin-bottom:7px}
+.field input{width:100%;padding:12px 16px;border:1.5px solid var(--border);border-radius:var(--radius-sm);font-family:var(--sans);font-size:14px;color:var(--ink);background:var(--white);outline:none;transition:border-color .2s}
+.field input:focus{border-color:var(--violet);box-shadow:0 0 0 3px rgba(123,79,255,.1)}
+.field input.error{border-color:var(--coral)}
+.field-error{font-size:12px;color:var(--coral-dark);margin-top:5px;display:none}
+
+.btn-auth{width:100%;padding:14px;border-radius:100px;background:var(--violet);color:white;font-family:var(--sans);font-size:15px;font-weight:700;border:none;cursor:pointer;transition:all .2s;margin-top:8px}
+.btn-auth:hover{background:var(--violet-dark);transform:translateY(-1px)}
+.btn-auth:disabled{opacity:.5;cursor:not-allowed;transform:none}
+
+.divider{display:flex;align-items:center;gap:12px;margin:20px 0;color:var(--muted);font-size:13px}
+.divider::before,.divider::after{content:'';flex:1;height:1px;background:var(--border)}
+
+.error-banner{background:var(--coral-bg);border:1.5px solid rgba(255,94,120,.2);border-radius:var(--radius-sm);padding:12px 16px;font-size:13px;color:var(--coral-dark);margin-bottom:16px;display:none}
+.error-banner.show{display:block}
+
+.success-banner{background:var(--mint-bg);border:1.5px solid rgba(0,201,167,.2);border-radius:var(--radius-sm);padding:12px 16px;font-size:13px;color:var(--mint-dark);margin-bottom:16px;display:none}
+.success-banner.show{display:block}
+
+.forgot-link{display:block;text-align:center;font-size:13px;color:var(--muted);text-decoration:none;margin-top:14px;transition:color .2s}
+.forgot-link:hover{color:var(--violet)}
+
+.terms{font-size:12px;color:var(--muted);text-align:center;margin-top:16px;line-height:1.6}
+.terms a{color:var(--violet);text-decoration:none}
+
+/* FORGOT PASSWORD */
+.forgot-panel{display:none}
+.forgot-panel.show{display:block}
+.back-to-login{display:flex;align-items:center;gap:6px;font-size:13px;color:var(--muted);cursor:pointer;margin-bottom:20px;border:none;background:none;font-family:var(--sans);transition:color .2s}
+.back-to-login:hover{color:var(--ink)}
+
+/* SUCCESS SCREEN */
+.verify-screen{display:none;text-align:center;padding:20px 0}
+.verify-screen.show{display:block}
+.verify-icon{width:72px;height:72px;border-radius:50%;background:var(--mint-bg);display:flex;align-items:center;justify-content:center;margin:0 auto 20px}
+.verify-title{font-weight:800;font-size:22px;color:var(--ink);margin-bottom:10px}
+.verify-sub{font-size:14px;color:var(--muted);line-height:1.7;max-width:320px;margin:0 auto}
+
+@media(max-width:760px){.page{grid-template-columns:1fr}.left-panel{display:none}.right-panel{padding:32px 24px;align-items:flex-start}}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="logo">
+    <div class="logo-bubble">
+      <svg width="36" height="36" viewBox="0 0 80 80" fill="none">
+        <rect width="80" height="80" rx="20" fill="#1A1A2E"/>
+        <circle cx="28" cy="32" r="9" fill="#FFD426"/>
+        <circle cx="52" cy="32" r="9" fill="#00C9A7"/>
+        <path d="M18 56C18 50 22 46 28 46C32 46 35 48.5 40 48.5C45 48.5 48 46 52 46C58 46 62 50 62 56" stroke="white" stroke-width="3.5" stroke-linecap="round" fill="none"/>
+        <path d="M37 56H43" stroke="#7B4FFF" stroke-width="3.5" stroke-linecap="round"/>
+      </svg>
+    </div>
+    trouver-un-associé
+  </a>
+  <a href="index.html" class="back-link">
+    <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M10 12L6 8l4-4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    Retour à l'accueil
+  </a>
+</nav>
+
+<div class="page">
+  <div class="left-panel">
+    <div class="lp-blob lp-blob-1"></div>
+    <div class="lp-blob lp-blob-2"></div>
+    <div class="lp-content">
+      <div class="lp-title">Votre prochain associé vous attend ici</div>
+      <div class="lp-sub">Rejoignez la communauté des entrepreneurs qui construisent ensemble. Gratuit, sans engagement.</div>
+      <div class="lp-stats">
+        <div><div class="lp-stat-n">820+</div><div class="lp-stat-l">Entrepreneurs</div></div>
+        <div><div class="lp-stat-n">340+</div><div class="lp-stat-l">Projets actifs</div></div>
+        <div><div class="lp-stat-n">67</div><div class="lp-stat-l">Associations</div></div>
+      </div>
+      <div class="lp-quote">"En 3 semaines j'avais rencontré mon futur CTO. Aujourd'hui on a nos premiers clients."<div class="lp-quote-author">Clara M. — CEO, startup RH Paris</div></div>
+    </div>
+  </div>
+
+  <div class="right-panel">
+    <div class="auth-box">
+
+      <!-- TOGGLE CONNEXION / INSCRIPTION -->
+      <div class="auth-toggle" id="authToggle">
+        <button class="toggle-btn active" onclick="showLogin()" id="btnLogin">Se connecter</button>
+        <button class="toggle-btn" onclick="showSignup()" id="btnSignup">S'inscrire</button>
+      </div>
+
+      <!-- BANNIÈRES -->
+      <div class="error-banner" id="errorBanner"></div>
+      <div class="success-banner" id="successBanner"></div>
+
+      <!-- FORMULAIRE CONNEXION -->
+      <div id="loginForm">
+        <div class="auth-title">Bon retour !</div>
+        <div class="auth-sub">Connecte-toi pour accéder à ton espace et contacter des profils.</div>
+        <div class="field">
+          <label for="loginEmail">Email</label>
+          <input type="email" id="loginEmail" placeholder="marie@exemple.com">
+        </div>
+        <div class="field">
+          <label for="loginPassword">Mot de passe</label>
+          <input type="password" id="loginPassword" placeholder="••••••••" onkeydown="if(event.key==='Enter')login()">
+        </div>
+        <button class="btn-auth" onclick="login()" id="btnLoginSubmit">Se connecter</button>
+        <a href="#" class="forgot-link" onclick="showForgot(event)">Mot de passe oublié ?</a>
+      </div>
+
+      <!-- FORMULAIRE INSCRIPTION -->
+      <div id="signupForm" style="display:none">
+        <div class="auth-title">Créer mon compte</div>
+        <div class="auth-sub">Rejoins 820+ entrepreneurs et trouve ton co-fondateur.</div>
+        <div class="field">
+          <label for="signupPrenom">Prénom *</label>
+          <input type="text" id="signupPrenom" placeholder="Marie">
+        </div>
+        <div class="field">
+          <label for="signupEmail">Email *</label>
+          <input type="email" id="signupEmail" placeholder="marie@exemple.com">
+        </div>
+        <div class="field">
+          <label for="signupPassword">Mot de passe *</label>
+          <input type="password" id="signupPassword" placeholder="8 caractères minimum" onkeydown="if(event.key==='Enter')signup()">
+          <div style="font-size:12px;color:var(--muted);margin-top:5px">Au moins 8 caractères</div>
+        </div>
+        <button class="btn-auth" onclick="signup()" id="btnSignupSubmit">Créer mon compte</button>
+        <div class="terms">En créant un compte, tu acceptes nos <a href="#">CGU</a> et notre <a href="#">politique de confidentialité</a>.</div>
+      </div>
+
+      <!-- MOT DE PASSE OUBLIÉ -->
+      <div id="forgotForm" style="display:none">
+        <button class="back-to-login" onclick="showLogin()">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M9 11L5 7l4-4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          Retour à la connexion
+        </button>
+        <div class="auth-title">Mot de passe oublié</div>
+        <div class="auth-sub">Entre ton email et on t'envoie un lien de réinitialisation.</div>
+        <div class="field">
+          <label for="forgotEmail">Email</label>
+          <input type="email" id="forgotEmail" placeholder="marie@exemple.com">
+        </div>
+        <button class="btn-auth" onclick="resetPassword()" id="btnForgot">Envoyer le lien</button>
+      </div>
+
+      <!-- VÉRIFICATION EMAIL -->
+      <div class="verify-screen" id="verifyScreen">
+        <div class="verify-icon">
+          <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+            <path d="M4 8l12 8 12-8" stroke="var(--mint)" stroke-width="2" stroke-linecap="round"/>
+            <rect x="2" y="6" width="28" height="20" rx="3" stroke="var(--mint)" stroke-width="2" fill="none"/>
+          </svg>
+        </div>
+        <div class="verify-title">Vérifie ta boîte mail !</div>
+        <div class="verify-sub">On t'a envoyé un lien de confirmation. Clique dessus pour activer ton compte et accéder à la plateforme.</div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+const { createClient } = supabase;
+const sb = createClient(
+  'https://rdyrlculowoqtixgdumc.supabase.co',
+  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJkeXJsY3Vsb3dvcXRpeGdkdW1jIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzU3Njc3OTcsImV4cCI6MjA5MTM0Mzc5N30.RANwu2ouv0cn3G-UXxaxgEWD_GZFw7apogJg35vb_qo'
+);
+
+const redirectTo = new URLSearchParams(window.location.search).get('redirect') || '/';
+
+function showError(msg) {
+  const b = document.getElementById('errorBanner');
+  b.textContent = msg;
+  b.classList.add('show');
+  document.getElementById('successBanner').classList.remove('show');
+}
+function showSuccess(msg) {
+  const b = document.getElementById('successBanner');
+  b.textContent = msg;
+  b.classList.add('show');
+  document.getElementById('errorBanner').classList.remove('show');
+}
+function clearBanners() {
+  document.getElementById('errorBanner').classList.remove('show');
+  document.getElementById('successBanner').classList.remove('show');
+}
+
+function showLogin() {
+  document.getElementById('loginForm').style.display = 'block';
+  document.getElementById('signupForm').style.display = 'none';
+  document.getElementById('forgotForm').style.display = 'none';
+  document.getElementById('verifyScreen').classList.remove('show');
+  document.getElementById('authToggle').style.display = 'flex';
+  document.getElementById('btnLogin').classList.add('active');
+  document.getElementById('btnSignup').classList.remove('active');
+  clearBanners();
+}
+
+function showSignup() {
+  document.getElementById('loginForm').style.display = 'none';
+  document.getElementById('signupForm').style.display = 'block';
+  document.getElementById('forgotForm').style.display = 'none';
+  document.getElementById('verifyScreen').classList.remove('show');
+  document.getElementById('authToggle').style.display = 'flex';
+  document.getElementById('btnSignup').classList.add('active');
+  document.getElementById('btnLogin').classList.remove('active');
+  clearBanners();
+}
+
+function showForgot(e) {
+  e.preventDefault();
+  document.getElementById('loginForm').style.display = 'none';
+  document.getElementById('forgotForm').style.display = 'block';
+  document.getElementById('authToggle').style.display = 'none';
+  clearBanners();
+}
+
+async function login() {
+  const email = document.getElementById('loginEmail').value.trim();
+  const password = document.getElementById('loginPassword').value;
+  if (!email || !password) return showError('Remplis tous les champs.');
+
+  const btn = document.getElementById('btnLoginSubmit');
+  btn.disabled = true; btn.textContent = 'Connexion…';
+
+  const { data, error } = await sb.auth.signInWithPassword({ email, password });
+
+  if (error) {
+    showError(error.message === 'Invalid login credentials' ? 'Email ou mot de passe incorrect.' : error.message);
+    btn.disabled = false; btn.textContent = 'Se connecter';
+    return;
+  }
+
+  window.location.href = redirectTo;
+}
+
+async function signup() {
+  const prenom = document.getElementById('signupPrenom').value.trim();
+  const email = document.getElementById('signupEmail').value.trim();
+  const password = document.getElementById('signupPassword').value;
+
+  if (!prenom || !email || !password) return showError('Remplis tous les champs obligatoires.');
+  if (password.length < 8) return showError('Le mot de passe doit faire au moins 8 caractères.');
+
+  const btn = document.getElementById('btnSignupSubmit');
+  btn.disabled = true; btn.textContent = 'Création…';
+
+  const { data, error } = await sb.auth.signUp({
+    email,
+    password,
+    options: {
+      data: { prenom },
+      emailRedirectTo: `https://trouver-un-associe.com/auth-confirm.html`
+    }
+  });
+
+  if (error) {
+    showError(error.message);
+    btn.disabled = false; btn.textContent = 'Créer mon compte';
+    return;
+  }
+
+  document.getElementById('signupForm').style.display = 'none';
+  document.getElementById('authToggle').style.display = 'none';
+  document.getElementById('verifyScreen').classList.add('show');
+}
+
+async function resetPassword() {
+  const email = document.getElementById('forgotEmail').value.trim();
+  if (!email) return showError('Entre ton adresse email.');
+
+  const btn = document.getElementById('btnForgot');
+  btn.disabled = true; btn.textContent = 'Envoi…';
+
+  const { error } = await sb.auth.resetPasswordForEmail(email, {
+    redirectTo: 'https://trouver-un-associe.com/reset-password.html'
+  });
+
+  if (error) {
+    showError(error.message);
+    btn.disabled = false; btn.textContent = 'Envoyer le lien';
+    return;
+  }
+
+  showSuccess('Lien envoyé ! Vérifie ta boîte mail.');
+  btn.disabled = false; btn.textContent = 'Envoyer le lien';
+}
+
+const urlParams = new URLSearchParams(window.location.search);
+if (urlParams.get('mode') === 'signup') showSignup();
+
+sb.auth.getSession().then(({ data: { session } }) => {
+  if (session) window.location.href = redirectTo;
+});
+</script>
+</body>
+</html>

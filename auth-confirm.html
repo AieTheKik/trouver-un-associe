@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Compte confirmé — Trouver un Associé</title>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,700;12..96,800&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --violet:#7B4FFF;--violet-bg:#F0EBFF;--violet-dark:#5530CC;
+  --mint:#00C9A7;--mint-bg:#E0FBF5;--mint-dark:#007A65;
+  --sun:#FFD426;
+  --coral:#FF5E78;--coral-bg:#FFF0F2;--coral-dark:#CC2A44;
+  --ink:#1A1A2E;--muted:#7A7A9A;--pale:#F5F5FF;--border:rgba(26,26,46,0.1);--white:#fff;
+  --sans:'Bricolage Grotesque',sans-serif;
+}
+body{font-family:var(--sans);background:var(--pale);color:var(--ink);min-height:100vh;display:flex;flex-direction:column}
+nav{background:var(--white);border-bottom:1.5px solid var(--border);padding:0 5%;display:flex;align-items:center;height:60px}
+.logo{font-weight:800;font-size:16px;color:var(--ink);text-decoration:none;display:flex;align-items:center;gap:10px}
+.logo-bubble{width:36px;height:36px;display:flex;align-items:center;justify-content:center}
+.main{flex:1;display:flex;align-items:center;justify-content:center;padding:40px 20px}
+.card{background:var(--white);border:1.5px solid var(--border);border-radius:16px;padding:48px 40px;max-width:440px;width:100%;text-align:center}
+.icon{width:80px;height:80px;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 24px}
+.icon-success{background:var(--mint-bg)}
+.icon-error{background:var(--coral-bg)}
+.icon-loading{background:var(--violet-bg)}
+.title{font-weight:800;font-size:24px;color:var(--ink);margin-bottom:10px;letter-spacing:-.5px}
+.sub{font-size:15px;color:var(--muted);line-height:1.7;margin-bottom:32px}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:13px 28px;border-radius:100px;font-family:var(--sans);font-size:15px;font-weight:700;text-decoration:none;transition:all .2s}
+.btn-violet{background:var(--violet);color:white}
+.btn-violet:hover{background:var(--violet-dark);transform:translateY(-1px)}
+.btn-outline{background:white;color:var(--violet);border:1.5px solid var(--violet);margin-top:10px}
+.btn-outline:hover{background:var(--violet-bg)}
+.btns{display:flex;flex-direction:column;align-items:center;gap:10px}
+.spinner{width:40px;height:40px;border:3px solid var(--border);border-top-color:var(--violet);border-radius:50%;animation:spin 1s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.confetti-row{display:flex;gap:6px;justify-content:center;margin-bottom:20px}
+.conf{width:10px;height:10px;border-radius:2px;animation:pop .5s ease forwards;opacity:0}
+.conf:nth-child(1){background:var(--violet);animation-delay:.1s}
+.conf:nth-child(2){background:var(--sun);animation-delay:.2s;border-radius:50%}
+.conf:nth-child(3){background:var(--mint);animation-delay:.15s}
+.conf:nth-child(4){background:var(--coral);animation-delay:.25s;border-radius:50%}
+.conf:nth-child(5){background:var(--violet);animation-delay:.05s}
+@keyframes pop{0%{opacity:0;transform:translateY(12px) scale(.5)}70%{opacity:1;transform:translateY(-6px) scale(1.1)}100%{opacity:1;transform:translateY(0) scale(1)}}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="logo">
+    <div class="logo-bubble">
+      <svg width="36" height="36" viewBox="0 0 80 80" fill="none">
+        <rect width="80" height="80" rx="20" fill="#1A1A2E"/>
+        <circle cx="28" cy="32" r="9" fill="#FFD426"/>
+        <circle cx="52" cy="32" r="9" fill="#00C9A7"/>
+        <path d="M18 56C18 50 22 46 28 46C32 46 35 48.5 40 48.5C45 48.5 48 46 52 46C58 46 62 50 62 56" stroke="white" stroke-width="3.5" stroke-linecap="round" fill="none"/>
+        <path d="M37 56H43" stroke="#7B4FFF" stroke-width="3.5" stroke-linecap="round"/>
+      </svg>
+    </div>
+    trouver-un-associé
+  </a>
+</nav>
+
+<div class="main">
+  <div class="card" id="card">
+    <div class="icon icon-loading">
+      <div class="spinner"></div>
+    </div>
+    <div class="title">Vérification en cours…</div>
+    <div class="sub">On confirme ton compte, une seconde !</div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+const { createClient } = supabase;
+const sb = createClient(
+  'https://rdyrlculowoqtixgdumc.supabase.co',
+  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJkeXJsY3Vsb3dvcXRpeGdkdW1jIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzU3Njc3OTcsImV4cCI6MjA5MTM0Mzc5N30.RANwu2ouv0cn3G-UXxaxgEWD_GZFw7apogJg35vb_qo'
+);
+
+async function confirm() {
+  const hash = window.location.hash;
+  const params = new URLSearchParams(hash.replace('#', '?'));
+  const accessToken = params.get('access_token');
+  const refreshToken = params.get('refresh_token');
+  const type = params.get('type');
+
+  if (accessToken && refreshToken) {
+    const { data, error } = await sb.auth.setSession({ access_token: accessToken, refresh_token: refreshToken });
+
+    if (!error && data.session) {
+      const user = data.session.user;
+      const prenom = user.user_metadata?.prenom || '';
+
+      await fetch('/api/inscription', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          prenom: prenom || 'Nouveau membre',
+          email: user.email,
+          intention: 'cherche',
+          competences: [],
+          secteurs: [],
+          user_id: user.id
+        })
+      });
+
+      showSuccess(prenom);
+      return;
+    }
+  }
+
+  const { data: { session } } = await sb.auth.getSession();
+  if (session) {
+    showSuccess(session.user.user_metadata?.prenom || '');
+    return;
+  }
+
+  showError();
+}
+
+function showSuccess(prenom) {
+  document.getElementById('card').innerHTML = `
+    <div class="confetti-row">
+      <div class="conf"></div><div class="conf"></div><div class="conf"></div>
+      <div class="conf"></div><div class="conf"></div>
+    </div>
+    <div class="icon icon-success">
+      <svg width="36" height="36" viewBox="0 0 36 36" fill="none">
+        <path d="M6 18l8 8 16-16" stroke="var(--mint)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </div>
+    <div class="title">Bienvenue${prenom ? ', ' + prenom : ''} !</div>
+    <div class="sub">Ton compte est confirmé. Tu peux maintenant explorer les projets, contacter des profils et déposer ton projet.</div>
+    <div class="btns">
+      <a href="/inscription.html" class="btn btn-violet">Compléter mon profil →</a>
+      <a href="/explorer.html" class="btn btn-outline">Explorer les projets</a>
+    </div>`;
+}
+
+function showError() {
+  document.getElementById('card').innerHTML = `
+    <div class="icon icon-error">
+      <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+        <path d="M16 10v8M16 22v2" stroke="var(--coral)" stroke-width="2.5" stroke-linecap="round"/>
+        <circle cx="16" cy="16" r="13" stroke="var(--coral)" stroke-width="2" fill="none"/>
+      </svg>
+    </div>
+    <div class="title">Lien expiré</div>
+    <div class="sub">Ce lien de confirmation n'est plus valide. Essaie de te reconnecter ou de t'inscrire à nouveau.</div>
+    <div class="btns">
+      <a href="/auth.html" class="btn btn-violet">Retour à la connexion</a>
+    </div>`;
+}
+
+confirm();
+</script>
+</body>
+</html>

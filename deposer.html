@@ -414,7 +414,24 @@ nav{background:var(--white);border-bottom:1.5px solid var(--border);padding:0 5%
   </div>
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
+const { createClient } = supabase;
+const sb = createClient(
+  'https://rdyrlculowoqtixgdumc.supabase.co',
+  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJkeXJsY3Vsb3dvcXRpeGdkdW1jIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzU3Njc3OTcsImV4cCI6MjA5MTM0Mzc5N30.RANwu2ouv0cn3G-UXxaxgEWD_GZFw7apogJg35vb_qo'
+);
+
+async function checkAuth() {
+  const { data: { session } } = await sb.auth.getSession();
+  if (!session) {
+    window.location.href = '/auth.html?redirect=/deposer.html';
+  }
+  return session;
+}
+
+checkAuth();
+
 let selectedStade = null;
 const hiddenValues = {};
 
@@ -535,9 +552,17 @@ async function submit() {
   };
 
   try {
+    const { data: { session } } = await sb.auth.getSession();
+    if (!session) {
+      window.location.href = '/auth.html?redirect=/deposer.html';
+      return;
+    }
     const res = await fetch('/api/projets', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + session.access_token
+      },
       body: JSON.stringify(payload)
     });
     const data = await res.json();
@@ -554,5 +579,6 @@ async function submit() {
   }
 }
 </script>
+<script src="/nav.js"></script>
 </body>
 </html>

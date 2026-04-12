@@ -248,6 +248,7 @@ nav{background:var(--white);border-bottom:1.5px solid var(--border);padding:0 32
   </div>
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
 const avatarColors = ['#7B4FFF','#00C9A7','#1E6FFF','#FF5E78','#BA7517','#D4537E'];
 const bannerColors = ['#00C9A7','#7B4FFF','#1E6FFF','#FF5E78','#FFD426'];
@@ -303,10 +304,23 @@ function renderProfile(p) {
   document.getElementById('infoExp').textContent = p.experience_annees ? `${p.experience_annees} ans` : '—';
 }
 
-function showModal() {
+
+const { createClient } = supabase;
+const sb = createClient(
+  'https://rdyrlculowoqtixgdumc.supabase.co',
+  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJkeXJsY3Vsb3dvcXRpeGdkdW1jIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzU3Njc3OTcsImV4cCI6MjA5MTM0Mzc5N30.RANwu2ouv0cn3G-UXxaxgEWD_GZFw7apogJg35vb_qo'
+);
+
+async function showModal() {
+  const { data: { session } } = await sb.auth.getSession();
+  if (!session) {
+    window.location.href = '/auth.html?redirect=' + encodeURIComponent(window.location.pathname + window.location.search);
+    return;
+  }
   document.getElementById('modalOverlay').classList.add('show');
   document.body.style.overflow = 'hidden';
 }
+
 function closeModal() {
   document.getElementById('modalOverlay').classList.remove('show');
   document.body.style.overflow = '';
@@ -345,5 +359,6 @@ async function init() {
 
 init();
 </script>
+<script src="/nav.js"></script>
 </body>
 </html>
