@@ -4,61 +4,97 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Compte confirmé — Trouver un Associé</title>
-<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,700;12..96,800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
-  --violet:#7B4FFF;--violet-bg:#F0EBFF;--violet-dark:#5530CC;
-  --mint:#00C9A7;--mint-bg:#E0FBF5;--mint-dark:#007A65;
-  --sun:#FFD426;
-  --coral:#FF5E78;--coral-bg:#FFF0F2;--coral-dark:#CC2A44;
-  --ink:#1A1A2E;--muted:#7A7A9A;--pale:#F5F5FF;--border:rgba(26,26,46,0.1);--white:#fff;
-  --sans:'Bricolage Grotesque',sans-serif;
+  --c-red:#E11D2E;--c-red-deep:#C0142A;
+  --c-navy:#1A1247;--c-navy-ink:#0E0830;
+  --c-blue:#1F60E8;--c-blue-soft:#E6EEFC;
+  --c-bg:#FBFAF7;--c-mute:#7A7A8E;
+  --c-white:#FFFFFF;--c-border:rgba(14,8,48,.08);
+  --violet:#1A1247;
+  --f-display:'Sora',sans-serif;--f-body:'Inter',sans-serif;
+  --radius:22px;
 }
-body{font-family:var(--sans);background:var(--pale);color:var(--ink);min-height:100vh;display:flex;flex-direction:column}
-nav{background:var(--white);border-bottom:1.5px solid var(--border);padding:0 5%;display:flex;align-items:center;height:60px}
-.logo{font-weight:800;font-size:16px;color:var(--ink);text-decoration:none;display:flex;align-items:center;gap:10px}
+body{font-family:var(--f-body);background:var(--c-bg);color:var(--c-navy-ink);line-height:1.6;font-size:15px;overflow-x:hidden;min-height:100vh;display:flex;flex-direction:column}
+
+/* UTIL BAR */
+.util-bar{
+  background:var(--c-navy);
+  padding:10px 24px;text-align:center;
+}
+.util-bar span{
+  font-family:var(--f-body);font-weight:600;font-size:11.5px;
+  text-transform:uppercase;letter-spacing:0.16em;
+  color:var(--c-white);
+}
+
+/* NAV */
+nav{background:var(--c-white);border-bottom:1.5px solid var(--c-border);padding:0 5%;display:flex;align-items:center;height:60px}
+.logo{text-decoration:none;display:flex;align-items:center;gap:10px}
 .logo-bubble{width:36px;height:36px;display:flex;align-items:center;justify-content:center}
+.logo-text{display:flex;flex-direction:column;line-height:1.15}
+.logo-name{font-family:var(--f-display);font-weight:400;font-size:15px;color:var(--c-navy-ink)}
+.logo-sub{font-family:var(--f-body);font-weight:500;font-size:9.5px;color:var(--c-mute);text-transform:uppercase;letter-spacing:0.04em}
+
+/* MAIN */
 .main{flex:1;display:flex;align-items:center;justify-content:center;padding:40px 20px}
-.card{background:var(--white);border:1.5px solid var(--border);border-radius:16px;padding:48px 40px;max-width:440px;width:100%;text-align:center}
+.card{background:var(--c-white);border:1.5px solid var(--c-border);border-radius:var(--radius);padding:48px 40px;max-width:440px;width:100%;text-align:center}
+
+/* ICONS */
 .icon{width:80px;height:80px;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 24px}
-.icon-success{background:var(--mint-bg)}
-.icon-error{background:var(--coral-bg)}
-.icon-loading{background:var(--violet-bg)}
-.title{font-weight:800;font-size:24px;color:var(--ink);margin-bottom:10px;letter-spacing:-.5px}
-.sub{font-size:15px;color:var(--muted);line-height:1.7;margin-bottom:32px}
-.btn{display:inline-flex;align-items:center;gap:8px;padding:13px 28px;border-radius:100px;font-family:var(--sans);font-size:15px;font-weight:700;text-decoration:none;transition:all .2s}
-.btn-violet{background:var(--violet);color:white}
-.btn-violet:hover{background:var(--violet-dark);transform:translateY(-1px)}
-.btn-outline{background:white;color:var(--violet);border:1.5px solid var(--violet);margin-top:10px}
-.btn-outline:hover{background:var(--violet-bg)}
+.icon-success{background:var(--c-blue-soft)}
+.icon-error{background:rgba(225,29,46,.06)}
+.icon-loading{background:var(--c-blue-soft)}
+
+/* TYPOGRAPHY */
+.title{font-family:var(--f-display);font-weight:300;font-size:24px;color:var(--c-navy-ink);margin-bottom:10px;letter-spacing:-0.012em}
+.sub{font-family:var(--f-body);font-size:15px;color:var(--c-mute);line-height:1.7;margin-bottom:32px}
+
+/* BUTTONS */
+.btn{display:inline-flex;align-items:center;gap:8px;padding:13px 28px;border-radius:999px;font-family:var(--f-body);font-size:15px;font-weight:600;text-decoration:none;transition:all .2s;border:none;cursor:pointer}
+.btn-primary{background:var(--c-red);color:white}
+.btn-primary:hover{background:var(--c-red-deep);transform:translateY(-1px)}
+.btn-outline{background:white;color:var(--c-red);border:1.5px solid var(--c-red);margin-top:10px}
+.btn-outline:hover{background:rgba(225,29,46,.04)}
 .btns{display:flex;flex-direction:column;align-items:center;gap:10px}
-.spinner{width:40px;height:40px;border:3px solid var(--border);border-top-color:var(--violet);border-radius:50%;animation:spin 1s linear infinite}
+
+/* SPINNER */
+.spinner{width:40px;height:40px;border:3px solid var(--c-border);border-top-color:var(--c-red);border-radius:50%;animation:spin 1s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
+
+/* CONFETTI */
 .confetti-row{display:flex;gap:6px;justify-content:center;margin-bottom:20px}
 .conf{width:10px;height:10px;border-radius:2px;animation:pop .5s ease forwards;opacity:0}
-.conf:nth-child(1){background:var(--violet);animation-delay:.1s}
-.conf:nth-child(2){background:var(--sun);animation-delay:.2s;border-radius:50%}
-.conf:nth-child(3){background:var(--mint);animation-delay:.15s}
-.conf:nth-child(4){background:var(--coral);animation-delay:.25s;border-radius:50%}
-.conf:nth-child(5){background:var(--violet);animation-delay:.05s}
+.conf:nth-child(1){background:var(--c-red);animation-delay:.1s}
+.conf:nth-child(2){background:var(--c-blue);animation-delay:.2s;border-radius:50%}
+.conf:nth-child(3){background:var(--c-navy);animation-delay:.15s}
+.conf:nth-child(4){background:var(--c-red-deep);animation-delay:.25s;border-radius:50%}
+.conf:nth-child(5){background:var(--c-navy-ink);animation-delay:.05s}
 @keyframes pop{0%{opacity:0;transform:translateY(12px) scale(.5)}70%{opacity:1;transform:translateY(-6px) scale(1.1)}100%{opacity:1;transform:translateY(0) scale(1)}}
+
+@media(max-width:480px){
+  .card{padding:36px 24px}
+}
 </style>
 </head>
 <body>
 
+<div class="util-bar">
+  <span>Antenne French Tech Bordeaux</span>
+</div>
+
 <nav>
   <a href="index.html" class="logo">
     <div class="logo-bubble">
-      <svg width="36" height="36" viewBox="0 0 80 80" fill="none">
-        <rect width="80" height="80" rx="20" fill="#1A1A2E"/>
-        <circle cx="28" cy="32" r="9" fill="#FFD426"/>
-        <circle cx="52" cy="32" r="9" fill="#00C9A7"/>
-        <path d="M18 56C18 50 22 46 28 46C32 46 35 48.5 40 48.5C45 48.5 48 46 52 46C58 46 62 50 62 56" stroke="white" stroke-width="3.5" stroke-linecap="round" fill="none"/>
-        <path d="M37 56H43" stroke="#7B4FFF" stroke-width="3.5" stroke-linecap="round"/>
-      </svg>
+      <svg width="36" height="36" viewBox="0 0 80 80" fill="none"><rect width="80" height="80" rx="20" fill="#0E0830"/><circle cx="28" cy="32" r="9" fill="#E11D2E"/><circle cx="52" cy="32" r="9" fill="#1F60E8"/><path d="M18 56C18 50 22 46 28 46C32 46 35 48.5 40 48.5C45 48.5 48 46 52 46C58 46 62 50 62 56" stroke="#fff" stroke-width="3.5" stroke-linecap="round" fill="none"/><path d="M37 56H43" stroke="#E11D2E" stroke-width="3.5" stroke-linecap="round"/></svg>
     </div>
-    trouver-un-associé
+    <div class="logo-text">
+      <span class="logo-name">trouver un associé</span>
+      <span class="logo-sub">BY FRENCH TECH BORDEAUX</span>
+    </div>
   </a>
 </nav>
 
@@ -72,7 +108,6 @@ nav{background:var(--white);border-bottom:1.5px solid var(--border);padding:0 5%
   </div>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
 const { createClient } = supabase;
 const sb = createClient(
@@ -85,7 +120,6 @@ async function confirm() {
   const params = new URLSearchParams(hash.replace('#', '?'));
   const accessToken = params.get('access_token');
   const refreshToken = params.get('refresh_token');
-  const type = params.get('type');
 
   if (accessToken && refreshToken) {
     const { data, error } = await sb.auth.setSession({ access_token: accessToken, refresh_token: refreshToken });
@@ -129,13 +163,13 @@ function showSuccess(prenom) {
     </div>
     <div class="icon icon-success">
       <svg width="36" height="36" viewBox="0 0 36 36" fill="none">
-        <path d="M6 18l8 8 16-16" stroke="var(--mint)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M6 18l8 8 16-16" stroke="var(--c-blue)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
       </svg>
     </div>
     <div class="title">Bienvenue${prenom ? ', ' + prenom : ''} !</div>
     <div class="sub">Ton compte est confirmé. Tu peux maintenant explorer les projets, contacter des profils et déposer ton projet.</div>
     <div class="btns">
-      <a href="/inscription.html" class="btn btn-violet">Compléter mon profil →</a>
+      <a href="/inscription.html" class="btn btn-primary">Compléter mon profil &rarr;</a>
       <a href="/explorer.html" class="btn btn-outline">Explorer les projets</a>
     </div>`;
 }
@@ -144,14 +178,14 @@ function showError() {
   document.getElementById('card').innerHTML = `
     <div class="icon icon-error">
       <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
-        <path d="M16 10v8M16 22v2" stroke="var(--coral)" stroke-width="2.5" stroke-linecap="round"/>
-        <circle cx="16" cy="16" r="13" stroke="var(--coral)" stroke-width="2" fill="none"/>
+        <path d="M16 10v8M16 22v2" stroke="var(--c-red)" stroke-width="2.5" stroke-linecap="round"/>
+        <circle cx="16" cy="16" r="13" stroke="var(--c-red)" stroke-width="2" fill="none"/>
       </svg>
     </div>
     <div class="title">Lien expiré</div>
     <div class="sub">Ce lien de confirmation n'est plus valide. Essaie de te reconnecter ou de t'inscrire à nouveau.</div>
     <div class="btns">
-      <a href="/auth.html" class="btn btn-violet">Retour à la connexion</a>
+      <a href="/auth.html" class="btn btn-primary">Retour à la connexion</a>
     </div>`;
 }
 

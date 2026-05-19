@@ -4,131 +4,177 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Explorer les projets — Trouver un Associé</title>
-  <meta name="description" content="Parcourez 340+ projets entrepreneuriaux actifs. SaaS, MedTech, EdTech, ClimateTech... Trouvez le projet qui correspond à vos compétences.">
-  <meta name="robots" content="index, follow">
-  <meta name="author" content="Trouver un Associé">
-  <meta property="og:type" content="website">
-  <meta property="og:title" content="Explorer les projets — Trouver un Associé">
-  <meta property="og:description" content="Parcourez 340+ projets entrepreneuriaux actifs. SaaS, MedTech, EdTech, ClimateTech... Trouvez le projet qui correspond à vos compétences.">
-  <meta property="og:url" content="https://trouver-un-associe.com/explorer.html">
-  <meta property="og:site_name" content="Trouver un Associé">
-  <meta property="og:image" content="https://trouver-un-associe.com/og-image.png">
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Explorer les projets — Trouver un Associé">
-  <meta name="twitter:description" content="Parcourez 340+ projets entrepreneuriaux actifs. SaaS, MedTech, EdTech, ClimateTech... Trouvez le projet qui correspond à vos compétences.">
-  <meta name="twitter:image" content="https://trouver-un-associe.com/og-image.png">
-  <link rel="canonical" href="https://trouver-un-associe.com/explorer.html">
-<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,300;12..96,400;12..96,500;12..96,700;12..96,800&display=swap" rel="stylesheet">
+<meta name="description" content="Parcourez 340+ projets entrepreneuriaux actifs. SaaS, MedTech, EdTech, ClimateTech... Trouvez le projet qui correspond à vos compétences.">
+<meta property="og:title" content="Explorer les projets — Trouver un Associé">
+<meta property="og:description" content="Parcourez 340+ projets entrepreneuriaux actifs. SaaS, MedTech, EdTech, ClimateTech... Trouvez le projet qui correspond à vos compétences.">
+<meta property="og:url" content="https://trouver-un-associe.com/explorer.html">
+<meta property="og:site_name" content="Trouver un Associé">
+<meta property="og:image" content="https://trouver-un-associe.com/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Explorer les projets — Trouver un Associé">
+<meta name="twitter:description" content="Parcourez 340+ projets entrepreneuriaux actifs.">
+<meta name="twitter:image" content="https://trouver-un-associe.com/og-image.png">
+<link rel="canonical" href="https://trouver-un-associe.com/explorer.html">
+<meta name="robots" content="index, follow">
+<meta name="author" content="Trouver un Associé">
+<meta property="og:type" content="website">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
-  --violet:#7B4FFF;--violet-bg:#F0EBFF;--violet-dark:#5530CC;
-  --mint:#00C9A7;--mint-bg:#E0FBF5;--mint-dark:#007A65;
-  --blue:#1E6FFF;--blue-bg:#EEF5FF;--blue-dark:#0C447C;
-  --sun:#FFD426;--sun-bg:#FFFBE8;--sun-dark:#7A5800;
-  --coral:#FF5E78;--coral-bg:#FFF0F2;--coral-dark:#CC2A44;
-  --ink:#1A1A2E;--ink2:#3D3D5C;--muted:#7A7A9A;
-  --pale:#F5F5FF;--border:rgba(26,26,46,0.09);--white:#fff;
-  --sans:'Bricolage Grotesque',sans-serif;--radius:14px;--radius-sm:10px;
+  --c-red:#E11D2E;--c-red-deep:#C0142A;
+  --c-navy:#1A1247;--c-navy-ink:#0E0830;
+  --c-blue:#1F60E8;--c-blue-soft:#E6EEFC;
+  --c-bg:#FBFAF7;--c-mute:#7A7A8E;
+  --c-white:#FFFFFF;--c-border:rgba(14,8,48,.08);
+  --violet:#1A1247;
+  --f-display:'Sora',sans-serif;--f-body:'Inter',sans-serif;
+  --radius:22px;
 }
-body{font-family:var(--sans);background:var(--pale);color:var(--ink);min-height:100vh}
-nav{background:var(--white);border-bottom:1.5px solid var(--border);padding:0 32px;height:64px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100}
-.logo{font-weight:800;font-size:17px;color:var(--ink);text-decoration:none;display:flex;align-items:center;gap:10px}
-.logo-bubble{width:36px;height:36px;display:flex;align-items:center;justify-content:center}
+body{font-family:var(--f-body);background:var(--c-bg);color:var(--c-navy-ink);line-height:1.6;font-size:15px;overflow-x:hidden}
+
+/* UTIL BAR */
+.util-bar{background:var(--c-navy);text-align:center;padding:8px 0}
+.util-bar span{font-family:var(--f-body);font-weight:600;font-size:11.5px;color:var(--c-white);text-transform:uppercase;letter-spacing:0.16em}
+
+/* NAV */
+nav{background:var(--c-white);border-radius:var(--radius);box-shadow:0 12px 32px rgba(14,8,48,.12);max-width:1240px;margin:12px auto 0;padding:0 28px;height:64px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:12px;z-index:100}
+.logo{text-decoration:none;display:flex;align-items:center;gap:10px}
+.logo-bubble{width:36px;height:36px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.logo-text{display:flex;flex-direction:column;line-height:1.2}
+.logo-text .lt-main{font-family:var(--f-display);font-weight:400;font-size:15px;color:var(--c-navy-ink);letter-spacing:-0.012em}
+.logo-text .lt-sub{font-family:var(--f-body);font-weight:500;font-size:9.5px;color:var(--c-mute);letter-spacing:0.04em}
 .nav-r{display:flex;align-items:center;gap:16px}
-.nav-link{font-size:14px;color:var(--muted);text-decoration:none}
-.btn-outline{background:white;color:var(--violet);padding:9px 20px;border-radius:100px;font-size:14px;font-weight:700;text-decoration:none;border:1.5px solid var(--violet);font-family:var(--sans)}
-.btn-nav{background:var(--violet);color:white;padding:10px 22px;border-radius:100px;font-size:14px;font-weight:700;text-decoration:none;font-family:var(--sans)}
-.btn-nav:hover{background:var(--violet-dark)}
-.hero-band{background:var(--violet);padding:28px 32px;display:flex;align-items:center;justify-content:space-between}
-.hero-band-left h1{font-weight:800;font-size:26px;color:white;letter-spacing:-.5px;margin-bottom:4px}
-.hero-band-left p{font-size:14px;color:rgba(255,255,255,.55)}
+.nav-link{font-family:var(--f-body);font-size:14px;font-weight:500;color:var(--c-mute);text-decoration:none;transition:color .2s}
+.nav-link:hover{color:var(--c-navy-ink)}
+.btn-secondary{background:var(--c-white);color:var(--c-navy-ink);padding:14px 26px;border-radius:999px;font-size:14px;font-weight:500;text-decoration:none;border:1.5px solid var(--c-navy-ink);font-family:var(--f-body);transition:all .2s}
+.btn-secondary:hover{background:var(--c-navy-ink);color:var(--c-white)}
+.btn-primary{background:var(--c-red);color:var(--c-white);padding:14px 26px;border-radius:999px;font-size:14px;font-weight:500;text-decoration:none;font-family:var(--f-body);transition:all .2s}
+.btn-primary:hover{background:var(--c-red-deep)}
+
+/* HERO BAND */
+.hero-band{background:var(--c-red);padding:32px 32px;display:flex;align-items:center;justify-content:space-between;margin-top:16px}
+.hero-band-inner{max-width:1240px;margin:0 auto;width:100%;display:flex;align-items:center;justify-content:space-between}
+.hero-band-left h1{font-family:var(--f-display);font-weight:300;font-size:26px;color:var(--c-white);letter-spacing:-0.012em;margin-bottom:4px}
+.hero-band-left p{font-size:14px;color:rgba(255,255,255,.6)}
 .hero-stats{display:flex;gap:32px}
 .hstat{text-align:center}
-.hstat-n{font-weight:800;font-size:26px;color:var(--sun);line-height:1}
-.hstat-l{font-size:12px;color:rgba(255,255,255,.45);margin-top:3px}
-.layout{display:grid;grid-template-columns:240px 1fr;min-height:calc(100vh - 128px)}
-.sidebar{background:var(--white);border-right:1.5px solid var(--border);padding:24px 20px;position:sticky;top:64px;height:calc(100vh - 64px);overflow-y:auto}
+.hstat-n{font-family:var(--f-display);font-weight:300;font-size:26px;color:var(--c-white);line-height:1}
+.hstat-l{font-family:var(--f-body);font-size:12px;color:rgba(255,255,255,.5);margin-top:3px}
+
+/* BREADCRUMB */
+.breadcrumb{max-width:1240px;margin:16px auto 0;padding:0 16px;font-size:13px;color:var(--c-mute)}
+.breadcrumb a{color:var(--c-mute);text-decoration:none}
+.breadcrumb a:hover{color:var(--c-navy-ink)}
+.breadcrumb .sep{margin:0 6px;color:var(--c-mute)}
+
+/* LAYOUT */
+.layout{display:grid;grid-template-columns:240px 1fr;max-width:1240px;margin:20px auto 0;min-height:calc(100vh - 200px)}
+.sidebar{background:var(--c-white);border:1.5px solid var(--c-border);border-radius:var(--radius);padding:24px 20px;position:sticky;top:90px;height:fit-content;max-height:calc(100vh - 100px);overflow-y:auto}
 .sb-section{margin-bottom:24px}
-.sb-label{font-size:11px;font-weight:700;color:var(--muted);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:12px;display:block}
+.sb-label{font-family:var(--f-body);font-size:11.5px;font-weight:600;color:var(--c-mute);letter-spacing:0.16em;text-transform:uppercase;margin-bottom:12px;display:block}
 .search-wrap{position:relative}
 .search-icon{position:absolute;left:12px;top:50%;transform:translateY(-50%)}
-.search-box{width:100%;padding:10px 12px 10px 36px;border:1.5px solid var(--border);border-radius:var(--radius-sm);font-family:var(--sans);font-size:13px;color:var(--ink);background:var(--pale);outline:none}
-.search-box:focus{border-color:var(--violet);background:white}
+.search-box{width:100%;padding:10px 12px 10px 36px;border:1.5px solid var(--c-border);border-radius:12px;font-family:var(--f-body);font-size:13px;color:var(--c-navy-ink);background:var(--c-bg);outline:none;transition:border-color .2s}
+.search-box:focus{border-color:var(--c-blue);background:var(--c-white)}
 .pill-filters{display:flex;flex-wrap:wrap;gap:6px}
-.pill{padding:5px 12px;border-radius:100px;border:1.5px solid var(--border);font-size:12px;font-weight:600;color:var(--muted);cursor:pointer;background:white;user-select:none;transition:all .2s}
-.pill.active{background:var(--violet-bg);border-color:var(--violet);color:var(--violet-dark)}
+.pill{padding:8px 16px;border-radius:999px;border:1.5px solid var(--c-border);font-size:13.5px;font-weight:500;color:var(--c-mute);cursor:pointer;background:var(--c-white);user-select:none;transition:all .2s;font-family:var(--f-body)}
+.pill.active{background:var(--c-blue-soft);border-color:var(--c-blue);color:var(--c-blue)}
 .check-opts{display:flex;flex-direction:column;gap:6px}
 .copt{display:flex;align-items:center;gap:10px;cursor:pointer;padding:4px 0;user-select:none}
-.copt-box{width:16px;height:16px;border-radius:5px;flex-shrink:0;border:1.5px solid var(--border);background:white;display:flex;align-items:center;justify-content:center;transition:all .2s}
-.copt.active .copt-box{background:var(--violet);border-color:var(--violet)}
+.copt-box{width:16px;height:16px;border-radius:5px;flex-shrink:0;border:1.5px solid var(--c-border);background:var(--c-white);display:flex;align-items:center;justify-content:center;transition:all .2s}
+.copt.active .copt-box{background:var(--c-blue);border-color:var(--c-blue)}
 .copt.active .copt-box::after{content:'';width:7px;height:4px;border-left:1.5px solid white;border-bottom:1.5px solid white;transform:rotate(-45deg) translateY(-1px);display:block}
-.copt-label{font-size:13px;color:var(--muted)}
-.copt.active .copt-label{color:var(--ink);font-weight:600}
-.reset-btn{width:100%;padding:10px;border-radius:100px;border:1.5px solid var(--border);background:white;font-family:var(--sans);font-size:13px;font-weight:600;color:var(--muted);cursor:pointer;margin-top:8px}
-.content{padding:24px 28px}
+.copt-label{font-size:13px;color:var(--c-mute);font-family:var(--f-body)}
+.copt.active .copt-label{color:var(--c-navy-ink);font-weight:600}
+.reset-btn{width:100%;padding:10px;border-radius:999px;border:1.5px solid var(--c-border);background:var(--c-white);font-family:var(--f-body);font-size:13px;font-weight:500;color:var(--c-mute);cursor:pointer;margin-top:8px;transition:all .2s}
+.reset-btn:hover{border-color:var(--c-navy-ink);color:var(--c-navy-ink)}
+
+/* CONTENT */
+.content{padding:0 0 40px 24px}
 .content-bar{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px}
-.result-count{font-size:14px;color:var(--muted)}
-.result-count strong{color:var(--ink);font-weight:700}
+.result-count{font-size:14px;color:var(--c-mute);font-family:var(--f-body)}
+.result-count strong{color:var(--c-navy-ink);font-weight:600}
 .sort-row{display:flex;gap:6px;align-items:center}
-.sort-label{font-size:13px;color:var(--muted);margin-right:4px}
-.sort-pill{padding:7px 16px;border-radius:100px;font-size:13px;font-weight:600;border:1.5px solid var(--border);background:white;color:var(--muted);cursor:pointer;font-family:var(--sans);transition:all .2s}
-.sort-pill.active{background:var(--sun);border-color:var(--sun);color:var(--ink)}
+.sort-label{font-size:13px;color:var(--c-mute);margin-right:4px}
+.sort-pill{padding:7px 16px;border-radius:999px;font-size:13px;font-weight:500;border:1.5px solid var(--c-border);background:var(--c-white);color:var(--c-mute);cursor:pointer;font-family:var(--f-body);transition:all .2s}
+.sort-pill.active{background:var(--c-red);border-color:var(--c-red);color:var(--c-white)}
 .cards-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
-.pcard{background:var(--white);border:1.5px solid var(--border);border-radius:var(--radius);padding:20px;display:flex;flex-direction:column;gap:12px;transition:all .22s;text-decoration:none}
-.pcard:hover{transform:translateY(-3px);border-color:var(--violet);box-shadow:0 8px 24px rgba(123,79,255,.1)}
+
+/* PROJECT CARD */
+.pcard{background:var(--c-white);border:1.5px solid var(--c-border);border-radius:var(--radius);padding:18px;display:flex;flex-direction:column;gap:12px;transition:all .22s;text-decoration:none}
+.pcard:hover{transform:translateY(-3px);border-color:var(--c-blue);box-shadow:0 8px 24px rgba(31,96,232,.1)}
 .pcard-top{display:flex;align-items:center;justify-content:space-between}
-.ptag{font-size:11px;font-weight:700;padding:4px 10px;border-radius:100px}
-.badge-new{font-size:10px;font-weight:700;color:var(--mint-dark);background:var(--mint-bg);padding:3px 9px;border-radius:100px}
-.pcard-title{font-weight:800;font-size:15px;color:var(--ink);letter-spacing:-.3px;line-height:1.25}
-.pcard-desc{font-size:13px;color:var(--muted);line-height:1.6;flex:1}
+.ptag{font-size:13.5px;font-weight:500;padding:8px 16px;border-radius:999px;background:var(--c-white);border:1.5px solid var(--c-blue);color:var(--c-blue);font-family:var(--f-body)}
+.badge-new{font-size:10px;font-weight:600;color:var(--c-blue);background:var(--c-blue-soft);padding:3px 9px;border-radius:999px;font-family:var(--f-body)}
+.pcard-title{font-family:var(--f-body);font-weight:500;font-size:15px;color:var(--c-navy-ink);letter-spacing:-0.01em;line-height:1.25}
+.pcard-desc{font-size:13px;color:var(--c-mute);line-height:1.6;flex:1;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
 .pcard-chips{display:flex;flex-wrap:wrap;gap:5px}
-.pchip{font-size:11px;padding:4px 10px;border-radius:100px;background:var(--pale);color:var(--ink2);font-weight:600}
-.pcard-footer{display:flex;align-items:center;justify-content:space-between;padding-top:12px;border-top:1.5px solid var(--border)}
+.pchip{font-size:11px;padding:4px 10px;border-radius:999px;background:var(--c-blue-soft);color:var(--c-navy-ink);font-weight:500;font-family:var(--f-body)}
+.pcard-footer{display:flex;align-items:center;justify-content:space-between;padding-top:12px;border-top:1.5px solid var(--c-border)}
 .pcard-meta{display:flex;align-items:center;gap:10px}
-.pcard-loc{font-size:12px;color:var(--muted);display:flex;align-items:center;gap:4px}
-.pcard-stage{font-size:11px;color:var(--muted);background:var(--pale);padding:3px 8px;border-radius:100px;font-weight:500}
-.btn-voir{font-size:12px;font-weight:700;color:var(--violet);background:var(--violet-bg);padding:7px 14px;border-radius:100px;white-space:nowrap}
-.loading{text-align:center;padding:60px 20px;color:var(--muted);grid-column:1/-1}
-.loading-spinner{width:36px;height:36px;border:3px solid var(--border);border-top-color:var(--violet);border-radius:50%;animation:spin 1s linear infinite;margin:0 auto 16px}
+.pcard-loc{font-size:12px;color:var(--c-mute);display:flex;align-items:center;gap:4px}
+.pcard-stage{font-size:11px;color:var(--c-mute);background:var(--c-bg);padding:3px 8px;border-radius:999px;font-weight:500}
+.btn-voir{font-size:12px;font-weight:600;color:var(--c-blue);background:var(--c-blue-soft);padding:7px 14px;border-radius:999px;white-space:nowrap;font-family:var(--f-body)}
+
+/* LOADING / EMPTY */
+.loading{text-align:center;padding:60px 20px;color:var(--c-mute);grid-column:1/-1}
+.loading-spinner{width:36px;height:36px;border:3px solid var(--c-border);border-top-color:var(--c-red);border-radius:50%;animation:spin 1s linear infinite;margin:0 auto 16px}
 @keyframes spin{to{transform:rotate(360deg)}}
-.empty{text-align:center;padding:60px 20px;color:var(--muted);grid-column:1/-1}
-.empty-title{font-weight:700;font-size:18px;color:var(--ink);margin-bottom:8px}
+.empty{text-align:center;padding:60px 20px;color:var(--c-mute);grid-column:1/-1}
+.empty-title{font-family:var(--f-body);font-weight:600;font-size:18px;color:var(--c-navy-ink);margin-bottom:8px}
+
+/* RESPONSIVE */
 @media(max-width:1100px){.cards-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
-@media(max-width:760px){.layout{grid-template-columns:1fr}.sidebar{display:none}.cards-grid{grid-template-columns:1fr}.hero-stats{display:none}nav{padding:0 20px}.content{padding:16px}}
+@media(max-width:760px){
+  .layout{grid-template-columns:1fr}
+  .sidebar{display:none}
+  .cards-grid{grid-template-columns:1fr}
+  .hero-stats{display:none}
+  nav{margin:8px 12px 0;padding:0 16px}
+  .content{padding:0 0 40px 0}
+  .hero-band{padding:24px 16px}
+  .breadcrumb{padding:0 12px}
+}
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body>
 
+<div class="util-bar"><span>Antenne French Tech Bordeaux</span></div>
+
 <nav>
   <a href="index.html" class="logo">
-    <div class="logo-bubble"><svg width="36" height="36" viewBox="0 0 80 80" fill="none">
-  <rect width="80" height="80" rx="20" fill="#1A1A2E"/>
-  <circle cx="28" cy="32" r="9" fill="#FFD426"/>
-  <circle cx="52" cy="32" r="9" fill="#00C9A7"/>
-  <path d="M18 56C18 50 22 46 28 46C32 46 35 48.5 40 48.5C45 48.5 48 46 52 46C58 46 62 50 62 56" stroke="white" stroke-width="3.5" stroke-linecap="round" fill="none"/>
-  <path d="M37 56H43" stroke="#7B4FFF" stroke-width="3.5" stroke-linecap="round"/>
-</svg></div>
-    trouver-un-associé
+    <div class="logo-bubble"><svg width="36" height="36" viewBox="0 0 80 80" fill="none"><rect width="80" height="80" rx="20" fill="#0E0830"/><circle cx="28" cy="32" r="9" fill="#E11D2E"/><circle cx="52" cy="32" r="9" fill="#1F60E8"/><path d="M18 56C18 50 22 46 28 46C32 46 35 48.5 40 48.5C45 48.5 48 46 52 46C58 46 62 50 62 56" stroke="#fff" stroke-width="3.5" stroke-linecap="round" fill="none"/><path d="M37 56H43" stroke="#E11D2E" stroke-width="3.5" stroke-linecap="round"/></svg></div>
+    <div class="logo-text">
+      <span class="lt-main">trouver un associ&eacute;</span>
+      <span class="lt-sub">BY FRENCH TECH BORDEAUX</span>
+    </div>
   </a>
   <div class="nav-r">
     <a href="index.html" class="nav-link">Accueil</a>
     <a href="profils.html" class="nav-link">Profils</a>
-    <a href="auth.html?redirect=/deposer.html" class="btn-outline">+ Déposer un projet</a>
-    <a href="auth.html" class="btn-nav" id="navAuthBtn">Se connecter</a>
+    <a href="auth.html?redirect=/deposer.html" class="btn-secondary">+ D&eacute;poser un projet</a>
+    <a href="auth.html" class="btn-primary" id="navAuthBtn">Se connecter</a>
+    <a href="#" id="navLogoutBtn" style="display:none;font-size:13px;color:var(--c-mute);text-decoration:none">D&eacute;connexion</a>
   </div>
 </nav>
 
 <div class="hero-band">
-  <div class="hero-band-left">
-    <h1>Explorer les projets</h1>
-    <p>Trouvez le projet qui vous correspond vraiment</p>
+  <div class="hero-band-inner">
+    <div class="hero-band-left">
+      <h1>Explorer les projets</h1>
+      <p>Trouve le projet qui te correspond vraiment</p>
+    </div>
+    <div class="hero-stats">
+      <div class="hstat"><div class="hstat-n" id="totalProjets">&mdash;</div><div class="hstat-l">Projets actifs</div></div>
+      <div class="hstat"><div class="hstat-n">67</div><div class="hstat-l">Associations form&eacute;es</div></div>
+    </div>
   </div>
-  <div class="hero-stats">
-    <div class="hstat"><div class="hstat-n" id="totalProjets">—</div><div class="hstat-l">Projets actifs</div></div>
-    <div class="hstat"><div class="hstat-n">67</div><div class="hstat-l">Associations formées</div></div>
-  </div>
+</div>
+
+<div class="breadcrumb">
+  <a href="index.html">Accueil</a><span class="sep">&gt;</span><span>Explorer les projets</span>
 </div>
 
 <div class="layout">
@@ -136,8 +182,8 @@ nav{background:var(--white);border-bottom:1.5px solid var(--border);padding:0 32
     <div class="sb-section">
       <span class="sb-label">Recherche</span>
       <div class="search-wrap">
-        <span class="search-icon"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="6" cy="6" r="4" stroke="var(--muted)" stroke-width="1.4"/><path d="M9 9l3 3" stroke="var(--muted)" stroke-width="1.4" stroke-linecap="round"/></svg></span>
-        <input class="search-box" type="text" placeholder="Mot-clé, secteur…" id="searchInput" oninput="renderCards()">
+        <span class="search-icon"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="6" cy="6" r="4" stroke="var(--c-mute)" stroke-width="1.4"/><path d="M9 9l3 3" stroke="var(--c-mute)" stroke-width="1.4" stroke-linecap="round"/></svg></span>
+        <input class="search-box" type="text" placeholder="Mot-cl&eacute;, secteur..." id="searchInput" oninput="renderCards()">
       </div>
     </div>
     <div class="sb-section">
@@ -153,13 +199,13 @@ nav{background:var(--white);border-bottom:1.5px solid var(--border);padding:0 32
       </div>
     </div>
     <div class="sb-section">
-      <span class="sb-label">Profil recherché</span>
+      <span class="sb-label">Profil recherch&eacute;</span>
       <div class="check-opts" id="profilFilters">
         <div class="copt" data-val="CTO" onclick="toggleCheck(this)"><div class="copt-box"></div><span class="copt-label">CTO / Technique</span></div>
         <div class="copt" data-val="Commercial" onclick="toggleCheck(this)"><div class="copt-box"></div><span class="copt-label">Commercial / Growth</span></div>
         <div class="copt" data-val="Product" onclick="toggleCheck(this)"><div class="copt-box"></div><span class="copt-label">Product / UX</span></div>
         <div class="copt" data-val="Marketing" onclick="toggleCheck(this)"><div class="copt-box"></div><span class="copt-label">Marketing</span></div>
-        <div class="copt" data-val="Finance" onclick="toggleCheck(this)"><div class="copt-box"></div><span class="copt-label">Finance / Levée</span></div>
+        <div class="copt" data-val="Finance" onclick="toggleCheck(this)"><div class="copt-box"></div><span class="copt-label">Finance / Lev&eacute;e</span></div>
       </div>
     </div>
     <div class="sb-section">
@@ -173,29 +219,29 @@ nav{background:var(--white);border-bottom:1.5px solid var(--border);padding:0 32
         <span class="pill" data-val="Nantes" onclick="togglePill(this,'locFilters')">Nantes</span>
       </div>
     </div>
-    <button class="reset-btn" onclick="resetFilters()">Réinitialiser les filtres</button>
+    <button class="reset-btn" onclick="resetFilters()">R&eacute;initialiser les filtres</button>
   </aside>
 
   <main class="content">
     <div class="content-bar">
-      <div class="result-count"><strong id="countDisplay">—</strong> projets correspondent</div>
+      <div class="result-count"><strong id="countDisplay">&mdash;</strong> projets correspondent</div>
       <div class="sort-row">
         <span class="sort-label">Trier par</span>
-        <span class="sort-pill active" onclick="setSort(this,'recent')">Récents</span>
-        <span class="sort-pill" onclick="setSort(this,'alpha')">A → Z</span>
+        <span class="sort-pill active" onclick="setSort(this,'recent')">R&eacute;cents</span>
+        <span class="sort-pill" onclick="setSort(this,'alpha')">A &rarr; Z</span>
       </div>
     </div>
     <div id="cardsGrid" class="cards-grid">
-      <div class="loading"><div class="loading-spinner"></div>Chargement des projets…</div>
+      <div class="loading"><div class="loading-spinner"></div>Chargement des projets&hellip;</div>
     </div>
   </main>
 </div>
 
 <script>
 const tagStyles = [
-  {bg:'#F0EBFF',color:'#5530CC'},{bg:'#E0FBF5',color:'#007A65'},
-  {bg:'#EEF5FF',color:'#0C447C'},{bg:'#FFFBE8',color:'#7A5800'},
-  {bg:'#FFF0F2',color:'#CC2A44'}
+  {bg:'#E6EEFC',color:'#1F60E8'},
+  {bg:'#E6EEFC',color:'#1A1247'},
+  {bg:'#E6EEFC',color:'#0E0830'}
 ];
 
 let allProjets = [];
@@ -208,7 +254,7 @@ function buildCard(projet, index) {
   return `
     <a href="projet.html?id=${projet.id}" class="pcard">
       <div class="pcard-top">
-        <span class="ptag" style="background:${tag.bg};color:${tag.color}">${projet.secteur||'Projet'}</span>
+        <span class="ptag" style="background:${tag.bg};color:${tag.color};border-color:${tag.color}">${projet.secteur||'Projet'}</span>
         ${isNew?'<span class="badge-new">Nouveau</span>':''}
       </div>
       <div class="pcard-title">${projet.titre}</div>
@@ -222,7 +268,7 @@ function buildCard(projet, index) {
           </div>
           <span class="pcard-stage">${projet.stade||''}</span>
         </div>
-        <span class="btn-voir">Voir →</span>
+        <span class="btn-voir">Voir &rarr;</span>
       </div>
     </a>`;
 }
@@ -246,7 +292,7 @@ function renderCards() {
 
   document.getElementById('countDisplay').textContent = filtered.length;
   document.getElementById('cardsGrid').innerHTML = filtered.length === 0
-    ? '<div class="empty"><div class="empty-title">Aucun projet trouvé</div><div>Essaie d\'élargir tes filtres.</div></div>'
+    ? '<div class="empty"><div class="empty-title">Aucun projet trouv\u00e9</div><div>Essaie d\'&eacute;largir tes filtres.</div></div>'
     : filtered.map((p,i)=>buildCard(p,i)).join('');
 }
 
