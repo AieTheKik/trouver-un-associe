@@ -46,6 +46,7 @@ app.patch('/api/profils/me', requireAuth, async (req, res) => {
   delete updates.id;
   delete updates.user_id;
   delete updates.created_at;
+  delete updates.email;
   const { data, error } = await supabase
     .from('profils')
     .update(updates)
@@ -87,11 +88,11 @@ app.get('/api/projets/:id', async (req, res) => {
 
 
 app.post('/api/inscription', async (req, res) => {
-  const { prenom, nom, email, ville, role, pitch, intention, competences, secteurs, disponibilite, linkedin, equity, temps_plein } = req.body;
-  if (!prenom || !email || !intention) return res.status(400).json({ error: 'Champs obligatoires manquants' });
+  const { prenom, nom, ville, role, pitch, intention, competences, secteurs, disponibilite, linkedin, equity, temps_plein, user_id } = req.body;
+  if (!prenom || !intention) return res.status(400).json({ error: 'Champs obligatoires manquants' });
   const { data, error } = await supabase
     .from('profils')
-    .insert([{ prenom, nom: nom||null, ville: ville||null, role: role||null, pitch: pitch||null, intention, competences: competences||[], secteurs: secteurs||[], disponibilite: disponibilite||null, linkedin: linkedin||null, equity: equity||false, temps_plein: temps_plein!==false }])
+    .insert([{ prenom, nom: nom||null, ville: ville||null, role: role||null, pitch: pitch||null, intention, competences: competences||[], secteurs: secteurs||[], disponibilite: disponibilite||null, linkedin: linkedin||null, equity: equity||false, temps_plein: temps_plein!==false, user_id: user_id||null }])
     .select().single();
   if (error) return res.status(500).json({ error });
   res.json({ success: true, profil: data });

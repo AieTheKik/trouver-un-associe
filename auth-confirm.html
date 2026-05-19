@@ -133,7 +133,6 @@ async function confirm() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           prenom: prenom || 'Nouveau membre',
-          email: user.email,
           intention: 'cherche',
           competences: [],
           secteurs: [],

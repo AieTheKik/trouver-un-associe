@@ -211,7 +211,6 @@ nav{background:var(--c-white);border-bottom:1.5px solid var(--c-border);padding:
         <div class="field"><label for="prenom">Pr&eacute;nom *</label><input type="text" id="prenom" placeholder="Marie"><div class="field-error" id="err-prenom">Champ obligatoire</div></div>
         <div class="field"><label for="nom">Nom</label><input type="text" id="nom" placeholder="Dupont"></div>
       </div>
-      <div class="field"><label for="email">Adresse email *</label><input type="email" id="email" placeholder="marie@exemple.com"><div class="field-hint">Jamais partag&eacute;e publiquement.</div><div class="field-error" id="err-email">Email invalide</div></div>
       <div class="field"><label for="ville">Ville</label><input type="text" id="ville" placeholder="Paris, Lyon, Remote…"></div>
       <div class="field"><label for="role">Votre r&ocirc;le actuel</label><input type="text" id="role" placeholder="Product Manager, Ing&eacute;nieur, Commercial…"></div>
       <div class="field">
@@ -355,7 +354,6 @@ function getSelectedTags(groupId, color) {
 function prefillForm(p) {
   if (p.prenom) document.getElementById('prenom').value = p.prenom;
   if (p.nom) document.getElementById('nom').value = p.nom;
-  if (p.email) document.getElementById('email').value = p.email;
   if (p.ville) document.getElementById('ville').value = p.ville;
   if (p.role) document.getElementById('role').value = p.role;
   if (p.pitch) document.getElementById('pitch').value = p.pitch;
@@ -433,7 +431,6 @@ initPage();
 
 function goStep2() {
   const prenom = document.getElementById('prenom').value.trim();
-  const email = document.getElementById('email').value.trim();
   let valid = true;
 
   if (!prenom) {
@@ -443,15 +440,6 @@ function goStep2() {
   } else {
     document.getElementById('err-prenom').style.display = 'none';
     document.getElementById('prenom').classList.remove('error');
-  }
-
-  if (!email || !email.includes('@')) {
-    document.getElementById('err-email').style.display = 'block';
-    document.getElementById('email').classList.add('error');
-    valid = false;
-  } else {
-    document.getElementById('err-email').style.display = 'none';
-    document.getElementById('email').classList.remove('error');
   }
 
   if (!valid) return;
@@ -504,7 +492,6 @@ async function submit() {
   const payload = {
     prenom: document.getElementById('prenom').value.trim(),
     nom: document.getElementById('nom').value.trim() || null,
-    email: document.getElementById('email').value.trim(),
     ville: document.getElementById('ville').value.trim() || null,
     role: document.getElementById('role').value.trim() || null,
     pitch,
