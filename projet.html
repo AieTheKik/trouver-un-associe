@@ -330,7 +330,17 @@ function renderProject(p) {
   document.getElementById('infoDate').textContent = p.created_at ? formatDate(p.created_at) : '—';
 }
 
-function showModal(){document.getElementById('modalOverlay').classList.add('show');document.body.style.overflow='hidden'}
+async function showModal(){
+  const { createClient } = supabase;
+  const sb = createClient('https://rdyrlculowoqtixgdumc.supabase.co','eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJkeXJsY3Vsb3dvcXRpeGdkdW1jIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzU3Njc3OTcsImV4cCI6MjA5MTM0Mzc5N30.RANwu2ouv0cn3G-UXxaxgEWD_GZFw7apogJg35vb_qo');
+  const { data: { session } } = await sb.auth.getSession();
+  if (!session) {
+    window.location.href = 'auth.html?redirect=' + encodeURIComponent(window.location.pathname + window.location.search);
+    return;
+  }
+  document.getElementById('modalOverlay').classList.add('show');
+  document.body.style.overflow='hidden';
+}
 function closeModal(){document.getElementById('modalOverlay').classList.remove('show');document.body.style.overflow=''}
 function closeModalOutside(e){if(e.target===document.getElementById('modalOverlay'))closeModal()}
 function submitInterest(){document.getElementById('modalFormContent').classList.add('hide');document.getElementById('modalSuccess').classList.add('show')}
