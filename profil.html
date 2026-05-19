@@ -32,7 +32,9 @@ nav{background:var(--c-white);border-radius:var(--radius);box-shadow:0 12px 32px
 .logo-text{display:flex;flex-direction:column;line-height:1.2}
 .logo-name{font-family:var(--f-display);font-weight:400;font-size:15px;color:var(--c-navy-ink)}
 .logo-sub{font-family:var(--f-body);font-weight:500;font-size:9.5px;color:var(--c-mute);text-transform:uppercase;letter-spacing:0.04em}
-.nav-r{display:flex;align-items:center;gap:12px}
+.nav-r{display:flex;align-items:center;gap:20px;margin-left:auto}
+.nav-link{font-size:14px;font-weight:500;color:var(--c-mute);text-decoration:none;transition:color .2s}
+.nav-link:hover{color:var(--c-navy-ink)}
 .btn-secondary{background:var(--c-white);color:var(--c-navy-ink);padding:9px 20px;border-radius:999px;font-size:14px;font-weight:500;text-decoration:none;border:1.5px solid var(--c-navy-ink);font-family:var(--f-body);transition:all .2s}
 .btn-secondary:hover{background:var(--c-navy-ink);color:var(--c-white)}
 .btn-primary{background:var(--c-red);color:var(--c-white);padding:14px 26px;border-radius:999px;font-size:14px;font-weight:500;text-decoration:none;font-family:var(--f-body);transition:all .2s}
@@ -140,7 +142,7 @@ nav{background:var(--c-white);border-radius:var(--radius);box-shadow:0 12px 32px
   .cta-card{padding:18px}
   .info-card{padding:18px}
   nav{height:56px}
-  .btn-secondary{padding:8px 14px;font-size:13px}
+  .nav-link,.btn-secondary{display:none}
   .btn-primary{padding:10px 18px;font-size:13px}
 }
 </style>
@@ -161,7 +163,10 @@ nav{background:var(--c-white);border-radius:var(--radius);box-shadow:0 12px 32px
     </div>
   </a>
   <div class="nav-r">
-    <a href="profils.html" class="btn-secondary">← Retour aux profils</a>
+    <a href="index.html" class="nav-link">Accueil</a>
+    <a href="explorer.html" class="nav-link">Projets</a>
+    <a href="profils.html" class="nav-link">Profils</a>
+    <a href="auth.html?redirect=/deposer.html" class="btn-secondary">+ Déposer un projet</a>
     <a href="auth.html" class="btn-primary" id="navAuthBtn">Se connecter</a>
     <a href="#" id="navLogoutBtn" style="display:none;font-size:13px;color:var(--c-mute);text-decoration:none">Déconnexion</a>
   </div>

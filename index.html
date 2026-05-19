@@ -119,10 +119,11 @@ h2{font-size:clamp(32px,4vw,46px);line-height:1.08;color:var(--c-navy-ink);margi
   max-width:1240px;
   margin:16px auto;
   padding:14px 28px;
-  display:flex;align-items:center;justify-content:space-between;
+  display:flex;align-items:center;
   position:relative;z-index:100;
 }
-.nav-links{display:flex;align-items:center;gap:28px}
+.nav-right{display:flex;align-items:center;gap:24px;margin-left:auto}
+.nav-links{display:flex;align-items:center;gap:24px}
 .nav-links a{
   font-family:var(--f-body);font-size:14px;font-weight:500;
   color:var(--c-navy-ink);text-decoration:none;
@@ -439,14 +440,16 @@ footer{
         <span class="logo-sub">BY FRENCH TECH BORDEAUX</span>
       </div>
     </a>
-    <div class="nav-links">
-      <a href="#comment">Comment ça marche</a>
-      <a href="explorer.html">Projets</a>
-      <a href="profils.html">Profils</a>
-      <a href="#faq">FAQ</a>
+    <div class="nav-right">
+      <div class="nav-links">
+        <a href="#comment">Comment ça marche</a>
+        <a href="explorer.html">Projets</a>
+        <a href="profils.html">Profils</a>
+        <a href="#faq">FAQ</a>
+      </div>
+      <a href="/auth.html" class="nav-cta" id="navAuthBtn">Rejoindre la bêta</a>
+      <a href="#" id="navLogoutBtn" style="display:none;font-size:13px;color:var(--c-mute);text-decoration:none">Déconnexion</a>
     </div>
-    <a href="/auth.html" class="nav-cta" id="navAuthBtn">Rejoindre la bêta</a>
-    <a href="#" id="navLogoutBtn" style="display:none;font-size:13px;color:var(--c-mute);text-decoration:none">Déconnexion</a>
   </nav>
 
   <!-- HERO CONTENT -->
