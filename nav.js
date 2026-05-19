@@ -1,3 +1,4 @@
+(function(){
 const { createClient } = window.supabase || {};
 
 async function initNav() {
@@ -48,3 +49,4 @@ async function initNav() {
 }
 
 document.addEventListener('DOMContentLoaded', initNav);
+})();
