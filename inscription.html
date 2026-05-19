@@ -312,8 +312,16 @@ nav{background:var(--c-white);border-bottom:1.5px solid var(--c-border);padding:
 </div>
 
 <script>
+const { createClient } = supabase;
+const sb = createClient(
+  'https://rdyrlculowoqtixgdumc.supabase.co',
+  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJkeXJsY3Vsb3dvcXRpeGdkdW1jIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzU3Njc3OTcsImV4cCI6MjA5MTM0Mzc5N30.RANwu2ouv0cn3G-UXxaxgEWD_GZFw7apogJg35vb_qo'
+);
+
 let selectedIntention = null;
 let selectedDispo = null;
+let existingProfil = null;
+let currentSession = null;
 
 function toggleTag(el, color, groupId, max) {
   const parent = document.getElementById(groupId);
@@ -343,6 +351,85 @@ function selectDispo(el) {
 function getSelectedTags(groupId, color) {
   return [...document.querySelectorAll(`#${groupId} .sel-${color}`)].map(el => el.textContent);
 }
+
+function prefillForm(p) {
+  if (p.prenom) document.getElementById('prenom').value = p.prenom;
+  if (p.nom) document.getElementById('nom').value = p.nom;
+  if (p.email) document.getElementById('email').value = p.email;
+  if (p.ville) document.getElementById('ville').value = p.ville;
+  if (p.role) document.getElementById('role').value = p.role;
+  if (p.pitch) document.getElementById('pitch').value = p.pitch;
+  if (p.linkedin) document.getElementById('linkedin').value = p.linkedin;
+
+  if (p.intention) {
+    selectedIntention = p.intention;
+    document.querySelectorAll('.intent-card').forEach(c => {
+      const val = c.onclick.toString().includes("'cherche'") ? 'cherche' : 'porte';
+      if (val === p.intention) c.classList.add('selected');
+    });
+  }
+
+  if (p.disponibilite) {
+    selectedDispo = p.disponibilite;
+    document.querySelectorAll('.dispo-pill').forEach(pill => {
+      if (pill.textContent.trim() === p.disponibilite.trim()) pill.classList.add('selected');
+    });
+  }
+
+  (p.competences || []).forEach(comp => {
+    document.querySelectorAll('#competences .tag-opt').forEach(tag => {
+      if (tag.textContent.trim() === comp.trim()) tag.classList.add('sel-blue');
+    });
+  });
+
+  (p.secteurs || []).forEach(sec => {
+    document.querySelectorAll('#secteurs .tag-opt').forEach(tag => {
+      if (tag.textContent.trim() === sec.trim()) tag.classList.add('sel-red');
+    });
+  });
+}
+
+function setEditMode(isEdit) {
+  const btn = document.getElementById('btn-submit');
+  const stepTitle = document.querySelector('#step1 .step-title');
+  const lpTitle = document.querySelector('#lp-etape1 .lp-title');
+  if (isEdit) {
+    document.title = 'Modifier mon profil — Trouver un Associé';
+    btn.innerHTML = 'Enregistrer mes modifications <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M6 4l4 4-4 4" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+    if (stepTitle) stepTitle.textContent = 'Modifier ton profil';
+    if (lpTitle) lpTitle.textContent = 'Modifier ton profil';
+  } else {
+    document.title = 'Compléter mon profil — Trouver un Associé';
+    btn.innerHTML = 'Enregistrer mes modifications <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M6 4l4 4-4 4" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+    if (stepTitle) stepTitle.textContent = 'Compléter ton profil';
+    if (lpTitle) lpTitle.textContent = 'Compléter ton profil';
+  }
+}
+
+async function initPage() {
+  const { data: { session } } = await sb.auth.getSession();
+  if (!session) {
+    window.location.href = '/auth.html?redirect=/inscription.html';
+    return;
+  }
+  currentSession = session;
+
+  try {
+    const res = await fetch('/api/profils/me', {
+      headers: { 'Authorization': 'Bearer ' + session.access_token }
+    });
+    if (res.ok) {
+      existingProfil = await res.json();
+      if (existingProfil) {
+        prefillForm(existingProfil);
+        const isComplete = existingProfil.pitch && existingProfil.pitch.trim().length > 0;
+        setEditMode(isComplete);
+      }
+    }
+  } catch(e) {}
+}
+
+initPage();
 
 function goStep2() {
   const prenom = document.getElementById('prenom').value.trim();
@@ -412,7 +499,7 @@ async function submit() {
 
   const btn = document.getElementById('btn-submit');
   btn.disabled = true;
-  btn.textContent = 'Création en cours…';
+  btn.textContent = 'Enregistrement…';
 
   const payload = {
     prenom: document.getElementById('prenom').value.trim(),
@@ -431,23 +518,37 @@ async function submit() {
   };
 
   try {
-    const res = await fetch('/api/inscription', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+    const { data: { session } } = await sb.auth.getSession();
+    if (!session) {
+      window.location.href = '/auth.html?redirect=/inscription.html';
+      return;
+    }
+
+    const res = await fetch('/api/profils/me', {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + session.access_token
+      },
       body: JSON.stringify(payload)
     });
     const data = await res.json();
 
     if (!res.ok) throw new Error(data.error?.message || 'Erreur serveur');
 
-    document.getElementById('step2').classList.remove('active');
-    document.getElementById('success').classList.add('show');
+    const profilId = data.profil?.id || existingProfil?.id;
+    if (profilId) {
+      window.location.href = '/profil.html?id=' + profilId;
+    } else {
+      document.getElementById('step2').classList.remove('active');
+      document.getElementById('success').classList.add('show');
+    }
   } catch(err) {
     const banner = document.getElementById('errorBanner');
     banner.textContent = 'Une erreur est survenue : ' + err.message;
     banner.classList.add('show');
     btn.disabled = false;
-    btn.innerHTML = 'Créer mon profil <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M6 4l4 4-4 4" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+    btn.innerHTML = 'Enregistrer mes modifications <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M6 4l4 4-4 4" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>';
   }
 }
 </script>

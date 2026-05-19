@@ -13,11 +13,25 @@ async function initNav() {
 
   if (session) {
     const prenom = session.user.user_metadata?.prenom || 'Mon compte';
+
+    let profilHref = '/inscription.html';
+    try {
+      const res = await fetch('/api/profils/me', {
+        headers: { 'Authorization': 'Bearer ' + session.access_token }
+      });
+      if (res.ok) {
+        const profil = await res.json();
+        if (profil && profil.id) {
+          profilHref = '/profil.html?id=' + profil.id;
+        }
+      }
+    } catch(e) {}
+
     navBtn.innerHTML = `<span style="display:flex;align-items:center;gap:8px">
       <span style="width:28px;height:28px;border-radius:50%;background:var(--violet);color:white;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700">${prenom[0].toUpperCase()}</span>
       ${prenom}
     </span>`;
-    navBtn.href = '/inscription.html';
+    navBtn.href = profilHref;
 
     const logoutBtn = document.getElementById('navLogoutBtn');
     if (logoutBtn) {

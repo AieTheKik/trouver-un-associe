@@ -236,11 +236,11 @@ nav{background:var(--c-white);border-radius:var(--radius);box-shadow:0 12px 32px
 
     <div class="right-col">
 
-      <div class="cta-card">
+      <div class="cta-card" id="ctaCard">
         <div class="cta-title" id="ctaTitle">Contacter ce profil</div>
-        <div class="cta-sub">Exprime ton intérêt en quelques mots. Si la personne est aussi intéressée, la messagerie s'ouvre entre vous.</div>
-        <button class="cta-btn" onclick="showModal()">Exprimer mon intérêt →</button>
-        <div class="cta-note">
+        <div class="cta-sub" id="ctaSub">Exprime ton intérêt en quelques mots. Si la personne est aussi intéressée, la messagerie s'ouvre entre vous.</div>
+        <button class="cta-btn" id="ctaBtn" onclick="showModal()">Exprimer mon intérêt →</button>
+        <div class="cta-note" id="ctaNote">
           <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 1a3 3 0 00-3 3v1H2v6h8V5H9V4a3 3 0 00-3-3zM4.5 4a1.5 1.5 0 013 0v1h-3V4z" fill="rgba(255,255,255,.4)"/></svg>
           Anonyme jusqu'à validation mutuelle
         </div>
@@ -379,6 +379,17 @@ function submitInterest() {
   document.getElementById('modalSuccess').classList.add('show');
 }
 
+function showOwnerCta() {
+  const card = document.getElementById('ctaCard');
+  card.style.background = 'var(--c-navy)';
+  document.getElementById('ctaTitle').textContent = 'C\'est ton profil';
+  document.getElementById('ctaSub').textContent = 'Tu peux modifier tes informations, compétences et intention à tout moment.';
+  const btn = document.getElementById('ctaBtn');
+  btn.textContent = 'Modifier mon profil →';
+  btn.onclick = function() { window.location.href = '/inscription.html'; };
+  document.getElementById('ctaNote').style.display = 'none';
+}
+
 async function init() {
   const params = new URLSearchParams(window.location.search);
   const id = params.get('id');
@@ -397,6 +408,11 @@ async function init() {
     document.getElementById('loadingState').style.display = 'none';
     document.getElementById('profileContent').style.display = 'block';
     renderProfile(profil);
+
+    const { data: { session } } = await sb.auth.getSession();
+    if (session && profil.user_id && session.user.id === profil.user_id) {
+      showOwnerCta();
+    }
   } catch(err) {
     document.getElementById('loadingState').style.display = 'none';
     document.getElementById('errorState').style.display = 'block';

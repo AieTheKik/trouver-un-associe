@@ -31,6 +31,31 @@ app.get('/api/profils', async (req, res) => {
   res.json(data);
 });
 
+app.get('/api/profils/me', requireAuth, async (req, res) => {
+  const { data, error } = await supabase
+    .from('profils')
+    .select('*')
+    .eq('user_id', req.user.id)
+    .single();
+  if (error) return res.status(500).json({ error });
+  res.json(data);
+});
+
+app.patch('/api/profils/me', requireAuth, async (req, res) => {
+  const updates = req.body;
+  delete updates.id;
+  delete updates.user_id;
+  delete updates.created_at;
+  const { data, error } = await supabase
+    .from('profils')
+    .update(updates)
+    .eq('user_id', req.user.id)
+    .select()
+    .single();
+  if (error) return res.status(500).json({ error });
+  res.json({ success: true, profil: data });
+});
+
 app.get('/api/profils/:id', async (req, res) => {
   const { data, error } = await supabase
     .from('profils')
