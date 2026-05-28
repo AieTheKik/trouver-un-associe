@@ -93,6 +93,18 @@ nav{background:var(--c-white);border-radius:var(--radius);box-shadow:0 12px 32px
 .reset-btn{width:100%;padding:10px;border-radius:999px;border:1.5px solid var(--c-border);background:var(--c-white);font-family:var(--f-body);font-size:13px;font-weight:500;color:var(--c-mute);cursor:pointer;margin-top:8px;transition:all .2s}
 .reset-btn:hover{border-color:var(--c-navy-ink);color:var(--c-navy-ink)}
 
+/* LOC CHIPS */
+.loc-chips{display:flex;flex-wrap:wrap;gap:6px}
+.loc-chip{padding:8px 16px;border-radius:999px;border:1px solid var(--c-border);font-size:13.5px;font-weight:500;color:var(--c-navy-ink);cursor:pointer;background:var(--c-white);user-select:none;transition:all .2s;font-family:var(--f-body)}
+.loc-chip.priority{border:1.5px solid var(--c-red)}
+.loc-chip.active{background:var(--c-red);border-color:var(--c-red);color:var(--c-white)}
+.loc-chip:hover:not(.active){border-color:var(--c-red)}
+.loc-dropdown-wrap{position:relative}
+.loc-dropdown{display:none;position:absolute;top:100%;left:0;margin-top:6px;background:var(--c-white);border:1.5px solid var(--c-border);border-radius:12px;box-shadow:0 8px 24px rgba(14,8,48,.12);min-width:180px;max-height:200px;overflow-y:auto;z-index:50;padding:6px 0}
+.loc-dropdown.show{display:block}
+.loc-dropdown-item{padding:10px 16px;font-size:13px;font-family:var(--f-body);color:var(--c-navy-ink);cursor:pointer;transition:background .15s}
+.loc-dropdown-item:hover{background:var(--c-bg)}
+
 /* CONTENT */
 .content{padding:0 0 40px 24px}
 .content-bar{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px}
@@ -226,12 +238,16 @@ nav{background:var(--c-white);border-radius:var(--radius);box-shadow:0 12px 32px
 
     <div class="sb-section">
       <span class="sb-label">Localisation</span>
-      <div class="pill-filters" id="locFilters">
-        <span class="pill active" data-val="partout" onclick="togglePill(this,'locFilters')">Partout</span>
-        <span class="pill" data-val="Paris" onclick="togglePill(this,'locFilters')">Paris</span>
-        <span class="pill" data-val="Lyon" onclick="togglePill(this,'locFilters')">Lyon</span>
-        <span class="pill" data-val="Bordeaux" onclick="togglePill(this,'locFilters')">Bordeaux</span>
-        <span class="pill" data-val="Remote" onclick="togglePill(this,'locFilters')">Remote</span>
+      <div class="loc-chips" id="locFilters">
+        <span class="loc-chip priority" data-val="Bordeaux" onclick="toggleLocChip(this)">Bordeaux</span>
+        <span class="loc-chip" data-val="Remote" onclick="toggleLocChip(this)">Remote</span>
+        <span class="loc-chip" data-val="Bayonne" onclick="toggleLocChip(this)">Bayonne</span>
+        <span class="loc-chip" data-val="Pau" onclick="toggleLocChip(this)">Pau</span>
+        <span class="loc-chip" data-val="La Rochelle" onclick="toggleLocChip(this)">La Rochelle</span>
+        <div class="loc-dropdown-wrap">
+          <span class="loc-chip loc-chip-dd" onclick="toggleLocDropdown(event)">Toutes les villes &#9662;</span>
+          <div class="loc-dropdown" id="locDropdown"></div>
+        </div>
       </div>
     </div>
 
@@ -264,6 +280,8 @@ const avatarColors = ['#E11D2E','#1F60E8','#1A1247','#0E0830','#C0142A','#7A7A8E
 let allProfils = [];
 let activeIntent = null;
 let activeSort = 'recent';
+let activeLocVal = null;
+const FIXED_CITIES = ['Bordeaux','Remote','Bayonne','Pau','La Rochelle'];
 
 function getDispoClass(dispo) {
   if (!dispo) return 'dispo-later';
@@ -309,14 +327,14 @@ function buildCard(profil, index) {
 
 function renderCards() {
   const search = document.getElementById('searchInput').value.toLowerCase();
-  const loc = document.querySelector('#locFilters .pill.active')?.dataset.val || 'partout';
+  const loc = activeLocVal;
   const dispos = [...document.querySelectorAll('.copt.active')].map(c => c.dataset.val);
 
   let filtered = allProfils.filter(p => {
     const text = `${p.prenom} ${p.nom} ${p.role} ${p.pitch} ${(p.competences||[]).join(' ')} ${(p.secteurs||[]).join(' ')} ${p.ville}`.toLowerCase();
     const matchSearch = !search || text.includes(search);
     const matchIntent = !activeIntent || p.intention === activeIntent;
-    const matchLoc = loc === 'partout' || (p.ville||'').toLowerCase().includes(loc.toLowerCase());
+    const matchLoc = !loc || (p.ville||'').toLowerCase().includes(loc.toLowerCase());
     const matchDispo = dispos.length === 0 || dispos.some(d => (p.disponibilite||'').includes(d));
     return matchSearch && matchIntent && matchLoc && matchDispo;
   });
@@ -365,12 +383,34 @@ function resetFilters() {
   activeIntent = null;
   document.getElementById('toggle-cherche').classList.remove('active');
   document.getElementById('toggle-porte').classList.remove('active');
-  document.querySelectorAll('#locFilters .pill').forEach((p,i) => p.classList.toggle('active', i===0));
+  activeLocVal=null;document.querySelectorAll('.loc-chip').forEach(c=>c.classList.remove('active'));var ddR=document.querySelector('.loc-chip-dd');if(ddR)ddR.textContent='Toutes les villes \u25BE';
   document.querySelectorAll('.copt').forEach(c => c.classList.remove('active'));
   activeSort = 'recent';
   document.querySelectorAll('.sort-pill').forEach((p,i) => p.classList.toggle('active', i===0));
   renderCards();
 }
+
+function toggleLocChip(el){
+  var val=el.dataset.val;
+  if(activeLocVal===val){activeLocVal=null;document.querySelectorAll('.loc-chip').forEach(c=>c.classList.remove('active'));var dd=document.querySelector('.loc-chip-dd');if(dd)dd.textContent='Toutes les villes \u25BE';}
+  else{activeLocVal=val;document.querySelectorAll('.loc-chip').forEach(c=>c.classList.remove('active'));el.classList.add('active');var dd=document.querySelector('.loc-chip-dd');if(dd)dd.textContent='Toutes les villes \u25BE';}
+  closeLocDropdown();renderCards();
+}
+function toggleLocDropdown(e){e.stopPropagation();document.getElementById('locDropdown').classList.toggle('show')}
+function closeLocDropdown(){document.getElementById('locDropdown').classList.remove('show')}
+function selectLocFromDropdown(ville){
+  activeLocVal=ville;document.querySelectorAll('.loc-chip').forEach(c=>c.classList.remove('active'));
+  var dd=document.querySelector('.loc-chip-dd');dd.textContent=ville+' \u2715';dd.classList.add('active');
+  closeLocDropdown();renderCards();
+}
+function populateLocDropdown(items){
+  var villes=[...new Set(items.map(function(p){return p.ville}).filter(Boolean))].sort();
+  var fixedLower=FIXED_CITIES.map(function(c){return c.toLowerCase()});
+  var other=villes.filter(function(v){return !fixedLower.includes(v.toLowerCase())});
+  var dd=document.getElementById('locDropdown');
+  dd.innerHTML=other.length?other.map(function(v){return '<div class="loc-dropdown-item" onclick="selectLocFromDropdown(\''+v.replace(/'/g,"\\'")+'\')">' +v+'</div>'}).join(''):'<div class="loc-dropdown-item" style="color:var(--c-mute);cursor:default">Aucune autre ville</div>';
+}
+document.addEventListener('click',function(e){if(!e.target.closest('.loc-dropdown-wrap'))closeLocDropdown()});
 
 async function init() {
   try {
@@ -378,6 +418,7 @@ async function init() {
     allProfils = await res.json();
     document.getElementById('totalProfils').textContent = allProfils.length;
     document.getElementById('totalCherche').textContent = allProfils.filter(p => p.intention === 'cherche').length;
+    populateLocDropdown(allProfils);
     renderCards();
   } catch(err) {
     document.getElementById('cardsGrid').innerHTML = '<div class="empty"><div class="empty-title">Erreur de chargement</div><div>Impossible de charger les profils.</div></div>';
