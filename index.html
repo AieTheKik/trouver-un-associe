@@ -468,15 +468,15 @@ footer{
       </div>
       <div class="hero-stats">
         <div class="stat">
-          <div class="stat-val">35</div>
+          <div class="stat-val" id="statProjets">35</div>
           <div class="stat-lbl">Projets actifs</div>
         </div>
         <div class="stat">
-          <div class="stat-val">125</div>
+          <div class="stat-val" id="statEntrepreneurs">125</div>
           <div class="stat-lbl">Entrepreneurs</div>
         </div>
         <div class="stat">
-          <div class="stat-val">22</div>
+          <div class="stat-val" id="statAssociations">22</div>
           <div class="stat-lbl">Associations en cours</div>
         </div>
       </div>
@@ -828,6 +828,15 @@ document.querySelectorAll('a[href^="#"]').forEach(a=>{
 });
 </script>
 
+<script>
+(function(){
+  fetch('/api/stats').then(function(r){return r.json()}).then(function(d){
+    if(d.projets!=null)document.getElementById('statProjets').textContent=d.projets;
+    if(d.entrepreneurs!=null)document.getElementById('statEntrepreneurs').textContent=d.entrepreneurs;
+    if(d.associations!=null)document.getElementById('statAssociations').textContent=d.associations;
+  }).catch(function(){});
+})();
+</script>
 <script src="/nav.js"></script>
 </body>
 </html>

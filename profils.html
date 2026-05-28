@@ -125,6 +125,7 @@ nav{background:var(--c-white);border-radius:var(--radius);box-shadow:0 12px 32px
 .pav{width:46px;height:46px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-family:var(--f-display);font-weight:500;font-size:18px;color:var(--c-white);flex-shrink:0}
 .pcard-name{font-family:var(--f-body);font-weight:500;font-size:15px;color:var(--c-navy-ink);letter-spacing:-0.01em;margin-bottom:3px}
 .pcard-role{font-size:12px;color:var(--c-mute);margin-bottom:6px}
+.badge-example{font-size:10px;font-weight:700;color:var(--c-navy-ink);background:#FFD426;padding:3px 9px;border-radius:999px;font-family:var(--f-body);letter-spacing:0.04em}
 .intent-pill{display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:600;padding:3px 9px;border-radius:999px;font-family:var(--f-body)}
 .ip-cherche{background:var(--c-white);border:1.5px solid var(--c-blue);color:var(--c-blue)}
 .ip-porte{background:var(--c-blue);color:var(--c-white)}
@@ -319,6 +320,7 @@ function buildCard(profil, index) {
   const stripe = stripeColors[index % stripeColors.length];
   const avatarBg = avatarColors[index % avatarColors.length];
   const isPorte = profil.intention === 'porte';
+  const isExample = !profil.user_id;
   const chips = (profil.competences || []).slice(0, 3).map(c => `<span class="pchip">${c}</span>`).join('');
   const dispoClass = getDispoClass(profil.disponibilite);
 
@@ -329,7 +331,7 @@ function buildCard(profil, index) {
         <div class="pcard-top">
           <div class="pav" style="background:${avatarBg}">${(profil.prenom||'?')[0]}</div>
           <div>
-            <div class="pcard-name">${profil.prenom} ${profil.nom || ''}</div>
+            <div class="pcard-name">${profil.prenom} ${profil.nom || ''}${isExample?' <span class="badge-example">EXEMPLE</span>':''}</div>
             <div class="pcard-role">${profil.role || ''} \u00b7 ${profil.ville || ''}</div>
             <div class="intent-pill ${isPorte ? 'ip-porte' : 'ip-cherche'}">
               <span class="ip-dot" style="background:${isPorte ? '#1A1247' : '#1F60E8'}"></span>

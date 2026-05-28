@@ -115,6 +115,35 @@ app.post('/api/projets', requireAuth, async (req, res) => {
 });
 
 
+// --- Stats (cached 60s) ---
+let statsCache = { data: null, ts: 0 };
+
+app.get('/api/stats', async (req, res) => {
+  if (statsCache.data && Date.now() - statsCache.ts < 60000) {
+    return res.json(statsCache.data);
+  }
+  try {
+    const [projRes, profilRes] = await Promise.all([
+      supabase.from('projets').select('*', { count: 'exact', head: true }),
+      supabase.from('profils').select('*', { count: 'exact', head: true })
+    ]);
+    const stats = {
+      projets: projRes.count || 0,
+      entrepreneurs: profilRes.count || 0,
+      associations: 0
+    };
+    // Try interets table if it exists
+    try {
+      const intRes = await supabase.from('interets').select('*', { count: 'exact', head: true });
+      if (!intRes.error) stats.associations = intRes.count || 0;
+    } catch(e) {}
+    statsCache = { data: stats, ts: Date.now() };
+    res.json(stats);
+  } catch(err) {
+    res.status(500).json({ error: 'Erreur stats' });
+  }
+});
+
 // --- Exprimer intérêt ---
 const resend = new Resend(process.env.RESEND_API_KEY);
 

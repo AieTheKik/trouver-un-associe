@@ -61,6 +61,7 @@ nav{background:var(--c-white);border-radius:var(--radius);box-shadow:0 12px 32px
 .hero-identity{display:flex;align-items:flex-end;gap:18px;margin-bottom:18px}
 .avatar{width:72px;height:72px;border-radius:18px;display:flex;align-items:center;justify-content:center;font-family:var(--f-display);font-weight:500;font-size:28px;color:white;flex-shrink:0;border:4px solid white;margin-top:-40px}
 .hero-name{font-family:var(--f-display);font-weight:300;font-size:26px;color:var(--c-navy-ink);letter-spacing:-0.012em;line-height:1}
+.badge-example{display:inline-block;font-size:11px;font-weight:700;color:var(--c-navy-ink);background:#FFD426;padding:4px 12px;border-radius:999px;font-family:var(--f-body);letter-spacing:0.04em;margin-left:10px;vertical-align:middle}
 .hero-role{font-size:14px;color:var(--c-mute);margin-top:4px}
 .verified{display:inline-flex;align-items:center;gap:5px;font-size:12px;font-weight:600;color:#007A65;background:rgba(191,228,223,.3);padding:3px 10px;border-radius:999px;margin-top:6px}
 .hero-pitch{font-style:italic;font-size:15px;color:var(--c-mute);line-height:1.7;border-left:3px solid var(--c-red);padding-left:16px;margin-bottom:20px}
@@ -332,7 +333,7 @@ function renderProfile(p) {
   av.style.background = avatarBg;
   av.textContent = (p.prenom || '?')[0].toUpperCase();
 
-  document.getElementById('heroName').textContent = `${p.prenom} ${p.nom || ''}`;
+  document.getElementById('heroName').innerHTML = (p.prenom + ' ' + (p.nom || '')) + (!p.user_id ? ' <span class="badge-example">EXEMPLE</span>' : '');
   document.getElementById('heroRole').textContent = `${p.role || ''} · ${p.ville || ''}`;
   document.getElementById('heroPitch').textContent = `"${p.pitch || ''}"`;
   document.getElementById('metaVille').textContent = `${p.ville || ''} · Remote ok`;
