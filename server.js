@@ -37,7 +37,10 @@ app.get('/api/profils/me', requireAuth, async (req, res) => {
     .select('*')
     .eq('user_id', req.user.id)
     .single();
-  if (error) return res.status(500).json({ error });
+  if (error) {
+    if (error.code === 'PGRST116') return res.status(404).json({ error: 'profil not found' });
+    return res.status(500).json({ error });
+  }
   res.json(data);
 });
 
