@@ -109,85 +109,110 @@ nav{background:var(--c-white);border-bottom:1.5px solid var(--c-border);padding:
 </div>
 
 <script>
-const { createClient } = supabase;
-const sb = createClient(
-  'https://rdyrlculowoqtixgdumc.supabase.co',
-  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJkeXJsY3Vsb3dvcXRpeGdkdW1jIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzU3Njc3OTcsImV4cCI6MjA5MTM0Mzc5N30.RANwu2ouv0cn3G-UXxaxgEWD_GZFw7apogJg35vb_qo'
-);
+(function() {
+  var { createClient } = supabase;
+  var sb = createClient(
+    'https://rdyrlculowoqtixgdumc.supabase.co',
+    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJkeXJsY3Vsb3dvcXRpeGdkdW1jIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzU3Njc3OTcsImV4cCI6MjA5MTM0Mzc5N30.RANwu2ouv0cn3G-UXxaxgEWD_GZFw7apogJg35vb_qo'
+  );
 
-async function confirm() {
-  const hash = window.location.hash;
-  const params = new URLSearchParams(hash.replace('#', '?'));
-  const accessToken = params.get('access_token');
-  const refreshToken = params.get('refresh_token');
+  function isProfilComplete(p) {
+    return p && p.ville && p.role && p.pitch;
+  }
 
-  if (accessToken && refreshToken) {
-    const { data, error } = await sb.auth.setSession({ access_token: accessToken, refresh_token: refreshToken });
-
-    if (!error && data.session) {
-      const user = data.session.user;
-      const prenom = user.user_metadata?.prenom || '';
-
-      await fetch('/api/inscription', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          prenom: prenom || 'Nouveau membre',
-          intention: 'cherche',
-          competences: [],
-          secteurs: [],
-          user_id: user.id
-        })
+  async function checkExistingProfil(session) {
+    try {
+      var res = await fetch('/api/profils/me', {
+        headers: { 'Authorization': 'Bearer ' + session.access_token }
       });
+      if (res.ok) {
+        var profil = await res.json();
+        if (profil && profil.id && isProfilComplete(profil)) {
+          window.location.href = '/profil.html?id=' + profil.id;
+          return true;
+        }
+      }
+    } catch(e) {}
+    return false;
+  }
 
-      showSuccess(prenom);
+  async function confirm() {
+    var hash = window.location.hash;
+    var params = new URLSearchParams(hash.replace('#', '?'));
+    var accessToken = params.get('access_token');
+    var refreshToken = params.get('refresh_token');
+
+    if (accessToken && refreshToken) {
+      var { data, error } = await sb.auth.setSession({ access_token: accessToken, refresh_token: refreshToken });
+
+      if (!error && data.session) {
+        var user = data.session.user;
+        var prenom = user.user_metadata?.prenom || '';
+
+        if (await checkExistingProfil(data.session)) return;
+
+        await fetch('/api/inscription', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            prenom: prenom || 'Nouveau membre',
+            intention: 'cherche',
+            competences: [],
+            secteurs: [],
+            user_id: user.id
+          })
+        });
+
+        showSuccess(prenom);
+        return;
+      }
+    }
+
+    var { data: { session } } = await sb.auth.getSession();
+    if (session) {
+      if (await checkExistingProfil(session)) return;
+      showSuccess(session.user.user_metadata?.prenom || '');
       return;
     }
+
+    showError();
   }
 
-  const { data: { session } } = await sb.auth.getSession();
-  if (session) {
-    showSuccess(session.user.user_metadata?.prenom || '');
-    return;
+  function showSuccess(prenom) {
+    document.getElementById('card').innerHTML =
+      '<div class="confetti-row">' +
+        '<div class="conf"></div><div class="conf"></div><div class="conf"></div>' +
+        '<div class="conf"></div><div class="conf"></div>' +
+      '</div>' +
+      '<div class="icon icon-success">' +
+        '<svg width="36" height="36" viewBox="0 0 36 36" fill="none">' +
+          '<path d="M6 18l8 8 16-16" stroke="var(--c-blue)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>' +
+        '</svg>' +
+      '</div>' +
+      '<div class="title">Bienvenue' + (prenom ? ', ' + prenom : '') + ' !</div>' +
+      '<div class="sub">Ton compte est confirmé. Dernière étape avant de découvrir la communauté : complète ton profil pour que les autres puissent te trouver.</div>' +
+      '<div class="btns">' +
+        '<a href="/inscription.html" class="btn btn-primary">Compléter mon profil &rarr;</a>' +
+      '</div>';
   }
 
-  showError();
-}
+  function showError() {
+    document.getElementById('card').innerHTML =
+      '<div class="icon icon-error">' +
+        '<svg width="32" height="32" viewBox="0 0 32 32" fill="none">' +
+          '<path d="M16 10v8M16 22v2" stroke="var(--c-red)" stroke-width="2.5" stroke-linecap="round"/>' +
+          '<circle cx="16" cy="16" r="13" stroke="var(--c-red)" stroke-width="2" fill="none"/>' +
+        '</svg>' +
+      '</div>' +
+      '<div class="title">Lien expiré</div>' +
+      '<div class="sub">Ce lien de confirmation n\'est plus valide. Essaie de te reconnecter ou de t\'inscrire à nouveau.</div>' +
+      '<div class="btns">' +
+        '<a href="/auth.html" class="btn btn-primary">Retour à la connexion</a>' +
+      '</div>';
+  }
 
-function showSuccess(prenom) {
-  document.getElementById('card').innerHTML = `
-    <div class="confetti-row">
-      <div class="conf"></div><div class="conf"></div><div class="conf"></div>
-      <div class="conf"></div><div class="conf"></div>
-    </div>
-    <div class="icon icon-success">
-      <svg width="36" height="36" viewBox="0 0 36 36" fill="none">
-        <path d="M6 18l8 8 16-16" stroke="var(--c-blue)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
-      </svg>
-    </div>
-    <div class="title">Bienvenue${prenom ? ', ' + prenom : ''} !</div>
-    <div class="sub">Ton compte est confirmé. Complète ton profil pour que les autres membres puissent te trouver.</div>
-    <div class="btns">
-      <a href="/inscription.html" class="btn btn-primary">Compléter mon profil &rarr;</a>
-    </div>`;
-}
-
-function showError() {
-  document.getElementById('card').innerHTML = `
-    <div class="icon icon-error">
-      <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
-        <path d="M16 10v8M16 22v2" stroke="var(--c-red)" stroke-width="2.5" stroke-linecap="round"/>
-        <circle cx="16" cy="16" r="13" stroke="var(--c-red)" stroke-width="2" fill="none"/>
-      </svg>
-    </div>
-    <div class="title">Lien expiré</div>
-    <div class="sub">Ce lien de confirmation n'est plus valide. Essaie de te reconnecter ou de t'inscrire à nouveau.</div>
-    <div class="btns">
-      <a href="/auth.html" class="btn btn-primary">Retour à la connexion</a>
-    </div>`;
-}
-
-confirm();
+  confirm();
+})();
 </script>
 </body>
 </html>

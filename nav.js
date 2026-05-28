@@ -16,6 +16,7 @@ async function initNav() {
     const prenom = session.user.user_metadata?.prenom || 'Mon compte';
 
     let profilHref = '/inscription.html';
+    let profilComplete = false;
     try {
       const res = await fetch('/api/profils/me', {
         headers: { 'Authorization': 'Bearer ' + session.access_token }
@@ -23,14 +24,18 @@ async function initNav() {
       if (res.ok) {
         const profil = await res.json();
         if (profil && profil.id) {
-          profilHref = '/profil.html?id=' + profil.id;
+          if (profil.ville && profil.role && profil.pitch) {
+            profilHref = '/profil.html?id=' + profil.id;
+            profilComplete = true;
+          }
         }
       }
     } catch(e) {}
 
+    const badge = profilComplete ? '' : '<span style="background:#E11D2E;color:white;font-size:10px;font-weight:700;padding:2px 8px;border-radius:999px;margin-left:4px;white-space:nowrap">à compléter</span>';
     navBtn.innerHTML = `<span style="display:flex;align-items:center;gap:8px">
       <span style="width:28px;height:28px;border-radius:50%;background:var(--violet);color:white;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700">${prenom[0].toUpperCase()}</span>
-      ${prenom}
+      ${prenom}${badge}
     </span>`;
     navBtn.href = profilHref;
 
