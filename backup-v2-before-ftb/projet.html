@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Projet — Trouver un Associé</title>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,700;12..96,800&family=Lora:ital,wght@1,400&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --violet:#7B4FFF;--violet-bg:#F0EBFF;--violet-dark:#5530CC;
+  --mint:#00C9A7;--mint-bg:#E0FBF5;--mint-dark:#007A65;
+  --blue:#1E6FFF;--blue-bg:#EEF5FF;--blue-dark:#0C447C;
+  --sun:#FFD426;--sun-bg:#FFFBE8;--sun-dark:#7A5800;
+  --coral:#FF5E78;--coral-bg:#FFF0F2;--coral-dark:#CC2A44;
+  --ink:#1A1A2E;--ink2:#3D3D5C;--muted:#7A7A9A;
+  --pale:#F5F5FF;--border:rgba(26,26,46,0.09);--white:#fff;
+  --sans:'Bricolage Grotesque',sans-serif;--serif:'Lora',serif;
+  --radius:14px;--radius-sm:10px;
+}
+body{font-family:var(--sans);background:var(--pale);color:var(--ink);min-height:100vh}
+nav{background:var(--white);border-bottom:1.5px solid var(--border);padding:0 32px;height:64px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100}
+.logo{font-weight:800;font-size:17px;color:var(--ink);text-decoration:none;display:flex;align-items:center;gap:10px}
+.logo-bubble{width:36px;height:36px;display:flex;align-items:center;justify-content:center}
+.nav-r{display:flex;align-items:center;gap:12px}
+.btn-outline{background:white;color:var(--violet);padding:9px 20px;border-radius:100px;font-size:14px;font-weight:700;text-decoration:none;border:1.5px solid var(--violet);font-family:var(--sans)}
+.btn-nav{background:var(--violet);color:white;padding:10px 22px;border-radius:100px;font-size:14px;font-weight:700;text-decoration:none;font-family:var(--sans)}
+.btn-nav:hover{background:var(--violet-dark)}
+
+.page-inner{max-width:1160px;margin:0 auto;padding:32px 32px 64px;display:grid;grid-template-columns:1fr 300px;gap:24px;align-items:start}
+.main-col{display:flex;flex-direction:column;gap:16px}
+
+.hero-card{background:var(--white);border:1.5px solid var(--border);border-radius:var(--radius);overflow:hidden}
+.hero-banner{padding:24px 28px;display:flex;align-items:flex-start;justify-content:space-between}
+.hero-tags{display:flex;gap:8px;flex-wrap:wrap}
+.htag{font-size:12px;font-weight:700;padding:4px 12px;border-radius:100px;background:rgba(255,255,255,.2);color:white;letter-spacing:.2px}
+.badge-new{background:var(--sun);color:var(--ink);font-size:12px;font-weight:700;padding:4px 12px;border-radius:100px;white-space:nowrap}
+.hero-body{padding:24px 28px}
+.hero-title{font-weight:800;font-size:26px;color:var(--ink);letter-spacing:-.6px;margin-bottom:10px;line-height:1.15}
+.hero-pitch{font-size:15px;color:var(--ink2);line-height:1.7;margin-bottom:20px}
+.hero-meta{display:flex;gap:20px;flex-wrap:wrap}
+.meta-item{display:flex;align-items:center;gap:7px;font-size:13px;color:var(--muted)}
+
+.sc{background:var(--white);border:1.5px solid var(--border);border-radius:var(--radius);padding:24px 28px}
+.sc-header{display:flex;align-items:center;gap:10px;margin-bottom:18px}
+.sc-bar{width:3px;height:18px;background:var(--violet);border-radius:2px;flex-shrink:0}
+.sc-title{font-weight:800;font-size:16px;color:var(--ink);letter-spacing:-.3px}
+.sc-text{font-size:14px;color:var(--ink2);line-height:1.75}
+
+.traction-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.tstat{background:var(--pale);border-radius:var(--radius-sm);padding:16px;text-align:center}
+.tstat-n{font-weight:800;font-size:24px;color:var(--violet);line-height:1;letter-spacing:-.5px}
+.tstat-l{font-size:12px;color:var(--muted);margin-top:5px;font-weight:500}
+
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{font-size:12px;padding:5px 12px;border-radius:100px;background:var(--pale);color:var(--ink2);font-weight:600}
+.chip-v{background:var(--violet-bg);color:var(--violet-dark)}
+.chip-m{background:var(--mint-bg);color:var(--mint-dark)}
+.chip-b{background:var(--blue-bg);color:var(--blue-dark)}
+
+.right-col{display:flex;flex-direction:column;gap:16px;position:sticky;top:88px}
+.cta-card{background:var(--violet);border-radius:var(--radius);padding:22px}
+.cta-title{font-weight:800;font-size:17px;color:white;margin-bottom:8px;letter-spacing:-.3px}
+.cta-sub{font-size:13px;color:rgba(255,255,255,.6);line-height:1.6;margin-bottom:18px}
+.cta-btn{width:100%;padding:14px;border-radius:100px;background:var(--sun);color:var(--ink);font-family:var(--sans);font-size:15px;font-weight:700;border:none;cursor:pointer;transition:all .2s;margin-bottom:10px}
+.cta-btn:hover{background:#ffe047;transform:translateY(-1px)}
+.cta-note{font-size:12px;color:rgba(255,255,255,.35);text-align:center;display:flex;align-items:center;justify-content:center;gap:5px}
+
+.info-card{background:var(--white);border:1.5px solid var(--border);border-radius:var(--radius);padding:22px}
+.info-row{display:flex;align-items:center;justify-content:space-between;padding:9px 0;border-bottom:1.5px solid var(--border)}
+.info-row:first-child{padding-top:0}
+.info-row:last-child{border-bottom:none;padding-bottom:0}
+.info-key{font-size:13px;color:var(--muted)}
+.info-val{font-size:13px;font-weight:700;color:var(--ink);text-align:right}
+.info-val-g{color:var(--mint-dark)}
+
+.similar-card{background:var(--white);border:1.5px solid var(--border);border-radius:var(--radius);padding:22px}
+.sim-item{display:flex;align-items:flex-start;gap:12px;padding:10px 0;border-bottom:1.5px solid var(--border);cursor:pointer;text-decoration:none;transition:opacity .2s}
+.sim-item:hover{opacity:.7}
+.sim-item:first-child{padding-top:0}
+.sim-item:last-child{border-bottom:none;padding-bottom:0}
+.sim-dot{width:9px;height:9px;border-radius:50%;flex-shrink:0;margin-top:4px}
+.sim-title{font-size:13px;font-weight:700;color:var(--ink);margin-bottom:3px;line-height:1.3}
+.sim-meta{font-size:12px;color:var(--muted)}
+
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(26,26,46,.45);z-index:200;align-items:center;justify-content:center}
+.modal-overlay.show{display:flex}
+.modal{background:var(--white);border-radius:var(--radius);padding:32px;max-width:460px;width:90%;position:relative}
+.modal-close{position:absolute;top:16px;right:16px;width:30px;height:30px;border-radius:50%;background:var(--pale);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:18px;color:var(--muted)}
+.modal-icon{width:56px;height:56px;border-radius:16px;background:var(--violet-bg);display:flex;align-items:center;justify-content:center;margin-bottom:16px}
+.modal-title{font-weight:800;font-size:20px;color:var(--ink);margin-bottom:8px;letter-spacing:-.4px}
+.modal-sub{font-size:14px;color:var(--muted);line-height:1.6;margin-bottom:22px}
+.modal-field{margin-bottom:16px}
+.modal-field label{display:block;font-size:13px;font-weight:700;color:var(--ink2);margin-bottom:6px}
+.modal-field textarea{width:100%;padding:12px 14px;border:1.5px solid var(--border);border-radius:var(--radius-sm);font-family:var(--sans);font-size:13px;color:var(--ink);background:var(--white);outline:none;resize:vertical;min-height:90px;line-height:1.6}
+.modal-field textarea:focus{border-color:var(--violet)}
+.modal-note{font-size:12px;color:var(--muted);background:var(--pale);padding:10px 14px;border-radius:8px;margin-bottom:20px;line-height:1.6}
+.modal-btn{width:100%;padding:14px;border-radius:100px;background:var(--violet);color:white;font-family:var(--sans);font-size:15px;font-weight:700;border:none;cursor:pointer}
+.modal-btn:hover{background:var(--violet-dark)}
+.modal-form-content.hide{display:none}
+.modal-success{display:none;text-align:center;padding:12px 0}
+.modal-success.show{display:block}
+.success-anim{width:64px;height:64px;border-radius:50%;background:var(--mint-bg);display:flex;align-items:center;justify-content:center;margin:0 auto 16px}
+.success-title{font-weight:800;font-size:20px;color:var(--ink);margin-bottom:8px}
+.success-sub{font-size:14px;color:var(--muted);line-height:1.6}
+
+.loading-page{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:60vh;color:var(--muted)}
+.loading-spinner{width:40px;height:40px;border:3px solid var(--border);border-top-color:var(--violet);border-radius:50%;animation:spin 1s linear infinite;margin-bottom:16px}
+@keyframes spin{to{transform:rotate(360deg)}}
+.error-page{text-align:center;padding:80px 20px;color:var(--muted)}
+.error-title{font-weight:800;font-size:24px;color:var(--ink);margin-bottom:12px}
+
+@media(max-width:960px){.page-inner{grid-template-columns:1fr;padding:20px}.right-col{position:static}nav{padding:0 20px}}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="logo">
+    <div class="logo-bubble">
+      <svg width="36" height="36" viewBox="0 0 80 80" fill="none">
+        <rect width="80" height="80" rx="20" fill="#1A1A2E"/>
+        <circle cx="28" cy="32" r="9" fill="#FFD426"/>
+        <circle cx="52" cy="32" r="9" fill="#00C9A7"/>
+        <path d="M18 56C18 50 22 46 28 46C32 46 35 48.5 40 48.5C45 48.5 48 46 52 46C58 46 62 50 62 56" stroke="white" stroke-width="3.5" stroke-linecap="round" fill="none"/>
+        <path d="M37 56H43" stroke="#7B4FFF" stroke-width="3.5" stroke-linecap="round"/>
+      </svg>
+    </div>
+    trouver-un-associé
+  </a>
+  <div class="nav-r">
+    <a href="explorer.html" class="btn-outline">← Retour aux projets</a>
+    <a href="auth.html" class="btn-nav" id="navAuthBtn">Se connecter</a>
+  </div>
+</nav>
+
+<div id="loadingState" class="loading-page">
+  <div class="loading-spinner"></div>
+  Chargement du projet…
+</div>
+
+<div id="errorState" class="error-page" style="display:none">
+  <div class="error-title">Projet introuvable</div>
+  <p>Ce projet n'existe pas ou a été supprimé.</p>
+  <a href="explorer.html" style="display:inline-flex;margin-top:24px;background:var(--violet);color:white;padding:12px 28px;border-radius:100px;font-weight:700;font-size:14px;text-decoration:none">← Retour aux projets</a>
+</div>
+
+<div id="projectContent" style="display:none">
+  <div class="page-inner">
+    <div class="main-col">
+
+      <div class="hero-card">
+        <div class="hero-banner" id="heroBanner">
+          <div class="hero-tags" id="heroTags"></div>
+          <span class="badge-new" id="badgeNew" style="display:none">Nouveau</span>
+        </div>
+        <div class="hero-body">
+          <h1 class="hero-title" id="heroTitle"></h1>
+          <p class="hero-pitch" id="heroPitch"></p>
+          <div class="hero-meta">
+            <div class="meta-item">
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="6" r="2.5" stroke="currentColor" stroke-width="1.3"/><path d="M7 1C4.24 1 2 3.24 2 6c0 3.5 5 8 5 8s5-4.5 5-8c0-2.76-2.24-5-5-5z" stroke="currentColor" stroke-width="1.3"/></svg>
+              <span id="metaVille"></span>
+            </div>
+            <div class="meta-item">
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="5.5" stroke="currentColor" stroke-width="1.3"/><path d="M7 4V7l2.5 2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
+              <span id="metaStade"></span>
+            </div>
+            <div class="meta-item">
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 10l2-2 2 2 4-5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              Actif
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="sc">
+        <div class="sc-header"><div class="sc-bar"></div><div class="sc-title">Le projet</div></div>
+        <div class="sc-text" id="projetDescription"></div>
+      </div>
+
+      <div class="sc" id="tractionSection">
+        <div class="sc-header"><div class="sc-bar"></div><div class="sc-title">Traction & chiffres clés</div></div>
+        <div class="traction-grid" id="tractionGrid"></div>
+      </div>
+
+      <div class="sc">
+        <div class="sc-header"><div class="sc-bar"></div><div class="sc-title">Profil(s) recherché(s)</div></div>
+        <div class="chips" id="profilsChips" style="margin-bottom:16px"></div>
+        <div class="chips" id="competencesChips"></div>
+      </div>
+
+    </div>
+
+    <div class="right-col">
+
+      <div class="cta-card">
+        <div class="cta-title">Ce projet t'intéresse ?</div>
+        <div class="cta-sub">Exprime ton intérêt — le porteur recevra une notification et pourra te répondre si le match est mutuel.</div>
+        <button class="cta-btn" onclick="showModal()">Exprimer mon intérêt →</button>
+        <div class="cta-note">
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 1a3 3 0 00-3 3v1H2v6h8V5H9V4a3 3 0 00-3-3zM4.5 4a1.5 1.5 0 013 0v1h-3V4z" fill="rgba(255,255,255,.4)"/></svg>
+          Anonyme jusqu'à validation mutuelle
+        </div>
+      </div>
+
+      <div class="info-card">
+        <div class="sc-header" style="margin-bottom:14px"><div class="sc-bar"></div><div class="sc-title">Infos clés</div></div>
+        <div class="info-row"><span class="info-key">Stade</span><span class="info-val" id="infoStade"></span></div>
+        <div class="info-row"><span class="info-key">Localisation</span><span class="info-val" id="infoVille"></span></div>
+        <div class="info-row"><span class="info-key">Secteur</span><span class="info-val" id="infoSecteur"></span></div>
+        <div class="info-row"><span class="info-key">Equity</span><span class="info-val info-val-g" id="infoEquity"></span></div>
+        <div class="info-row"><span class="info-key">Publié</span><span class="info-val" id="infoDate"></span></div>
+      </div>
+
+      <div class="similar-card">
+        <div class="sc-header" style="margin-bottom:10px"><div class="sc-bar"></div><div class="sc-title">Projets similaires</div></div>
+        <a href="explorer.html" class="sim-item">
+          <div class="sim-dot" style="background:var(--mint)"></div>
+          <div><div class="sim-title">Voir tous les projets</div><div class="sim-meta">Explorer l'annuaire complet</div></div>
+        </a>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modalOverlay" onclick="closeModalOutside(event)">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal()">×</button>
+    <div class="modal-form-content" id="modalFormContent">
+      <div class="modal-icon">
+        <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+          <path d="M14 3C7.92 3 3 7.92 3 14s4.92 11 11 11 11-4.92 11-11S20.08 3 14 3z" fill="var(--violet)" opacity=".2"/>
+          <path d="M9 14l3.5 3.5L19 10" stroke="var(--violet)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <div class="modal-title">Exprimer mon intérêt</div>
+      <div class="modal-sub">Le porteur de projet recevra un message et pourra consulter ton profil. Si le match est mutuel, la messagerie s'ouvre.</div>
+      <div class="modal-field">
+        <label>Pourquoi ce projet t'intéresse <span style="color:var(--muted);font-weight:400">(optionnel mais recommandé)</span></label>
+        <textarea id="msg" placeholder="ex : Je suis CTO avec 5 ans d'expérience en SaaS B2B, ton projet colle parfaitement à mes compétences…"></textarea>
+      </div>
+      <div class="modal-note">
+        <strong style="color:var(--ink2)">Ta confidentialité est protégée.</strong> Seuls ton prénom, ta ville et tes compétences clés seront visibles. Ton nom complet et coordonnées s'échangent uniquement après validation mutuelle.
+      </div>
+      <button class="modal-btn" onclick="submitInterest()">Envoyer mon intérêt →</button>
+    </div>
+    <div class="modal-success" id="modalSuccess">
+      <div class="success-anim">
+        <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+          <path d="M6 16l7 7 13-13" stroke="var(--mint)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <div class="success-title">Intérêt envoyé !</div>
+      <div class="success-sub" style="color:var(--muted);font-size:14px;line-height:1.6;margin-top:8px">Le porteur a été notifié. Si le match est mutuel, vous pourrez échanger directement.</div>
+      <a href="explorer.html" style="display:inline-flex;align-items:center;gap:8px;margin-top:24px;background:var(--violet);color:white;padding:12px 28px;border-radius:100px;font-weight:700;font-size:14px;text-decoration:none">Explorer d'autres projets →</a>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+const bannerColors = ['#7B4FFF','#00C9A7','#1E6FFF','#FF5E78','#FFD426'];
+
+function getColor(str) {
+  let hash = 0;
+  for (let c of str) hash = c.charCodeAt(0) + ((hash << 5) - hash);
+  return bannerColors[Math.abs(hash) % bannerColors.length];
+}
+
+function formatDate(iso) {
+  const d = new Date(iso);
+  const diff = Math.floor((Date.now() - d) / (1000*60*60*24));
+  if (diff === 0) return "Aujourd'hui";
+  if (diff === 1) return "Hier";
+  if (diff < 7) return `Il y a ${diff} jours`;
+  if (diff < 30) return `Il y a ${Math.floor(diff/7)} semaine(s)`;
+  return `Il y a ${Math.floor(diff/30)} mois`;
+}
+
+function renderTraction(traction) {
+  if (!traction) return;
+  const grid = document.getElementById('tractionGrid');
+  const entries = Object.entries(traction);
+  if (entries.length === 0) {
+    document.getElementById('tractionSection').style.display = 'none';
+    return;
+  }
+  const labels = {
+    clients: 'Clients actifs', retention: 'Rétention', nps: 'NPS moyen',
+    loi: 'LOI signées', waitlist: 'En liste d\'attente', users: 'Utilisateurs beta',
+    ca: 'Chiffre d\'affaires', interviews: 'Interviews réalisées', pilotes: 'Pilotes validés'
+  };
+  grid.innerHTML = entries.map(([k,v]) => `
+    <div class="tstat">
+      <div class="tstat-n">${v}</div>
+      <div class="tstat-l">${labels[k] || k}</div>
+    </div>`).join('');
+}
+
+function renderProject(p) {
+  document.title = `${p.titre} — Trouver un Associé`;
+
+  const bannerBg = getColor(p.id || p.titre);
+  document.getElementById('heroBanner').style.background = bannerBg;
+
+  const tags = [p.secteur, p.ville].filter(Boolean);
+  document.getElementById('heroTags').innerHTML = tags.map(t => `<span class="htag">${t}</span>`).join('');
+
+  document.getElementById('heroTitle').textContent = p.titre;
+  document.getElementById('heroPitch').textContent = p.pitch_court || '';
+  document.getElementById('metaVille').textContent = p.ville || '';
+  document.getElementById('metaStade').textContent = p.stade || '';
+
+  document.getElementById('projetDescription').textContent = p.description || p.pitch_court || '';
+
+  renderTraction(p.traction);
+
+  document.getElementById('profilsChips').innerHTML = (p.profils_recherches || [])
+    .map(c => `<span class="chip chip-v">${c}</span>`).join('');
+
+  document.getElementById('competencesChips').innerHTML = (p.competences_recherchees || [])
+    .map(c => `<span class="chip chip-b">${c}</span>`).join('');
+
+  document.getElementById('infoStade').textContent = p.stade || '—';
+  document.getElementById('infoVille').textContent = p.ville || '—';
+  document.getElementById('infoSecteur').textContent = p.secteur || '—';
+  document.getElementById('infoEquity').textContent = p.equity ? 'Oui, à discuter' : 'Non';
+  document.getElementById('infoDate').textContent = p.created_at ? formatDate(p.created_at) : '—';
+}
+
+async function showModal(){
+  const { createClient } = supabase;
+  const sb = createClient('https://rdyrlculowoqtixgdumc.supabase.co','eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJkeXJsY3Vsb3dvcXRpeGdkdW1jIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzU3Njc3OTcsImV4cCI6MjA5MTM0Mzc5N30.RANwu2ouv0cn3G-UXxaxgEWD_GZFw7apogJg35vb_qo');
+  const { data: { session } } = await sb.auth.getSession();
+  if (!session) {
+    window.location.href = 'auth.html?redirect=' + encodeURIComponent(window.location.pathname + window.location.search);
+    return;
+  }
+  document.getElementById('modalOverlay').classList.add('show');
+  document.body.style.overflow='hidden';
+}
+function closeModal(){document.getElementById('modalOverlay').classList.remove('show');document.body.style.overflow=''}
+function closeModalOutside(e){if(e.target===document.getElementById('modalOverlay'))closeModal()}
+function submitInterest(){document.getElementById('modalFormContent').classList.add('hide');document.getElementById('modalSuccess').classList.add('show')}
+
+async function init() {
+  const params = new URLSearchParams(window.location.search);
+  const id = params.get('id');
+
+  if (!id) {
+    document.getElementById('loadingState').style.display = 'none';
+    document.getElementById('errorState').style.display = 'block';
+    return;
+  }
+
+  try {
+    const res = await fetch(`/api/projets/${id}`);
+    if (!res.ok) throw new Error('Not found');
+    const projet = await res.json();
+
+    document.getElementById('loadingState').style.display = 'none';
+    document.getElementById('projectContent').style.display = 'block';
+    renderProject(projet);
+  } catch(err) {
+    document.getElementById('loadingState').style.display = 'none';
+    document.getElementById('errorState').style.display = 'block';
+  }
+}
+
+init();
+</script>
+<script src="/nav.js"></script>
+</body>
+</html>

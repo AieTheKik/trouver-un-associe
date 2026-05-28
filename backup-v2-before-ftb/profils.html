@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Explorer les profils — Trouver un Associé</title>
+  <meta name="description" content="Découvrez 820+ entrepreneurs et talents disponibles. CTO, Product, Commercial, Growth... Trouvez le co-fondateur complémentaire à votre projet.">
+  <meta name="robots" content="index, follow">
+  <meta name="author" content="Trouver un Associé">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Explorer les profils — Trouver un Associé">
+  <meta property="og:description" content="Découvrez 820+ entrepreneurs et talents disponibles. CTO, Product, Commercial, Growth... Trouvez le co-fondateur complémentaire à votre projet.">
+  <meta property="og:url" content="https://trouver-un-associe.com/profils.html">
+  <meta property="og:site_name" content="Trouver un Associé">
+  <meta property="og:image" content="https://trouver-un-associe.com/og-image.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Explorer les profils — Trouver un Associé">
+  <meta name="twitter:description" content="Découvrez 820+ entrepreneurs et talents disponibles. CTO, Product, Commercial, Growth... Trouvez le co-fondateur complémentaire à votre projet.">
+  <meta name="twitter:image" content="https://trouver-un-associe.com/og-image.png">
+  <link rel="canonical" href="https://trouver-un-associe.com/profils.html">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,300;12..96,400;12..96,500;12..96,700;12..96,800&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --violet:#7B4FFF;--violet-bg:#F0EBFF;--violet-dark:#5530CC;
+  --mint:#00C9A7;--mint-bg:#E0FBF5;--mint-dark:#007A65;
+  --mint-text:#004D40;
+  --blue:#1E6FFF;--blue-bg:#EEF5FF;--blue-dark:#0C447C;
+  --sun:#FFD426;--sun-bg:#FFFBE8;--sun-dark:#7A5800;
+  --coral:#FF5E78;--coral-bg:#FFF0F2;--coral-dark:#CC2A44;
+  --ink:#1A1A2E;--ink2:#3D3D5C;--muted:#7A7A9A;
+  --pale:#F5F5FF;--border:rgba(26,26,46,0.09);--white:#fff;
+  --sans:'Bricolage Grotesque',sans-serif;
+  --radius:14px;--radius-sm:10px;
+}
+body{font-family:var(--sans);background:var(--pale);color:var(--ink);min-height:100vh}
+nav{background:var(--white);border-bottom:1.5px solid var(--border);padding:0 32px;height:64px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100}
+.logo{font-weight:800;font-size:17px;color:var(--ink);text-decoration:none;display:flex;align-items:center;gap:10px}
+.logo-bubble{width:36px;height:36px;display:flex;align-items:center;justify-content:center}
+.nav-r{display:flex;align-items:center;gap:16px}
+.nav-link{font-size:14px;color:var(--muted);text-decoration:none}
+.btn-outline{background:white;color:var(--violet);padding:9px 20px;border-radius:100px;font-size:14px;font-weight:700;text-decoration:none;border:1.5px solid var(--violet);font-family:var(--sans)}
+.btn-nav{background:var(--violet);color:white;padding:10px 22px;border-radius:100px;font-size:14px;font-weight:700;text-decoration:none;font-family:var(--sans)}
+.hero-band{background:var(--mint);padding:28px 32px;display:flex;align-items:center;justify-content:space-between}
+.hero-band-left h1{font-weight:800;font-size:26px;color:var(--mint-text);letter-spacing:-.5px;margin-bottom:4px}
+.hero-band-left p{font-size:14px;color:rgba(0,77,64,.6)}
+.hero-stats{display:flex;gap:32px}
+.hstat{text-align:center}
+.hstat-n{font-weight:800;font-size:26px;color:var(--mint-text);line-height:1}
+.hstat-l{font-size:12px;color:rgba(0,77,64,.55);margin-top:3px}
+.layout{display:grid;grid-template-columns:240px 1fr;min-height:calc(100vh - 128px)}
+.sidebar{background:var(--white);border-right:1.5px solid var(--border);padding:24px 20px;position:sticky;top:64px;height:calc(100vh - 64px);overflow-y:auto}
+.sb-section{margin-bottom:24px}
+.sb-label{font-size:11px;font-weight:700;color:var(--muted);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:12px;display:block}
+.search-wrap{position:relative}
+.search-icon{position:absolute;left:12px;top:50%;transform:translateY(-50%)}
+.search-box{width:100%;padding:10px 12px 10px 36px;border:1.5px solid var(--border);border-radius:var(--radius-sm);font-family:var(--sans);font-size:13px;color:var(--ink);background:var(--pale);outline:none}
+.search-box:focus{border-color:var(--mint);background:white}
+.intent-toggle{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.itoggle{padding:10px 8px;border-radius:var(--radius-sm);border:1.5px solid var(--border);text-align:center;font-size:12px;font-weight:700;color:var(--muted);cursor:pointer;background:white;user-select:none;line-height:1.3;transition:all .2s}
+.itoggle.active{background:var(--mint-bg);border-color:var(--mint);color:var(--mint-dark)}
+.pill-filters{display:flex;flex-wrap:wrap;gap:6px}
+.pill{padding:5px 12px;border-radius:100px;border:1.5px solid var(--border);font-size:12px;font-weight:600;color:var(--muted);cursor:pointer;background:white;user-select:none;transition:all .2s}
+.pill.active{background:var(--mint-bg);border-color:var(--mint);color:var(--mint-dark)}
+.check-opts{display:flex;flex-direction:column;gap:6px}
+.copt{display:flex;align-items:center;gap:10px;cursor:pointer;padding:4px 0;user-select:none}
+.copt-box{width:16px;height:16px;border-radius:5px;flex-shrink:0;border:1.5px solid var(--border);background:white;display:flex;align-items:center;justify-content:center;transition:all .2s}
+.copt.active .copt-box{background:var(--mint);border-color:var(--mint)}
+.copt.active .copt-box::after{content:'';width:7px;height:4px;border-left:1.5px solid white;border-bottom:1.5px solid white;transform:rotate(-45deg) translateY(-1px);display:block}
+.copt-label{font-size:13px;color:var(--muted)}
+.copt.active .copt-label{color:var(--ink);font-weight:600}
+.reset-btn{width:100%;padding:10px;border-radius:100px;border:1.5px solid var(--border);background:white;font-family:var(--sans);font-size:13px;font-weight:600;color:var(--muted);cursor:pointer;margin-top:8px}
+.content{padding:24px 28px}
+.content-bar{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px}
+.result-count{font-size:14px;color:var(--muted)}
+.result-count strong{color:var(--ink);font-weight:700}
+.sort-row{display:flex;gap:6px;align-items:center}
+.sort-label{font-size:13px;color:var(--muted);margin-right:4px}
+.sort-pill{padding:7px 16px;border-radius:100px;font-size:13px;font-weight:600;border:1.5px solid var(--border);background:white;color:var(--muted);cursor:pointer;font-family:var(--sans);transition:all .2s}
+.sort-pill.active{background:var(--sun);border-color:var(--sun);color:var(--ink)}
+.cards-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+.pcard{background:var(--white);border:1.5px solid var(--border);border-radius:var(--radius);overflow:hidden;display:flex;flex-direction:column;transition:all .22s;text-decoration:none}
+.pcard:hover{transform:translateY(-3px);border-color:var(--mint);box-shadow:0 8px 24px rgba(0,201,167,.12)}
+.pcard-stripe{height:5px}
+.pcard-body{padding:18px 18px 16px;display:flex;flex-direction:column;gap:12px;flex:1}
+.pcard-top{display:flex;align-items:flex-start;gap:12px}
+.pav{width:46px;height:46px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:18px;color:white;flex-shrink:0}
+.pcard-name{font-weight:800;font-size:15px;color:var(--ink);letter-spacing:-.3px;margin-bottom:3px}
+.pcard-role{font-size:12px;color:var(--muted);margin-bottom:6px}
+.intent-pill{display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:700;padding:3px 9px;border-radius:100px}
+.ip-cherche{background:var(--mint-bg);color:var(--mint-dark)}
+.ip-porte{background:var(--violet-bg);color:var(--violet-dark)}
+.ip-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0}
+.pcard-pitch{font-size:13px;color:var(--ink2);line-height:1.55;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.pcard-chips{display:flex;flex-wrap:wrap;gap:5px}
+.pchip{font-size:11px;padding:4px 10px;border-radius:100px;background:var(--pale);color:var(--ink2);font-weight:600}
+.pcard-footer{display:flex;align-items:center;justify-content:space-between;padding-top:12px;border-top:1.5px solid var(--border);margin-top:auto}
+.pcard-loc{font-size:12px;color:var(--muted);display:flex;align-items:center;gap:4px}
+.dispo-badge{font-size:11px;font-weight:700;padding:4px 10px;border-radius:100px}
+.dispo-now{background:var(--mint-bg);color:var(--mint-dark)}
+.dispo-soon{background:var(--sun-bg);color:var(--sun-dark)}
+.dispo-later{background:var(--pale);color:var(--muted)}
+.loading{text-align:center;padding:60px 20px;color:var(--muted);grid-column:1/-1}
+.loading-spinner{width:36px;height:36px;border:3px solid var(--border);border-top-color:var(--mint);border-radius:50%;animation:spin 1s linear infinite;margin:0 auto 16px}
+@keyframes spin{to{transform:rotate(360deg)}}
+.empty{text-align:center;padding:60px 20px;color:var(--muted);grid-column:1/-1}
+.empty-title{font-weight:700;font-size:18px;color:var(--ink);margin-bottom:8px}
+@media(max-width:1100px){.cards-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:760px){.layout{grid-template-columns:1fr}.sidebar{display:none}.cards-grid{grid-template-columns:1fr}.hero-stats{display:none}nav{padding:0 20px}.content{padding:16px}}
+</style>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="logo">
+    <div class="logo-bubble"><svg width="36" height="36" viewBox="0 0 80 80" fill="none">
+  <rect width="80" height="80" rx="20" fill="#1A1A2E"/>
+  <circle cx="28" cy="32" r="9" fill="#FFD426"/>
+  <circle cx="52" cy="32" r="9" fill="#00C9A7"/>
+  <path d="M18 56C18 50 22 46 28 46C32 46 35 48.5 40 48.5C45 48.5 48 46 52 46C58 46 62 50 62 56" stroke="white" stroke-width="3.5" stroke-linecap="round" fill="none"/>
+  <path d="M37 56H43" stroke="#7B4FFF" stroke-width="3.5" stroke-linecap="round"/>
+</svg></div>
+    trouver-un-associé
+  </a>
+  <div class="nav-r">
+    <a href="index.html" class="nav-link">Accueil</a>
+    <a href="explorer.html" class="nav-link">Projets</a>
+    <a href="auth.html?redirect=/deposer.html" class="btn-outline">+ Déposer un projet</a>
+    <a href="auth.html" class="btn-nav" id="navAuthBtn">Se connecter</a>
+  </div>
+</nav>
+
+<div class="hero-band">
+  <div class="hero-band-left">
+    <h1>Explorer les profils</h1>
+    <p>Trouvez le talent complémentaire à votre projet</p>
+  </div>
+  <div class="hero-stats">
+    <div class="hstat"><div class="hstat-n" id="totalProfils">—</div><div class="hstat-l">Profils actifs</div></div>
+    <div class="hstat"><div class="hstat-n" id="totalCherche">—</div><div class="hstat-l">Cherchent un projet</div></div>
+    <div class="hstat"><div class="hstat-n">67</div><div class="hstat-l">Associations formées</div></div>
+  </div>
+</div>
+
+<div class="layout">
+  <aside class="sidebar">
+    <div class="sb-section">
+      <span class="sb-label">Recherche</span>
+      <div class="search-wrap">
+        <span class="search-icon">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="6" cy="6" r="4" stroke="var(--muted)" stroke-width="1.4"/><path d="M9 9l3 3" stroke="var(--muted)" stroke-width="1.4" stroke-linecap="round"/></svg>
+        </span>
+        <input class="search-box" type="text" placeholder="Compétence, ville…" id="searchInput" oninput="renderCards()">
+      </div>
+    </div>
+
+    <div class="sb-section">
+      <span class="sb-label">Intention</span>
+      <div class="intent-toggle">
+        <div class="itoggle" id="toggle-cherche" onclick="toggleIntent('cherche')">Cherche un projet</div>
+        <div class="itoggle" id="toggle-porte" onclick="toggleIntent('porte')">A un projet</div>
+      </div>
+    </div>
+
+    <div class="sb-section">
+      <span class="sb-label">Disponibilité</span>
+      <div class="check-opts">
+        <div class="copt" data-val="Dès maintenant" onclick="toggleCheck(this)">
+          <div class="copt-box"></div><span class="copt-label">Disponible maintenant</span>
+        </div>
+        <div class="copt" data-val="Dans 1 mois" onclick="toggleCheck(this)">
+          <div class="copt-box"></div><span class="copt-label">Dans 1 mois</span>
+        </div>
+        <div class="copt" data-val="Dans 3 mois" onclick="toggleCheck(this)">
+          <div class="copt-box"></div><span class="copt-label">Dans 3 mois</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="sb-section">
+      <span class="sb-label">Localisation</span>
+      <div class="pill-filters" id="locFilters">
+        <span class="pill active" data-val="partout" onclick="togglePill(this,'locFilters')">Partout</span>
+        <span class="pill" data-val="Paris" onclick="togglePill(this,'locFilters')">Paris</span>
+        <span class="pill" data-val="Lyon" onclick="togglePill(this,'locFilters')">Lyon</span>
+        <span class="pill" data-val="Bordeaux" onclick="togglePill(this,'locFilters')">Bordeaux</span>
+        <span class="pill" data-val="Remote" onclick="togglePill(this,'locFilters')">Remote</span>
+      </div>
+    </div>
+
+    <button class="reset-btn" onclick="resetFilters()">Réinitialiser les filtres</button>
+  </aside>
+
+  <main class="content">
+    <div class="content-bar">
+      <div class="result-count"><strong id="countDisplay">—</strong> profils</div>
+      <div class="sort-row">
+        <span class="sort-label">Trier par</span>
+        <span class="sort-pill active" onclick="setSort(this,'recent')">Récents</span>
+        <span class="sort-pill" onclick="setSort(this,'experience')">Expérience</span>
+      </div>
+    </div>
+
+    <div id="cardsGrid" class="cards-grid">
+      <div class="loading">
+        <div class="loading-spinner"></div>
+        Chargement des profils…
+      </div>
+    </div>
+  </main>
+</div>
+
+<script>
+const stripeColors = ['#7B4FFF','#00C9A7','#1E6FFF','#FF5E78','#FFD426','#D4537E'];
+const avatarColors = ['#7B4FFF','#00C9A7','#1E6FFF','#FF5E78','#BA7517','#D4537E'];
+
+let allProfils = [];
+let activeIntent = null;
+let activeSort = 'recent';
+
+function getDispoClass(dispo) {
+  if (!dispo) return 'dispo-later';
+  if (dispo.includes('maintenant') || dispo.includes('Dès')) return 'dispo-now';
+  if (dispo.includes('1 mois')) return 'dispo-soon';
+  return 'dispo-later';
+}
+
+function buildCard(profil, index) {
+  const stripe = stripeColors[index % stripeColors.length];
+  const avatarBg = avatarColors[index % avatarColors.length];
+  const isPorte = profil.intention === 'porte';
+  const chips = (profil.competences || []).slice(0, 3).map(c => `<span class="pchip">${c}</span>`).join('');
+  const dispoClass = getDispoClass(profil.disponibilite);
+
+  return `
+    <a href="profil.html?id=${profil.id}" class="pcard">
+      <div class="pcard-stripe" style="background:${stripe}"></div>
+      <div class="pcard-body">
+        <div class="pcard-top">
+          <div class="pav" style="background:${avatarBg}">${(profil.prenom||'?')[0]}</div>
+          <div>
+            <div class="pcard-name">${profil.prenom} ${profil.nom || ''}</div>
+            <div class="pcard-role">${profil.role || ''} · ${profil.ville || ''}</div>
+            <div class="intent-pill ${isPorte ? 'ip-porte' : 'ip-cherche'}">
+              <span class="ip-dot" style="background:${isPorte ? '#7B4FFF' : '#00C9A7'}"></span>
+              ${isPorte ? 'A un projet' : 'Cherche un projet'}
+            </div>
+          </div>
+        </div>
+        <div class="pcard-pitch">"${profil.pitch || ''}"</div>
+        <div class="pcard-chips">${chips}</div>
+        <div class="pcard-footer">
+          <div class="pcard-loc">
+            <svg width="11" height="11" viewBox="0 0 11 11" fill="none"><circle cx="5.5" cy="4.5" r="2" stroke="currentColor" stroke-width="1.2"/><path d="M5.5 1C3.57 1 2 2.57 2 4.5c0 2.72 3.5 5.5 3.5 5.5S9 7.22 9 4.5C9 2.57 7.43 1 5.5 1z" stroke="currentColor" stroke-width="1.2"/></svg>
+            ${profil.ville || ''}
+          </div>
+          <span class="dispo-badge ${dispoClass}">${profil.disponibilite || 'À définir'}</span>
+        </div>
+      </div>
+    </a>`;
+}
+
+function renderCards() {
+  const search = document.getElementById('searchInput').value.toLowerCase();
+  const loc = document.querySelector('#locFilters .pill.active')?.dataset.val || 'partout';
+  const dispos = [...document.querySelectorAll('.copt.active')].map(c => c.dataset.val);
+
+  let filtered = allProfils.filter(p => {
+    const text = `${p.prenom} ${p.nom} ${p.role} ${p.pitch} ${(p.competences||[]).join(' ')} ${(p.secteurs||[]).join(' ')} ${p.ville}`.toLowerCase();
+    const matchSearch = !search || text.includes(search);
+    const matchIntent = !activeIntent || p.intention === activeIntent;
+    const matchLoc = loc === 'partout' || (p.ville||'').toLowerCase().includes(loc.toLowerCase());
+    const matchDispo = dispos.length === 0 || dispos.some(d => (p.disponibilite||'').includes(d));
+    return matchSearch && matchIntent && matchLoc && matchDispo;
+  });
+
+  if (activeSort === 'experience') {
+    filtered.sort((a,b) => (b.experience_annees||0) - (a.experience_annees||0));
+  }
+
+  const grid = document.getElementById('cardsGrid');
+  document.getElementById('countDisplay').textContent = filtered.length;
+
+  if (filtered.length === 0) {
+    grid.innerHTML = '<div class="empty"><div class="empty-title">Aucun profil trouvé</div><div>Essaie d\'élargir tes filtres.</div></div>';
+  } else {
+    grid.innerHTML = filtered.map((p,i) => buildCard(p,i)).join('');
+  }
+}
+
+function toggleIntent(val) {
+  activeIntent = activeIntent === val ? null : val;
+  document.getElementById('toggle-cherche').classList.toggle('active', activeIntent === 'cherche');
+  document.getElementById('toggle-porte').classList.toggle('active', activeIntent === 'porte');
+  renderCards();
+}
+
+function togglePill(el, groupId) {
+  document.querySelectorAll(`#${groupId} .pill`).forEach(p => p.classList.remove('active'));
+  el.classList.add('active');
+  renderCards();
+}
+
+function toggleCheck(el) {
+  el.classList.toggle('active');
+  renderCards();
+}
+
+function setSort(el, val) {
+  document.querySelectorAll('.sort-pill').forEach(p => p.classList.remove('active'));
+  el.classList.add('active');
+  activeSort = val;
+  renderCards();
+}
+
+function resetFilters() {
+  document.getElementById('searchInput').value = '';
+  activeIntent = null;
+  document.getElementById('toggle-cherche').classList.remove('active');
+  document.getElementById('toggle-porte').classList.remove('active');
+  document.querySelectorAll('#locFilters .pill').forEach((p,i) => p.classList.toggle('active', i===0));
+  document.querySelectorAll('.copt').forEach(c => c.classList.remove('active'));
+  activeSort = 'recent';
+  document.querySelectorAll('.sort-pill').forEach((p,i) => p.classList.toggle('active', i===0));
+  renderCards();
+}
+
+async function init() {
+  try {
+    const res = await fetch('/api/profils');
+    allProfils = await res.json();
+    document.getElementById('totalProfils').textContent = allProfils.length;
+    document.getElementById('totalCherche').textContent = allProfils.filter(p => p.intention === 'cherche').length;
+    renderCards();
+  } catch(err) {
+    document.getElementById('cardsGrid').innerHTML = '<div class="empty"><div class="empty-title">Erreur de chargement</div><div>Impossible de charger les profils.</div></div>';
+  }
+}
+
+init();
+</script>
+<script src="/nav.js"></script>
+</body>
+</html>

@@ -91,13 +91,16 @@ h2{font-size:clamp(32px,4vw,46px);line-height:1.08;color:var(--c-navy-ink);margi
 /* UTIL BAR */
 .util-bar{
   background:var(--c-navy);
-  padding:10px 24px;text-align:center;
+  padding:10px 24px;display:flex;align-items:center;justify-content:center;gap:12px;
 }
 .util-bar span{
   font-family:var(--f-body);font-weight:600;font-size:11.5px;
   text-transform:uppercase;letter-spacing:0.16em;
   color:var(--c-white);
 }
+.util-bar .ub-sep{font-size:10px;color:rgba(255,255,255,.3)}
+.util-bar .ub-link{font-family:var(--f-body);font-size:12px;font-weight:600;color:var(--c-white);text-decoration:none;letter-spacing:0.1em;opacity:.85;transition:opacity .2s}
+.util-bar .ub-link:hover{opacity:1;text-decoration:underline}
 
 /* LOGO */
 .logo-wrap{display:flex;align-items:center;gap:10px;text-decoration:none}
@@ -196,23 +199,6 @@ h2{font-size:clamp(32px,4vw,46px);line-height:1.08;color:var(--c-navy-ink);margi
   font-size:12px;font-weight:600;color:#16a34a;
 }
 .hcard-active-dot{width:7px;height:7px;border-radius:50%;background:#4ADE80}
-
-/* TICKER */
-.ticker-wrap{
-  background:var(--c-blue-soft);
-  padding:14px 0;overflow:hidden;white-space:nowrap;
-}
-.ticker-track{
-  display:inline-flex;gap:48px;
-  animation:scroll 28s linear infinite;
-}
-@keyframes scroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
-.titem{
-  font-family:var(--f-body);font-size:13px;font-weight:600;
-  color:var(--c-navy-ink);
-  display:inline-flex;align-items:center;gap:12px;flex-shrink:0;
-}
-.tdot{font-size:6px;opacity:.3;color:var(--c-navy)}
 
 /* SECTION BASE */
 section{padding:100px 24px}
@@ -395,7 +381,6 @@ footer{
 
 /* RESPONSIVE */
 @media(max-width:760px){
-  .ticker-wrap{display:none}
   .hero-content{grid-template-columns:1fr}
   .hero-cards{display:none}
   .hero-stats{display:none}
@@ -421,6 +406,8 @@ footer{
 <!-- UTIL BAR -->
 <div class="util-bar">
   <span>French Tech Bordeaux</span>
+  <span class="ub-sep">&middot;</span>
+  <a href="https://www.frenchtechbordeaux.com/adhesion" target="_blank" rel="noopener" class="ub-link">Adh&eacute;rer &rarr;</a>
 </div>
 
 <!-- HERO + NAV -->
@@ -458,10 +445,10 @@ footer{
     <div>
       <div class="hero-eyebrow">
         <span class="hero-dot"></span>
-        Bêta ouverte · 100% gratuit
+        100% gratuit &middot; Initiative French Tech Bordeaux
       </div>
-      <h1>L'endroit où les bonnes<br><span class="hl">équipes</span> naissent</h1>
-      <p class="hero-sub">On a une idée, il nous manque la personne — ou l'inverse. Ici, on connecte porteurs de projets et talents complémentaires pour des associations qui durent vraiment.</p>
+      <h1>On t'aide &agrave; trouver ton<br><span class="hl">co-fondateur</span></h1>
+      <p class="hero-sub">L'outil gratuit de la French Tech Bordeaux pour faire &eacute;merger les &eacute;quipes qui feront grandir l'&eacute;cosyst&egrave;me de Nouvelle-Aquitaine.</p>
       <div class="hero-btns">
         <a href="/deposer.html" class="btn-primary">Déposer mon projet →</a>
         <a href="/explorer.html" class="btn-secondary">Je cherche un projet</a>
@@ -535,28 +522,6 @@ footer{
     </div>
   </div>
 </section>
-
-<!-- TICKER -->
-<div class="ticker-wrap">
-  <div class="ticker-track">
-    <span class="titem">Marketplace · Bordeaux <span class="tdot">&#9679;</span></span>
-    <span class="titem">SaaS RH · Paris <span class="tdot">&#9679;</span></span>
-    <span class="titem">ClimateTech · Lyon <span class="tdot">&#9679;</span></span>
-    <span class="titem">MedTech · Nantes <span class="tdot">&#9679;</span></span>
-    <span class="titem">FinTech · Remote <span class="tdot">&#9679;</span></span>
-    <span class="titem">EdTech · Montpellier <span class="tdot">&#9679;</span></span>
-    <span class="titem">AgriTech · Toulouse <span class="tdot">&#9679;</span></span>
-    <span class="titem">PropTech · Marseille <span class="tdot">&#9679;</span></span>
-    <span class="titem">Marketplace · Bordeaux <span class="tdot">&#9679;</span></span>
-    <span class="titem">SaaS RH · Paris <span class="tdot">&#9679;</span></span>
-    <span class="titem">ClimateTech · Lyon <span class="tdot">&#9679;</span></span>
-    <span class="titem">MedTech · Nantes <span class="tdot">&#9679;</span></span>
-    <span class="titem">FinTech · Remote <span class="tdot">&#9679;</span></span>
-    <span class="titem">EdTech · Montpellier <span class="tdot">&#9679;</span></span>
-    <span class="titem">AgriTech · Toulouse <span class="tdot">&#9679;</span></span>
-    <span class="titem">PropTech · Marseille <span class="tdot">&#9679;</span></span>
-  </div>
-</div>
 
 <!-- POURQUOI NOUS -->
 <section>
@@ -771,6 +736,15 @@ footer{
   <p>Rejoins les premiers entrepreneurs à tester la plateforme. Gratuit, sans engagement, sans CB.</p>
   <a href="/inscription.html" class="btn-primary">Créer mon profil maintenant →</a>
 </div>
+
+<!-- CTA ADHESION FTB -->
+<section style="background:var(--c-blue-soft);padding:60px 24px;text-align:center">
+  <div class="container" style="max-width:640px">
+    <h2 style="margin-bottom:12px">Cet outil est port&eacute; par l'association<br>French Tech Bordeaux</h2>
+    <p style="font-size:16px;color:var(--c-mute);line-height:1.7;margin-bottom:32px">Si tu veux soutenir notre &eacute;cosyst&egrave;me, adh&egrave;re &agrave; l'association.</p>
+    <a href="https://www.frenchtechbordeaux.com/adhesion" target="_blank" rel="noopener" class="btn-primary">Adh&eacute;rer &agrave; l'association &rarr;</a>
+  </div>
+</section>
 
 <!-- FOOTER -->
 <footer>
