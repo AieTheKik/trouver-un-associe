@@ -396,7 +396,29 @@ async function showModal(){
 }
 function closeModal(){document.getElementById('modalOverlay').classList.remove('show');document.body.style.overflow=''}
 function closeModalOutside(e){if(e.target===document.getElementById('modalOverlay'))closeModal()}
-function submitInterest(){document.getElementById('modalFormContent').classList.add('hide');document.getElementById('modalSuccess').classList.add('show')}
+async function submitInterest(){
+  const btn = document.querySelector('.modal-btn');
+  btn.disabled = true; btn.textContent = 'Envoi…';
+  const { createClient: cc } = supabase;
+  const sbc = cc('https://rdyrlculowoqtixgdumc.supabase.co','eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJkeXJsY3Vsb3dvcXRpeGdkdW1jIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzU3Njc3OTcsImV4cCI6MjA5MTM0Mzc5N30.RANwu2ouv0cn3G-UXxaxgEWD_GZFw7apogJg35vb_qo');
+  const { data: { session } } = await sbc.auth.getSession();
+  if (!session) { window.location.href = 'auth.html'; return; }
+  const projetId = new URLSearchParams(window.location.search).get('id');
+  const message = document.getElementById('msg').value.trim();
+  try {
+    const resp = await fetch('/api/interets', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + session.access_token },
+      body: JSON.stringify({ projetId, message })
+    });
+    if (!resp.ok) { const e = await resp.json(); throw new Error(e.error || 'Erreur'); }
+    document.getElementById('modalFormContent').classList.add('hide');
+    document.getElementById('modalSuccess').classList.add('show');
+  } catch(err) {
+    alert('Erreur : ' + err.message);
+    btn.disabled = false; btn.textContent = 'Envoyer mon intérêt →';
+  }
+}
 
 async function init() {
   const params = new URLSearchParams(window.location.search);
