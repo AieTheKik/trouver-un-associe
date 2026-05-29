@@ -200,7 +200,7 @@ nav{background:var(--c-white);border-radius:var(--radius);box-shadow:0 12px 32px
     </div>
     <div class="hero-stats">
       <div class="hstat"><div class="hstat-n" id="totalProjets">&mdash;</div><div class="hstat-l">Projets actifs</div></div>
-      <div class="hstat"><div class="hstat-n">67</div><div class="hstat-l">Associations form&eacute;es</div></div>
+      <div class="hstat"><div class="hstat-n" id="statHeroAssociations">0</div><div class="hstat-l">Associations form&eacute;es</div></div>
     </div>
   </div>
 </div>
@@ -402,6 +402,14 @@ async function init(){
   }
 }
 init();
+</script>
+<script>
+(function(){
+  fetch('/api/stats').then(function(r){return r.json()}).then(function(d){
+    if(d.projets!=null){var el=document.getElementById('totalProjets');if(el)el.textContent=d.projets;}
+    if(d.associations!=null){var el=document.getElementById('statHeroAssociations');if(el)el.textContent=d.associations;}
+  }).catch(function(){});
+})();
 </script>
 <script src="/nav.js"></script>
 </body>
