@@ -556,7 +556,6 @@ async function submit() {
 
   const descBase = document.getElementById('description').value.trim();
   const profilDesc = document.getElementById('profil_desc').value.trim();
-  const fullDesc = descBase + (profilDesc ? '\n\n' + profilDesc : '');
 
   const payload = {
     titre: document.getElementById('titre').value.trim(),
@@ -564,7 +563,8 @@ async function submit() {
     ville: document.getElementById('ville').value.trim(),
     stade: selectedStade,
     pitch_court: document.getElementById('pitch_court').value.trim(),
-    description: fullDesc || null,
+    description: descBase || null,
+    profil_ideal: profilDesc || null,
     profils_recherches: getSelectedTags('profils_recherches', 'red'),
     competences_recherchees: getSelectedTags('competences_recherchees', 'blue'),
     equity: hiddenValues['equity_val'] !== 'non'

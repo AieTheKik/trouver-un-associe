@@ -104,11 +104,11 @@ app.post('/api/inscription', async (req, res) => {
 
 
 app.post('/api/projets', requireAuth, async (req, res) => {
-  const { titre, secteur, ville, stade, pitch_court, description, profils_recherches, competences_recherchees, equity } = req.body;
+  const { titre, secteur, ville, stade, pitch_court, description, profil_ideal, profils_recherches, competences_recherchees, equity } = req.body;
   if (!titre || !pitch_court) return res.status(400).json({ error: 'Champs obligatoires manquants' });
   const { data, error } = await supabase
     .from('projets')
-    .insert([{ titre, secteur: secteur||null, ville: ville||null, stade: stade||null, pitch_court, description: description||null, profils_recherches: profils_recherches||[], competences_recherchees: competences_recherchees||[], equity: equity||true, user_id: req.user?.id || null }])
+    .insert([{ titre, secteur: secteur||null, ville: ville||null, stade: stade||null, pitch_court, description: description||null, profil_ideal: profil_ideal||null, profils_recherches: profils_recherches||[], competences_recherchees: competences_recherchees||[], equity: equity||true, user_id: req.user?.id || null }])
     .select().single();
   if (error) return res.status(500).json({ error });
   res.json({ success: true, projet: data });

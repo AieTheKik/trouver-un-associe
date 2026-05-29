@@ -240,6 +240,11 @@ nav{background:var(--c-white);border-radius:var(--radius);box-shadow:0 12px 32px
         <div class="traction-grid" id="tractionGrid"></div>
       </div>
 
+      <div class="sc" id="profilIdealSection" style="display:none">
+        <div class="sc-header"><div class="sc-bar"></div><div class="sc-title">Profil id&eacute;al recherch&eacute;</div></div>
+        <div class="sc-text" id="profilIdealText"></div>
+      </div>
+
       <div class="sc">
         <div class="sc-header"><div class="sc-bar"></div><div class="sc-title">Profil(s) recherché(s)</div></div>
         <div class="chips" id="profilsChips" style="margin-bottom:16px"></div>
@@ -372,6 +377,11 @@ function renderProject(p) {
   document.getElementById('metaStade').textContent = p.stade || '';
 
   document.getElementById('projetDescription').textContent = p.description || p.pitch_court || '';
+
+  if (p.profil_ideal) {
+    document.getElementById('profilIdealText').textContent = p.profil_ideal;
+    document.getElementById('profilIdealSection').style.display = 'block';
+  }
 
   renderTraction(p.traction);
 
