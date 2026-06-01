@@ -13,6 +13,11 @@ const supabase = createClient(
   'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJkeXJsY3Vsb3dvcXRpeGdkdW1jIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzU3Njc3OTcsImV4cCI6MjA5MTM0Mzc5N30.RANwu2ouv0cn3G-UXxaxgEWD_GZFw7apogJg35vb_qo'
 );
 
+const supabaseAdmin = createClient(
+  'https://rdyrlculowoqtixgdumc.supabase.co',
+  process.env.SUPABASE_SERVICE_ROLE_KEY
+);
+
 
 async function requireAuth(req, res, next) {
   const token = req.headers.authorization?.replace('Bearer ', '');
@@ -159,14 +164,10 @@ app.post('/api/interets', requireAuth, async (req, res) => {
     .single();
   if (errProjet || !projet) return res.status(404).json({ error: 'Projet introuvable' });
 
-  // Récupérer le profil du porteur de projet via user_id
-  const { data: porteur, error: errPorteur } = await supabase
-    .from('profils')
-    .select('*')
-    .eq('user_id', projet.user_id)
-    .single();
-  if (errPorteur || !porteur) return res.status(404).json({ error: 'Porteur de projet introuvable' });
-  if (!porteur.email) return res.status(400).json({ error: 'Le porteur de projet n\'a pas renseigné son email' });
+  // Récupérer l'email du porteur via auth.users (service_role)
+  const { data: porteurAuth, error: errPorteur } = await supabaseAdmin.auth.admin.getUserById(projet.user_id);
+  if (errPorteur || !porteurAuth?.user?.email) return res.status(400).json({ error: 'Le porteur de projet n\'a pas renseigné son email' });
+  const porteurEmail = porteurAuth.user.email;
 
   // Récupérer le profil de l'utilisateur intéressé
   const { data: interesse, error: errInteresse } = await supabase
@@ -198,7 +199,7 @@ app.post('/api/interets', requireAuth, async (req, res) => {
   try {
     await resend.emails.send({
       from: 'Trouver un Associé <noreply@trouver-un-associe.com>',
-      to: porteur.email,
+      to: porteurEmail,
       replyTo: req.user.email,
       subject: `Quelqu'un est intéressé par ton projet "${projet.titre}" sur trouver-un-associé`,
       html: htmlBody
