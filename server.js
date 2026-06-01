@@ -166,6 +166,7 @@ app.post('/api/interets', requireAuth, async (req, res) => {
     .eq('user_id', projet.user_id)
     .single();
   if (errPorteur || !porteur) return res.status(404).json({ error: 'Porteur de projet introuvable' });
+  if (!porteur.email) return res.status(400).json({ error: 'Le porteur de projet n\'a pas renseigné son email' });
 
   // Récupérer le profil de l'utilisateur intéressé
   const { data: interesse, error: errInteresse } = await supabase
@@ -197,7 +198,7 @@ app.post('/api/interets', requireAuth, async (req, res) => {
   try {
     await resend.emails.send({
       from: 'Trouver un Associé <noreply@trouver-un-associe.com>',
-      to: porteur.email || req.user.email,
+      to: porteur.email,
       replyTo: req.user.email,
       subject: `Quelqu'un est intéressé par ton projet "${projet.titre}" sur trouver-un-associé`,
       html: htmlBody
