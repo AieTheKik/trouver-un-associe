@@ -119,6 +119,22 @@ app.post('/api/projets', requireAuth, async (req, res) => {
   res.json({ success: true, projet: data });
 });
 
+app.patch('/api/projets/:id', requireAuth, async (req, res) => {
+  const updates = req.body;
+  delete updates.id;
+  delete updates.user_id;
+  delete updates.created_at;
+  const { data, error } = await supabase
+    .from('projets')
+    .update(updates)
+    .eq('id', req.params.id)
+    .eq('user_id', req.user.id)
+    .select()
+    .single();
+  if (error) return res.status(error.code === 'PGRST116' ? 403 : 500).json({ error: error.code === 'PGRST116' ? 'Projet introuvable ou non autorisé' : error });
+  res.json({ success: true, projet: data });
+});
+
 
 // --- Stats (cached 60s) ---
 let statsCache = { data: null, ts: 0 };

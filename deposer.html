@@ -444,12 +444,38 @@ const sb = createClient(
 async function checkAuth() {
   const { data: { session } } = await sb.auth.getSession();
   if (!session) {
-    window.location.href = '/auth.html?redirect=/deposer.html';
+    window.location.href = '/auth.html?redirect=' + encodeURIComponent(window.location.pathname + window.location.search);
   }
   return session;
 }
 
-checkAuth();
+let editId = new URLSearchParams(window.location.search).get('edit');
+
+async function initPage() {
+  const session = await checkAuth();
+  if (!session) return;
+  if (editId) {
+    try {
+      const res = await fetch(`/api/projets/${editId}`);
+      if (!res.ok) throw new Error();
+      const projet = await res.json();
+      if (projet.user_id !== session.user.id) {
+        alert('Tu n\'es pas propriétaire de ce projet.');
+        window.location.href = '/explorer.html';
+        return;
+      }
+      prefillProject(projet);
+      document.title = 'Modifier mon projet — Trouver un Associé';
+      document.querySelector('.step-title').textContent = 'Modifier le projet';
+      document.getElementById('btn-submit').innerHTML = 'Enregistrer les modifications <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M6 4l4 4-4 4" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+    } catch(e) {
+      alert('Projet introuvable.');
+      window.location.href = '/explorer.html';
+    }
+  }
+}
+
+initPage();
 
 let selectedStade = null;
 const hiddenValues = {};
@@ -502,6 +528,37 @@ function showStep(n) {
   window.scrollTo(0, 0);
 }
 
+function prefillProject(p) {
+  if (p.titre) document.getElementById('titre').value = p.titre;
+  if (p.secteur) document.getElementById('secteur').value = p.secteur;
+  if (p.ville) document.getElementById('ville').value = p.ville;
+  if (p.pitch_court) {
+    document.getElementById('pitch_court').value = p.pitch_court;
+    updateChar('pitch_court', 'char-pitch', 120);
+  }
+  if (p.description) document.getElementById('description').value = p.description;
+  if (p.profil_ideal) document.getElementById('profil_desc').value = p.profil_ideal;
+
+  if (p.stade) {
+    document.querySelectorAll('.stade-card').forEach(card => {
+      const val = card.querySelector('.stade-title').textContent.trim();
+      if (val === p.stade) { card.classList.add('selected'); selectedStade = p.stade; }
+    });
+  }
+
+  (p.profils_recherches || []).forEach(role => {
+    document.querySelectorAll('#profils_recherches .tag-opt').forEach(tag => {
+      if (tag.textContent.trim() === role.trim()) tag.classList.add('sel-red');
+    });
+  });
+
+  (p.competences_recherchees || []).forEach(comp => {
+    document.querySelectorAll('#competences_recherchees .tag-opt').forEach(tag => {
+      if (tag.textContent.trim() === comp.trim()) tag.classList.add('sel-blue');
+    });
+  });
+}
+
 function goStep2() {
   const titre = document.getElementById('titre').value.trim();
   const secteur = document.getElementById('secteur').value;
@@ -552,7 +609,7 @@ async function submit() {
 
   const btn = document.getElementById('btn-submit');
   btn.disabled = true;
-  btn.textContent = 'Publication en cours…';
+  btn.textContent = editId ? 'Enregistrement…' : 'Publication en cours…';
 
   const descBase = document.getElementById('description').value.trim();
   const profilDesc = document.getElementById('profil_desc').value.trim();
@@ -576,8 +633,10 @@ async function submit() {
       window.location.href = '/auth.html?redirect=/deposer.html';
       return;
     }
-    const res = await fetch('/api/projets', {
-      method: 'POST',
+    const url = editId ? `/api/projets/${editId}` : '/api/projets';
+    const method = editId ? 'PATCH' : 'POST';
+    const res = await fetch(url, {
+      method,
       headers: {
         'Content-Type': 'application/json',
         'Authorization': 'Bearer ' + session.access_token
@@ -587,14 +646,18 @@ async function submit() {
     const data = await res.json();
     if (!res.ok) throw new Error(data.error?.message || 'Erreur serveur');
 
-    document.getElementById('step3').classList.remove('active');
-    document.getElementById('success').classList.add('show');
+    if (editId) {
+      window.location.href = `/projet.html?id=${editId}`;
+    } else {
+      document.getElementById('step3').classList.remove('active');
+      document.getElementById('success').classList.add('show');
+    }
   } catch(err) {
     const banner = document.getElementById('errorBanner');
     banner.textContent = 'Une erreur est survenue : ' + err.message;
     banner.classList.add('show');
     btn.disabled = false;
-    btn.innerHTML = 'Publier mon projet <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M6 4l4 4-4 4" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+    btn.innerHTML = (editId ? 'Enregistrer les modifications' : 'Publier mon projet') + ' <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M6 4l4 4-4 4" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>';
   }
 }
 </script>

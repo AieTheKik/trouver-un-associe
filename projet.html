@@ -255,11 +255,11 @@ nav{background:var(--c-white);border-radius:var(--radius);box-shadow:0 12px 32px
 
     <div class="right-col">
 
-      <div class="cta-card">
-        <div class="cta-title">Ce projet t'intéresse ?</div>
-        <div class="cta-sub">Exprime ton intérêt — le porteur recevra une notification et pourra te répondre si le match est mutuel.</div>
-        <button class="cta-btn" onclick="showModal()">Exprimer mon intérêt →</button>
-        <div class="cta-note">
+      <div class="cta-card" id="ctaCard">
+        <div class="cta-title" id="ctaTitle">Ce projet t'intéresse ?</div>
+        <div class="cta-sub" id="ctaSub">Exprime ton intérêt — le porteur recevra une notification et pourra te répondre si le match est mutuel.</div>
+        <button class="cta-btn" id="ctaBtn" onclick="showModal()">Exprimer mon intérêt →</button>
+        <div class="cta-note" id="ctaNote">
           <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 1a3 3 0 00-3 3v1H2v6h8V5H9V4a3 3 0 00-3-3zM4.5 4a1.5 1.5 0 013 0v1h-3V4z" fill="rgba(255,255,255,.4)"/></svg>
           Anonyme jusqu'à validation mutuelle
         </div>
@@ -435,6 +435,17 @@ async function submitInterest(){
   }
 }
 
+function showOwnerCta(projetId) {
+  const card = document.getElementById('ctaCard');
+  card.style.background = 'var(--c-navy)';
+  document.getElementById('ctaTitle').textContent = 'C\'est ton projet';
+  document.getElementById('ctaSub').textContent = 'Tu peux modifier les informations, le pitch et les profils recherchés à tout moment.';
+  const btn = document.getElementById('ctaBtn');
+  btn.textContent = 'Modifier mon projet →';
+  btn.onclick = function() { window.location.href = '/deposer.html?edit=' + projetId; };
+  document.getElementById('ctaNote').style.display = 'none';
+}
+
 async function init() {
   const params = new URLSearchParams(window.location.search);
   const id = params.get('id');
@@ -453,6 +464,13 @@ async function init() {
     document.getElementById('loadingState').style.display = 'none';
     document.getElementById('projectContent').style.display = 'block';
     renderProject(projet);
+
+    const { createClient: cc } = supabase;
+    const sb = cc('https://rdyrlculowoqtixgdumc.supabase.co','eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJkeXJsY3Vsb3dvcXRpeGdkdW1jIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzU3Njc3OTcsImV4cCI6MjA5MTM0Mzc5N30.RANwu2ouv0cn3G-UXxaxgEWD_GZFw7apogJg35vb_qo');
+    const { data: { session } } = await sb.auth.getSession();
+    if (session && projet.user_id && session.user.id === projet.user_id) {
+      showOwnerCta(projet.id);
+    }
   } catch(err) {
     document.getElementById('loadingState').style.display = 'none';
     document.getElementById('errorState').style.display = 'block';
