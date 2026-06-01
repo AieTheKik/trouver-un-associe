@@ -85,6 +85,16 @@ app.get('/api/projets', async (req, res) => {
   res.json(data);
 });
 
+app.get('/api/projets/me', requireAuth, async (req, res) => {
+  const { data, error } = await supabase
+    .from('projets')
+    .select('*')
+    .eq('user_id', req.user.id)
+    .order('created_at', { ascending: false });
+  if (error) return res.status(500).json({ error });
+  res.json(data);
+});
+
 app.get('/api/projets/:id', async (req, res) => {
   const { data, error } = await supabase
     .from('projets')

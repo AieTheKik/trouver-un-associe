@@ -20,12 +20,28 @@ s.textContent =
 '.nav-drawer-cta:hover{background:var(--c-navy-ink,#0E0830);color:var(--c-white,#fff)}' +
 '.nav-drawer-logout{align-items:center;justify-content:center;padding:12px 20px;font-family:var(--f-body,"Inter",sans-serif);font-size:14px;font-weight:500;color:var(--c-mute,#7A7A8E);cursor:pointer;border:none;background:none;margin-top:auto;width:100%;display:none}' +
 '.nav-drawer-logout:hover{color:var(--c-red,#E11D2E)}' +
+
+/* AVATAR DROPDOWN */
+'.nav-avatar-wrap{position:relative}' +
+'.nav-dropdown{position:absolute;top:calc(100% + 10px);right:0;background:var(--c-white,#fff);border:1.5px solid rgba(14,8,48,.08);border-radius:16px;box-shadow:0 12px 32px rgba(14,8,48,.14);min-width:250px;z-index:200;display:none;overflow:hidden}' +
+'.nav-dropdown.show{display:block}' +
+'.nav-dd-header{padding:14px 18px;border-bottom:1px solid rgba(14,8,48,.08)}' +
+'.nav-dd-name{font-family:var(--f-body,"Inter",sans-serif);font-weight:600;font-size:14px;color:var(--c-navy-ink,#0E0830)}' +
+'.nav-dd-email{font-family:var(--f-body,"Inter",sans-serif);font-size:12px;color:var(--c-mute,#7A7A8E);margin-top:2px;overflow:hidden;text-overflow:ellipsis}' +
+'.nav-dd-group{padding:6px}' +
+'.nav-dd-item{display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:10px;font-family:var(--f-body,"Inter",sans-serif);font-size:13.5px;font-weight:500;color:var(--c-navy-ink,#0E0830);text-decoration:none;transition:background .15s;cursor:pointer;border:none;background:none;width:100%;text-align:left}' +
+'.nav-dd-item:hover{background:var(--c-bg,#FBFAF7)}' +
+'.nav-dd-sep{height:1px;background:rgba(14,8,48,.08);margin:0}' +
+'.nav-dd-item.logout{color:var(--c-mute,#7A7A8E)}' +
+'.nav-dd-item.logout:hover{color:var(--c-red,#E11D2E);background:rgba(225,29,46,.04)}' +
+
 '@media(max-width:760px){' +
   '.nav-burger{display:flex}' +
   '#navLogoutBtn{display:none !important}' +
   '.nav-badge-text{display:none !important}' +
   '.nav-badge-dot{display:block !important}' +
   '.nav-prenom-text{display:none !important}' +
+  '.nav-dropdown{right:-8px;min-width:220px}' +
 '}';
 document.head.appendChild(s);
 
@@ -82,8 +98,10 @@ async function initNav() {
 
   if (session) {
     var prenom = session.user.user_metadata?.prenom || 'Mon compte';
+    var email = session.user.email || '';
 
     var profilHref = '/inscription.html';
+    var profilId = null;
     var profilComplete = false;
     try {
       var res = await fetch('/api/profils/me', {
@@ -92,6 +110,7 @@ async function initNav() {
       if (res.ok) {
         var profil = await res.json();
         if (profil && profil.id) {
+          profilId = profil.id;
           if (profil.ville && profil.role && profil.pitch) {
             profilHref = '/profil.html?id=' + profil.id;
             profilComplete = true;
@@ -100,25 +119,94 @@ async function initNav() {
       }
     } catch(e) {}
 
+    /* Fetch user projects */
+    var userProjets = [];
+    try {
+      var projRes = await fetch('/api/projets/me', {
+        headers: { 'Authorization': 'Bearer ' + session.access_token }
+      });
+      if (projRes.ok) userProjets = await projRes.json();
+    } catch(e) {}
+
+    /* Build avatar */
     var dot = profilComplete ? '' : '<span class="nav-badge-dot" style="position:absolute;top:-1px;right:-1px;width:8px;height:8px;border-radius:50%;background:#E11D2E;border:1.5px solid white;display:none"></span>';
     var badge = profilComplete ? '' : '<span class="nav-badge-text" style="background:#E11D2E;color:white;font-size:10px;font-weight:700;padding:2px 8px;border-radius:999px;margin-left:4px;white-space:nowrap">\u00e0 compl\u00e9ter</span>';
     navBtn.innerHTML = '<span style="display:flex;align-items:center;gap:8px">' +
       '<span style="position:relative;width:28px;height:28px;border-radius:50%;background:var(--violet,#1A1247);color:white;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700">' + prenom[0].toUpperCase() + dot + '</span>' +
       '<span class="nav-prenom-text">' + prenom + '</span>' + badge +
     '</span>';
-    navBtn.href = profilHref;
 
-    /* Drawer logout */
+    /* Wrap avatar + build dropdown */
+    var wrap = document.createElement('div');
+    wrap.className = 'nav-avatar-wrap';
+    navBtn.parentNode.insertBefore(wrap, navBtn);
+    wrap.appendChild(navBtn);
+
+    navBtn.removeAttribute('href');
+    navBtn.style.cssText = 'cursor:pointer;background:none;border:none;padding:0;';
+    navBtn.onclick = function(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      dd.classList.toggle('show');
+    };
+
+    var ddHtml =
+      '<div class="nav-dd-header">' +
+        '<div class="nav-dd-name">' + prenom + '</div>' +
+        '<div class="nav-dd-email">' + email + '</div>' +
+      '</div>' +
+      '<div class="nav-dd-group">';
+    if (profilId) {
+      ddHtml += '<a href="/profil.html?id=' + profilId + '" class="nav-dd-item">Voir mon profil</a>';
+    }
+    ddHtml += '<a href="/inscription.html" class="nav-dd-item">Modifier mon profil</a>' +
+      '</div>' +
+      '<div class="nav-dd-sep"></div>' +
+      '<div class="nav-dd-group">';
+    if (userProjets.length > 0) {
+      ddHtml += '<a href="/mes-projets.html" class="nav-dd-item">Mes projets</a>';
+    }
+    ddHtml += '<a href="/deposer.html" class="nav-dd-item">D\u00e9poser un projet</a>' +
+      '</div>' +
+      '<div class="nav-dd-sep"></div>' +
+      '<div class="nav-dd-group">' +
+        '<button class="nav-dd-item logout" id="ddLogout">D\u00e9connexion</button>' +
+      '</div>';
+
+    var dd = document.createElement('div');
+    dd.className = 'nav-dropdown';
+    dd.innerHTML = ddHtml;
+    wrap.appendChild(dd);
+
+    dd.querySelector('#ddLogout').onclick = async function() {
+      await sb.auth.signOut();
+      window.location.reload();
+    };
+
+    /* Close dropdown on outside click */
+    document.addEventListener('click', function(e) {
+      if (!wrap.contains(e.target)) dd.classList.remove('show');
+    });
+
+    /* Close dropdown on Escape */
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') dd.classList.remove('show');
+    });
+
+    /* Close dropdown on item click (links auto-navigate, but just in case) */
+    dd.querySelectorAll('.nav-dd-item').forEach(function(item) {
+      item.addEventListener('click', function() { dd.classList.remove('show'); });
+    });
+
+    /* Hide standalone logout btn (now in dropdown) */
+    var lb = document.getElementById('navLogoutBtn');
+    if (lb) lb.style.display = 'none';
+
+    /* Drawer logout (mobile) */
     var dl = document.getElementById('drawerLogout');
     if (dl) {
       dl.style.display = 'flex';
       dl.onclick = async function(){ await sb.auth.signOut(); window.location.reload(); };
-    }
-    /* Desktop logout */
-    var lb = document.getElementById('navLogoutBtn');
-    if (lb) {
-      lb.style.display = 'flex';
-      lb.onclick = async function(){ await sb.auth.signOut(); window.location.reload(); };
     }
   } else {
     navBtn.textContent = 'Se connecter';

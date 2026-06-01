@@ -396,11 +396,17 @@ function submitInterest() {
   document.getElementById('modalSuccess').classList.add('show');
 }
 
-function showOwnerCta() {
+function showOwnerCta(email) {
   const card = document.getElementById('ctaCard');
   card.style.background = 'var(--c-navy)';
   document.getElementById('ctaTitle').textContent = 'C\'est ton profil';
   document.getElementById('ctaSub').textContent = 'Tu peux modifier tes informations, compétences et intention à tout moment.';
+  if (email) {
+    const emailEl = document.createElement('div');
+    emailEl.style.cssText = 'font-size:12px;color:rgba(255,255,255,.5);margin-top:8px';
+    emailEl.textContent = 'Compte : ' + email;
+    document.getElementById('ctaSub').after(emailEl);
+  }
   const btn = document.getElementById('ctaBtn');
   btn.textContent = 'Modifier mon profil →';
   btn.onclick = function() { window.location.href = '/inscription.html'; };
@@ -428,7 +434,7 @@ async function init() {
 
     const { data: { session } } = await sb.auth.getSession();
     if (session && profil.user_id && session.user.id === profil.user_id) {
-      showOwnerCta();
+      showOwnerCta(session.user.email);
     }
   } catch(err) {
     document.getElementById('loadingState').style.display = 'none';
