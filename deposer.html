@@ -369,19 +369,6 @@ nav{background:var(--c-white);border-bottom:1.5px solid var(--c-border);padding:
       <div class="error-banner" id="errorBanner"></div>
 
       <div class="field">
-        <label for="votre_nom">Votre pr&eacute;nom *</label>
-        <input type="text" id="votre_nom" placeholder="ex : Marie">
-        <div class="field-error" id="err-votre_nom">Champ obligatoire</div>
-      </div>
-
-      <div class="field">
-        <label for="votre_email">Votre email *</label>
-        <input type="email" id="votre_email" placeholder="marie@exemple.com">
-        <div class="field-hint">Pour recevoir les notifications d'int&eacute;r&ecirc;t sur votre projet.</div>
-        <div class="field-error" id="err-votre_email">Email invalide</div>
-      </div>
-
-      <div class="field">
         <label>Equity propos&eacute;e</label>
         <div class="tags-select" id="equityOpts">
           <span class="tag-opt" onclick="selectSingle(this,'equityOpts','blue','equity_val','oui')">Oui, &agrave; n&eacute;gocier</span>
@@ -465,8 +452,6 @@ async function initPage() {
         return;
       }
       prefillProject(projet);
-      document.getElementById('votre_nom').closest('.field').style.display = 'none';
-      document.getElementById('votre_email').closest('.field').style.display = 'none';
       document.title = 'Modifier mon projet — Trouver un Associé';
       document.querySelector('.step-title').textContent = 'Modifier le projet';
       document.getElementById('btn-submit').innerHTML = 'Enregistrer les modifications <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M6 4l4 4-4 4" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>';
@@ -614,18 +599,6 @@ function goStep3() {
 function goStep1() { showStep(1); }
 
 async function submit() {
-  let valid = true;
-
-  if (!editId) {
-    const prenom = document.getElementById('votre_nom').value.trim();
-    const email = document.getElementById('votre_email').value.trim();
-    if (!prenom) { document.getElementById('err-votre_nom').style.display = 'block'; document.getElementById('votre_nom').classList.add('error'); valid = false; }
-    else { document.getElementById('err-votre_nom').style.display = 'none'; document.getElementById('votre_nom').classList.remove('error'); }
-    if (!email || !email.includes('@')) { document.getElementById('err-votre_email').style.display = 'block'; document.getElementById('votre_email').classList.add('error'); valid = false; }
-    else { document.getElementById('err-votre_email').style.display = 'none'; document.getElementById('votre_email').classList.remove('error'); }
-  }
-
-  if (!valid) return;
 
   const btn = document.getElementById('btn-submit');
   btn.disabled = true;
