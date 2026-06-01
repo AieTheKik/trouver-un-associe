@@ -403,7 +403,7 @@ function showOwnerCta(email) {
   document.getElementById('ctaSub').textContent = 'Tu peux modifier tes informations, compétences et intention à tout moment.';
   if (email) {
     const emailEl = document.createElement('div');
-    emailEl.style.cssText = 'font-size:12px;color:rgba(255,255,255,.5);margin-top:8px';
+    emailEl.style.cssText = 'font-size:12px;color:rgba(255,255,255,.5);margin-top:8px;margin-bottom:16px';
     emailEl.textContent = 'Compte : ' + email;
     document.getElementById('ctaSub').after(emailEl);
   }
