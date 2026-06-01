@@ -465,6 +465,8 @@ async function initPage() {
         return;
       }
       prefillProject(projet);
+      document.getElementById('votre_nom').closest('.field').style.display = 'none';
+      document.getElementById('votre_email').closest('.field').style.display = 'none';
       document.title = 'Modifier mon projet — Trouver un Associé';
       document.querySelector('.step-title').textContent = 'Modifier le projet';
       document.getElementById('btn-submit').innerHTML = 'Enregistrer les modifications <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M6 4l4 4-4 4" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>';
@@ -504,6 +506,16 @@ function toggleTag(el, color, groupId, max) {
     if (current >= max) return;
     el.classList.add(cls);
   }
+}
+
+function preselectSingle(groupId, valueKey, value) {
+  if (!value) return;
+  document.querySelectorAll(`#${groupId} .tag-opt`).forEach(tag => {
+    if (tag.getAttribute('onclick').includes("'" + value + "'")) {
+      tag.classList.add('sel-blue');
+      hiddenValues[valueKey] = value;
+    }
+  });
 }
 
 function selectSingle(el, groupId, color, valueKey, value) {
@@ -557,6 +569,13 @@ function prefillProject(p) {
       if (tag.textContent.trim() === comp.trim()) tag.classList.add('sel-blue');
     });
   });
+
+  // Equity: boolean in DB → map back to tag value
+  if (p.equity === false) preselectSingle('equityOpts', 'equity_val', 'non');
+  else if (p.equity === true) preselectSingle('equityOpts', 'equity_val', 'oui');
+
+  if (p.remuneration) preselectSingle('remuOpts', 'remu_val', p.remuneration);
+  if (p.engagement) preselectSingle('engagementOpts', 'engagement_val', p.engagement);
 }
 
 function goStep2() {
@@ -595,15 +614,16 @@ function goStep3() {
 function goStep1() { showStep(1); }
 
 async function submit() {
-  const prenom = document.getElementById('votre_nom').value.trim();
-  const email = document.getElementById('votre_email').value.trim();
   let valid = true;
 
-  if (!prenom) { document.getElementById('err-votre_nom').style.display = 'block'; document.getElementById('votre_nom').classList.add('error'); valid = false; }
-  else { document.getElementById('err-votre_nom').style.display = 'none'; document.getElementById('votre_nom').classList.remove('error'); }
-
-  if (!email || !email.includes('@')) { document.getElementById('err-votre_email').style.display = 'block'; document.getElementById('votre_email').classList.add('error'); valid = false; }
-  else { document.getElementById('err-votre_email').style.display = 'none'; document.getElementById('votre_email').classList.remove('error'); }
+  if (!editId) {
+    const prenom = document.getElementById('votre_nom').value.trim();
+    const email = document.getElementById('votre_email').value.trim();
+    if (!prenom) { document.getElementById('err-votre_nom').style.display = 'block'; document.getElementById('votre_nom').classList.add('error'); valid = false; }
+    else { document.getElementById('err-votre_nom').style.display = 'none'; document.getElementById('votre_nom').classList.remove('error'); }
+    if (!email || !email.includes('@')) { document.getElementById('err-votre_email').style.display = 'block'; document.getElementById('votre_email').classList.add('error'); valid = false; }
+    else { document.getElementById('err-votre_email').style.display = 'none'; document.getElementById('votre_email').classList.remove('error'); }
+  }
 
   if (!valid) return;
 
@@ -624,7 +644,9 @@ async function submit() {
     profil_ideal: profilDesc || null,
     profils_recherches: getSelectedTags('profils_recherches', 'red'),
     competences_recherchees: getSelectedTags('competences_recherchees', 'blue'),
-    equity: hiddenValues['equity_val'] !== 'non'
+    equity: hiddenValues['equity_val'] !== 'non',
+    remuneration: hiddenValues['remu_val'] || null,
+    engagement: hiddenValues['engagement_val'] || null
   };
 
   try {
