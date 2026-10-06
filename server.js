@@ -207,7 +207,7 @@ app.post('/api/interets', requireAuth, async (req, res) => {
   const htmlBody = `
     <div style="font-family:'Inter',Arial,sans-serif;max-width:560px;margin:0 auto;padding:32px 24px">
       <div style="background:#1A1247;padding:12px 24px;border-radius:12px 12px 0 0;text-align:center">
-        <span style="font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:0.14em;color:#fff">Trouver un Associé — French Tech Bordeaux</span>
+        <span style="font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:0.14em;color:#fff">Trouver un Associé</span>
       </div>
       <div style="background:#fff;border:1px solid #eee;border-top:none;border-radius:0 0 12px 12px;padding:32px 24px">
         <h2 style="font-size:20px;color:#0E0830;margin:0 0 8px">Quelqu'un s'intéresse à ton projet !</h2>
