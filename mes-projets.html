@@ -32,7 +32,7 @@
 }
 body{font-family:var(--f-body);background:var(--c-bg);color:var(--c-navy-ink);line-height:1.6;font-size:15px;overflow-x:hidden}
 
-nav{background:var(--c-white);border-radius:var(--radius);box-shadow:0 12px 32px rgba(14,8,48,.12);max-width:1240px;margin:12px auto 0;padding:0 28px;height:64px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:12px;z-index:100}
+nav{background:var(--white);border-bottom:1.5px solid var(--border);padding:0 5%;display:flex;align-items:center;justify-content:space-between;height:64px;position:sticky;top:0;z-index:100}
 .logo{text-decoration:none;display:flex;align-items:center;gap:10px}
 .logo-bubble{width:36px;height:36px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
 .logo-text{display:flex;flex-direction:column;line-height:1.2}
@@ -46,13 +46,13 @@ nav{background:var(--c-white);border-radius:var(--radius);box-shadow:0 12px 32px
 .btn-primary{background:var(--c-red);color:var(--c-white);padding:14px 26px;border-radius:999px;font-size:14px;font-weight:500;text-decoration:none;font-family:var(--f-body);transition:all .2s}
 .btn-primary:hover{background:var(--c-red-deep)}
 
-.hero-band{background:var(--c-red);padding:32px;margin-top:16px}
+.hero-band{background:var(--violet);padding:32px;margin-top:16px}
 .hero-band-inner{max-width:1240px;margin:0 auto;display:flex;align-items:center;justify-content:space-between}
-.hero-band-left h1{font-family:var(--f-display);font-weight:300;font-size:26px;color:var(--c-white);letter-spacing:-0.012em;margin-bottom:4px}
+.hero-band-left h1{font-family:var(--f-display);font-weight:800;font-size:26px;color:var(--c-white);letter-spacing:-0.012em;margin-bottom:4px}
 .hero-band-left p{font-size:14px;color:rgba(255,255,255,.6)}
 .hero-stats{display:flex;gap:32px}
 .hstat{text-align:center}
-.hstat-n{font-family:var(--f-display);font-weight:300;font-size:26px;color:var(--c-white);line-height:1}
+.hstat-n{font-family:var(--f-display);font-weight:800;font-size:26px;color:var(--sun);line-height:1}
 .hstat-l{font-family:var(--f-body);font-size:12px;color:rgba(255,255,255,.5);margin-top:3px}
 
 .breadcrumb{max-width:1240px;margin:16px auto 0;padding:0 16px;font-size:13px;color:var(--c-mute)}
@@ -93,7 +93,7 @@ nav{background:var(--c-white);border-radius:var(--radius);box-shadow:0 12px 32px
 @media(max-width:760px){
   .cards-grid{grid-template-columns:1fr}
   .hero-stats{display:none}
-  nav{margin:8px 12px 0;padding:0 16px}
+  nav{padding:0 16px}
   .nav-link,.btn-secondary{display:none}
   .hero-band{padding:24px 16px}
   .breadcrumb{padding:0 12px}

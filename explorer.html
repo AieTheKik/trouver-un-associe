@@ -46,7 +46,7 @@
 body{font-family:var(--f-body);background:var(--c-bg);color:var(--c-navy-ink);line-height:1.6;font-size:15px;overflow-x:hidden}
 
 /* NAV */
-nav{background:var(--c-white);border-radius:var(--radius);box-shadow:0 12px 32px rgba(14,8,48,.12);max-width:1240px;margin:12px auto 0;padding:0 28px;height:64px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:12px;z-index:100}
+nav{background:var(--white);border-bottom:1.5px solid var(--border);padding:0 5%;display:flex;align-items:center;justify-content:space-between;height:64px;position:sticky;top:0;z-index:100}
 .logo{text-decoration:none;display:flex;align-items:center;gap:10px}
 .logo-bubble{width:36px;height:36px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
 .logo-text{display:flex;flex-direction:column;line-height:1.2}
@@ -61,14 +61,13 @@ nav{background:var(--c-white);border-radius:var(--radius);box-shadow:0 12px 32px
 .btn-primary:hover{background:var(--c-red-deep)}
 
 /* HERO BAND */
-.hero-band{background:var(--c-red);padding:32px 32px;display:flex;align-items:center;justify-content:space-between;margin-top:16px}
-.hero-band-inner{max-width:1240px;margin:0 auto;width:100%;display:flex;align-items:center;justify-content:space-between}
-.hero-band-left h1{font-family:var(--f-display);font-weight:300;font-size:26px;color:var(--c-white);letter-spacing:-0.012em;margin-bottom:4px}
-.hero-band-left p{font-size:14px;color:rgba(255,255,255,.6)}
+.hero-band{background:var(--violet);padding:28px 32px;display:flex;align-items:center;justify-content:space-between}
+.hero-band-left h1{font-weight:800;font-size:26px;color:white;letter-spacing:-.5px;margin-bottom:4px}
+.hero-band-left p{font-size:14px;color:rgba(255,255,255,.55)}
 .hero-stats{display:flex;gap:32px}
 .hstat{text-align:center}
-.hstat-n{font-family:var(--f-display);font-weight:300;font-size:26px;color:var(--c-white);line-height:1}
-.hstat-l{font-family:var(--f-body);font-size:12px;color:rgba(255,255,255,.5);margin-top:3px}
+.hstat-n{font-weight:800;font-size:26px;color:var(--sun);line-height:1}
+.hstat-l{font-size:12px;color:rgba(255,255,255,.45);margin-top:3px}
 
 /* BREADCRUMB */
 .breadcrumb{max-width:1240px;margin:16px auto 0;padding:0 16px;font-size:13px;color:var(--c-mute)}
@@ -167,7 +166,7 @@ nav{background:var(--c-white);border-radius:var(--radius);box-shadow:0 12px 32px
   .filter-drawer-apply{display:block}
   .cards-grid{grid-template-columns:1fr}
   .hero-stats{display:none}
-  nav{margin:8px 12px 0;padding:0 16px}
+  nav{padding:0 16px}
   .nav-link,.btn-secondary{display:none}
   .content{padding:0 0 40px 0}
   .hero-band{padding:24px 16px}
@@ -196,15 +195,13 @@ nav{background:var(--c-white);border-radius:var(--radius);box-shadow:0 12px 32px
 </nav>
 
 <div class="hero-band">
-  <div class="hero-band-inner">
-    <div class="hero-band-left">
-      <h1>Explorer les projets</h1>
-      <p>Trouve le projet qui te correspond vraiment</p>
-    </div>
-    <div class="hero-stats">
-      <div class="hstat"><div class="hstat-n" id="totalProjets">&mdash;</div><div class="hstat-l">Projets actifs</div></div>
-      <div class="hstat"><div class="hstat-n" id="statHeroAssociations">0</div><div class="hstat-l">Associations form&eacute;es</div></div>
-    </div>
+  <div class="hero-band-left">
+    <h1>Explorer les projets</h1>
+    <p>Trouve le projet qui te correspond vraiment</p>
+  </div>
+  <div class="hero-stats">
+    <div class="hstat"><div class="hstat-n" id="totalProjets">&mdash;</div><div class="hstat-l">Projets actifs</div></div>
+    <div class="hstat"><div class="hstat-n" id="statHeroAssociations">0</div><div class="hstat-l">Associations form&eacute;es</div></div>
   </div>
 </div>
 
