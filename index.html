@@ -19,22 +19,33 @@
 <meta name="twitter:description" content="Trouvez votre co-fondateur idéal. Trouver-un-associé connecte porteurs de projets et entrepreneurs complémentaires pour des associations qui durent.">
 <meta name="twitter:image" content="https://trouver-un-associe.com/og-image.png">
 <link rel="canonical" href="https://trouver-un-associe.com">
-<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,300;12..96,400;12..96,500;12..96,700;12..96,800&family=Lora:ital,wght@0,400;1,400;1,600&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
-  --c-red:#E11D2E;--c-red-deep:#C0142A;
-  --c-navy:#1A1247;--c-navy-ink:#0E0830;
-  --c-blue:#1F60E8;--c-blue-soft:#E6EEFC;
-  --c-bg:#FBFAF7;--c-mute:#7A7A8E;
-  --c-white:#FFFFFF;--c-border:rgba(14,8,48,.08);
-  --violet:#1A1247;
-  --f-display:'Sora',sans-serif;--f-body:'Inter',sans-serif;
-  --radius:22px;
-  --grad-hero:linear-gradient(110deg,#B4C0E9 0%,#D8908C 40%,#C12537 100%);
-  --grad-events:linear-gradient(120deg,#2B1E83 0%,#6E2BB2 50%,#D94B92 100%);
-  --grad-network:linear-gradient(120deg,#BFE4DF 0%,#87CDC4 60%,#6FC9C2 100%);
+  /* Ancien design V2 */
+  --sky:#E8F4FF;--sky2:#C8E4FF;
+  --blue:#1E6FFF;--blue-dark:#0050CC;--blue-bg:#EEF5FF;
+  --violet:#7B4FFF;--violet-bg:#F0EBFF;--violet-dark:#5530CC;
+  --mint:#00C9A7;--mint-bg:#E0FBF5;--mint-dark:#007A65;
+  --coral:#FF5E78;--coral-bg:#FFF0F2;--coral-dark:#CC2A44;
+  --sun:#FFD426;--sun-bg:#FFFBE8;--sun-dark:#A07800;
+  --ink:#1A1A2E;--ink2:#3D3D5C;--muted:#7A7A9A;
+  --pale:#F5F5FF;--white:#FFFFFF;
+  --border:rgba(26,26,46,0.08);
+  --serif:'Lora',serif;--sans:'Bricolage Grotesque',sans-serif;
+  --radius:14px;--radius-sm:8px;
+  /* Compat FTB */
+  --c-red:#7B4FFF;--c-red-deep:#5530CC;
+  --c-navy:#1A1A2E;--c-navy-ink:#1A1A2E;
+  --c-blue:#1E6FFF;--c-blue-soft:#EEF5FF;
+  --c-bg:#F5F5FF;--c-mute:#7A7A9A;
+  --c-white:#FFFFFF;--c-border:rgba(26,26,46,0.08);
+  --f-display:'Bricolage Grotesque',sans-serif;--f-body:'Bricolage Grotesque',sans-serif;
+  --grad-hero:#F5F5FF;
+  --grad-events:linear-gradient(120deg,#7B4FFF 0%,#5530CC 100%);
+  --grad-network:linear-gradient(120deg,#E0FBF5 0%,#00C9A7 60%,#007A65 100%);
 }
 body{font-family:var(--f-body);background:var(--c-bg);color:var(--c-navy-ink);line-height:1.6;font-size:15px;font-weight:400;overflow-x:hidden}
 
@@ -88,20 +99,6 @@ h2{font-size:clamp(32px,4vw,46px);line-height:1.08;color:var(--c-navy-ink);margi
   padding:8px 16px;border-radius:999px;font-size:13.5px;font-weight:500;
   display:inline-block;
 }
-
-/* UTIL BAR */
-.util-bar{
-  background:var(--c-navy);
-  padding:10px 24px;display:flex;align-items:center;justify-content:center;gap:12px;
-}
-.util-bar span{
-  font-family:var(--f-body);font-weight:600;font-size:11.5px;
-  text-transform:uppercase;letter-spacing:0.16em;
-  color:var(--c-white);
-}
-.util-bar .ub-sep{font-size:10px;color:rgba(255,255,255,.3)}
-.util-bar .ub-link{font-family:var(--f-body);font-size:12px;font-weight:600;color:var(--c-white);text-decoration:none;letter-spacing:0.1em;opacity:.85;transition:opacity .2s}
-.util-bar .ub-link:hover{opacity:1;text-decoration:underline}
 
 /* LOGO */
 .logo-wrap{display:flex;align-items:center;gap:10px;text-decoration:none}
@@ -403,13 +400,6 @@ footer{
 </style>
 </head>
 <body>
-
-<!-- UTIL BAR -->
-<div class="util-bar">
-  <span>French Tech Bordeaux</span>
-  <span class="ub-sep">&middot;</span>
-  <a href="https://www.frenchtechbordeaux.com/adhesion" target="_blank" rel="noopener" class="ub-link">Adh&eacute;rer &rarr;</a>
-</div>
 
 <!-- HERO + NAV -->
 <section class="hero-section" style="padding-left:24px;padding-right:24px">

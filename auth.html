@@ -5,35 +5,32 @@
 <link rel="icon" type="image/svg+xml" href="/favicon.svg">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Connexion — Trouver un Associé</title>
-<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,300;12..96,400;12..96,500;12..96,700;12..96,800&family=Lora:ital,wght@0,400;1,400;1,600&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
-  --c-red:#E11D2E;--c-red-deep:#C0142A;
-  --c-navy:#1A1247;--c-navy-ink:#0E0830;
-  --c-blue:#1F60E8;--c-blue-soft:#E6EEFC;
-  --c-bg:#FBFAF7;--c-mute:#7A7A8E;
-  --c-white:#FFFFFF;--c-border:rgba(14,8,48,.08);
-  --violet:#1A1247;
-  --f-display:'Sora',sans-serif;--f-body:'Inter',sans-serif;
-  --radius:22px;
+  /* Ancien design V2 */
+  --sky:#E8F4FF;--sky2:#C8E4FF;
+  --blue:#1E6FFF;--blue-dark:#0050CC;--blue-bg:#EEF5FF;
+  --violet:#7B4FFF;--violet-bg:#F0EBFF;--violet-dark:#5530CC;
+  --mint:#00C9A7;--mint-bg:#E0FBF5;--mint-dark:#007A65;
+  --coral:#FF5E78;--coral-bg:#FFF0F2;--coral-dark:#CC2A44;
+  --sun:#FFD426;--sun-bg:#FFFBE8;--sun-dark:#A07800;
+  --ink:#1A1A2E;--ink2:#3D3D5C;--muted:#7A7A9A;
+  --pale:#F5F5FF;--white:#FFFFFF;
+  --border:rgba(26,26,46,0.08);
+  --serif:'Lora',serif;--sans:'Bricolage Grotesque',sans-serif;
+  --radius:14px;--radius-sm:8px;
+  /* Compat FTB */
+  --c-red:#7B4FFF;--c-red-deep:#5530CC;
+  --c-navy:#1A1A2E;--c-navy-ink:#1A1A2E;
+  --c-blue:#1E6FFF;--c-blue-soft:#EEF5FF;
+  --c-bg:#F5F5FF;--c-mute:#7A7A9A;
+  --c-white:#FFFFFF;--c-border:rgba(26,26,46,0.08);
+  --f-display:'Bricolage Grotesque',sans-serif;--f-body:'Bricolage Grotesque',sans-serif;
 }
 body{font-family:var(--f-body);background:var(--c-bg);color:var(--c-navy-ink);line-height:1.6;font-size:15px;overflow-x:hidden;min-height:100vh;display:flex;flex-direction:column}
-
-/* UTIL BAR */
-.util-bar{
-  background:var(--c-navy);
-  padding:10px 24px;display:flex;align-items:center;justify-content:center;gap:12px;
-}
-.util-bar span{
-  font-family:var(--f-body);font-weight:600;font-size:11.5px;
-  text-transform:uppercase;letter-spacing:0.16em;
-  color:var(--c-white);
-}
-.util-bar .ub-sep{font-size:10px;color:rgba(255,255,255,.3)}
-.util-bar .ub-link{font-family:var(--f-body);font-size:12px;font-weight:600;color:var(--c-white);text-decoration:none;letter-spacing:0.1em;opacity:.85;transition:opacity .2s}
-.util-bar .ub-link:hover{opacity:1;text-decoration:underline}
 
 /* NAV */
 nav{background:var(--c-white);border-bottom:1.5px solid var(--c-border);padding:0 5%;display:flex;align-items:center;justify-content:space-between;height:60px}
@@ -124,11 +121,6 @@ nav{background:var(--c-white);border-bottom:1.5px solid var(--c-border);padding:
 </head>
 <body>
 
-<div class="util-bar">
-  <span>French Tech Bordeaux</span>
-  <span class="ub-sep">&middot;</span>
-  <a href="https://www.frenchtechbordeaux.com/adhesion" target="_blank" rel="noopener" class="ub-link">Adh&eacute;rer &rarr;</a>
-</div>
 
 <nav>
   <a href="index.html" class="logo">
